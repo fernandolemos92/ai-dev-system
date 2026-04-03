@@ -235,6 +235,10 @@ If a technical decision is still unresolved and materially blocks safe implement
 
 This skill must not improvise stack or structure just to keep implementation moving.
 
+When an official project default is explicitly defined in `project/PROJECT_CONTEXT.md`, this skill may inherit that default without re-deciding it.
+
+Inherited defaults must be treated as already-governed project direction, not as a new implementation decision made by this skill.
+
 ---
 
 # Existing Structure Preservation

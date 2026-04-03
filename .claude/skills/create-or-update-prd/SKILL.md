@@ -172,6 +172,17 @@ It must not drift into:
 - validation artifact generation
 - handoff generation
 
+This skill must not quietly mix product scope with lightweight solution proposals.
+
+It must not introduce implementation-shaped statements such as:
+
+- suggested backend style
+- suggested integration mechanism
+- suggested delivery channel for confirmations
+- suggested technical fallback for first version behavior
+
+unless those statements are already explicitly grounded in stabilized context and belong in the PRD at product level rather than as technical design.
+
 ---
 
 ## Grounding Discipline Inside the PRD
@@ -199,6 +210,18 @@ When something is plausible but not actually clarified, it must either:
 - be marked explicitly in the appropriate assumptions / risks / open questions area if the template supports it
 
 Plausibility is not confirmation.
+
+This skill must not convert plausible product heuristics into closed requirements merely because they sound reasonable.
+
+Examples include:
+
+- target load times
+- exact viewport breakpoints
+- exact touch-count goals
+- exact commission percentages
+- exact operational thresholds
+
+If a number, threshold, timing, count, or limit was not materially grounded in stabilized context, it must not appear in the PRD as a confirmed requirement.
 
 ---
 
@@ -332,6 +355,10 @@ This skill must distinguish clearly between:
 - PRD closure as the current completed governed step
 - validation as the next allowed governed step
 - validation as an already active downstream stage
+
+When updating `Next Expected Skill`, this skill must use the real canonical skill name for the next governed step.
+
+It must not invent synonymous labels, shorthand names, or approximate phase descriptions in place of the actual skill identifier.
 
 Immediately after PRD creation or revision, `PROJECT_STATE.md` must still describe the live operational moment as PRD-stage closure with validation pending as the next governed action, unless a separate valid downstream validation artifact already exists and the operational state is being reconstructed from real artifacts rather than advanced speculatively.
 

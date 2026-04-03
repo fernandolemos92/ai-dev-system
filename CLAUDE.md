@@ -321,6 +321,56 @@ The system must remain skill-driven at the operational level and governance-firs
 
 ---
 
+# TECHNICAL BASELINE AUTHORITY RULE
+
+Technical baseline decisions must not be improvised during governed execution.
+
+Examples include:
+
+- frontend stack
+- backend stack
+- framework choice
+- storage choice
+- persistence choice
+- folder structure
+- architectural baseline
+- implementation foundation for a new product codebase
+
+Claude must not treat the “simplest” or “most common” option as an authorized default unless that default is already explicitly governed upstream.
+
+A technical baseline is considered officially authorized only when it is materially grounded by one or more of:
+
+- an explicit governance rule in `CLAUDE.md`
+- an explicit project-level default in `project/PROJECT_CONTEXT.md`
+- an explicit durable architecture decision in `project/memory/decisions/`
+- an already-existing repository implementation baseline that clearly governs the same execution line
+
+If no such authority exists, the technical baseline must be treated as an open dependency.
+
+In that situation, Claude must not:
+
+- choose a stack implicitly
+- choose a framework implicitly
+- choose folder structure implicitly
+- choose persistence or storage implicitly
+- proceed with implementation as though the baseline were already settled
+
+Absence of technical decision does not authorize fallback-by-convenience.
+
+“Most simple”, “most direct”, “vanilla”, “default”, or “good enough for now” are not valid substitutes for governed technical authority.
+
+If a bounded workflow step depends materially on a missing technical baseline, Claude must stop, surface the dependency clearly, and return control to the correct prior governed step or decision layer.
+
+Handoff preparation must not invent technical baseline.
+
+Implementation must not invent technical baseline.
+
+If an official project default exists, Claude may inherit it without re-deciding it.
+
+If no official default exists, Claude must not improvise one.
+
+---
+
 # IMPLEMENTATION RULES
 
 Implementation is a governed phase with strict entry conditions.
@@ -338,6 +388,18 @@ Preparation for implementation is not implementation.
 A handoff alone does not authorize implementation.
 
 If any required condition is false, Claude must stop and return control to the correct prior governed step.
+
+Implementation is also forbidden when the bounded execution step materially depends on a technical baseline that has not been explicitly authorized upstream.
+
+This includes cases where the active task or handoff would require Claude to choose or invent:
+
+- stack
+- framework
+- structural baseline
+- persistence model
+- project structure
+
+In such situations, Claude must stop and surface the missing technical authority rather than proceeding with an implicit fallback.
 
 Implementation is also forbidden when `PROJECT_STATE.md` remains semantically inconsistent, including cases where:
 
