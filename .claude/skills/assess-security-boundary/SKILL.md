@@ -11,12 +11,12 @@ Evaluate whether a proposed task or implementation change crosses a **security o
 
 This skill helps prevent unsafe modifications to critical areas such as:
 
-• authentication systems  
-• authorization rules  
-• sensitive data handling  
-• infrastructure configuration  
-• external integrations  
-• security-critical APIs  
+- authentication systems
+- authorization rules
+- sensitive data handling
+- infrastructure configuration
+- external integrations
+- security-critical APIs
 
 It acts as a **risk classification step** before implementation begins.
 
@@ -30,12 +30,12 @@ It only evaluates risk and determines whether additional safeguards are required
 
 Use this skill when:
 
-• preparing execution handoff  
-• reviewing a task that modifies sensitive components  
-• introducing new external integrations  
-• modifying authentication or authorization logic  
-• handling user or financial data  
-• exposing new APIs or endpoints  
+- preparing execution handoff
+- reviewing a task that modifies sensitive components
+- introducing new external integrations
+- modifying authentication or authorization logic
+- handling user or financial data
+- exposing new APIs or endpoints
 
 Typical workflow usage:
 
@@ -43,14 +43,15 @@ tasks
 ↓  
 handoff  
 ↓  
-scope-check  
+scope-check (if needed)  
 ↓  
 **security boundary assessment ← this skill**  
 ↓  
+implementation readiness evaluation  
+↓  
 implementation
 
-This skill should normally run as a mandatory gate after scope alignment
-and before implementation starts.
+This skill should normally run as a conditional gate after scope alignment and before implementation starts when the task touches a potentially sensitive boundary.
 
 ---
 
@@ -58,10 +59,10 @@ and before implementation starts.
 
 Do NOT use this skill when:
 
-• the task is purely cosmetic  
-• documentation changes are being made  
-• internal refactoring has no behavioral impact  
-• no sensitive components are involved  
+- the task is purely cosmetic
+- documentation changes are being made
+- internal refactoring has no behavioral impact
+- no sensitive components are involved
 
 If the change only affects formatting, comments, or UI styling, security assessment is unnecessary.
 
@@ -71,25 +72,17 @@ If the change only affects formatting, comments, or UI styling, security assessm
 
 This skill should read:
 
-PROJECT_STATE.md
-
-The selected task artifact from:
-
-project/tasks/active/
-
-The related PRD from:
-
-project/prd/active/
-
-Relevant architecture guidance from:
-
-ARCHITECTURE.md  
-PATTERNS.md  
+- `project/PROJECT_STATE.md`
+- the selected task artifact from: `project/tasks/active/`
+- the related PRD from: `project/prd/active/`
+- relevant architecture guidance from:
+  - `project/memory/ARCHITECTURE.md`
+  - `project/memory/PATTERNS.md`
 
 Optional inputs:
 
-execution handoff artifact  
-validation scenarios
+- execution handoff artifact
+- validation scenarios
 
 Only retrieve information necessary to assess the change safely.
 
@@ -99,19 +92,19 @@ Avoid scanning the entire repository.
 
 # Pre-Step Consistency Check
 
-Before assessing risk, verify that PROJECT_STATE.md matches the filesystem.
+Before assessing risk, verify that `PROJECT_STATE.md` matches the filesystem.
 
 Minimum checks:
 
-• Active Task exists in project/tasks/active/  
-• Active PRD exists in project/prd/active/  
-• Active Handoff exists in project/handoff/active/ when referenced  
+- Active Task exists in `project/tasks/active/`
+- Active PRD exists in `project/prd/active/`
+- Active Handoff exists in `project/handoff/active/` when referenced
 
 If a mismatch is detected:
 
-STOP  
-report the mismatch clearly  
-correct the inconsistency before continuing  
+- STOP
+- report the mismatch clearly
+- correct the inconsistency before continuing
 
 ---
 
@@ -123,55 +116,47 @@ The skill must check whether the change affects any of the following boundaries.
 
 Changes involving:
 
-• login flows  
-• identity verification  
-• credential handling  
-• session creation or tokens  
-
----
+- login flows
+- identity verification
+- credential handling
+- session creation or tokens
 
 ### Authorization Boundary
 
 Changes involving:
 
-• role permissions  
-• access control rules  
-• resource ownership  
-• privilege escalation paths  
-
----
+- role permissions
+- access control rules
+- resource ownership
+- privilege escalation paths
 
 ### Sensitive Data Boundary
 
 Changes involving:
 
-• personal user data  
-• financial information  
-• authentication secrets  
-• tokens or API keys  
-• internal logs containing sensitive fields  
-
----
+- personal user data
+- financial information
+- authentication secrets
+- tokens or API keys
+- internal logs containing sensitive fields
 
 ### External Integration Boundary
 
 Changes involving:
 
-• third-party APIs  
-• external services  
-• payment providers  
-• external data ingestion  
-
----
+- third-party APIs
+- external services
+- payment providers
+- external data ingestion
 
 ### Infrastructure Boundary
 
 Changes involving:
 
-• environment configuration  
-• service deployment settings  
-• database access rules  
-• networking configuration  
+- environment configuration
+- service deployment settings
+- database access rules
+- networking configuration
 
 ---
 
@@ -179,20 +164,18 @@ Changes involving:
 
 The skill must classify the change into one of three categories.
 
----
-
 ## Low Risk
 
 The change does not interact with security-sensitive areas.
 
 Examples:
 
-• UI updates  
-• logging improvements  
-• internal refactoring  
-• documentation changes  
+- UI updates
+- logging improvements
+- internal refactoring
+- documentation changes
 
-Execution may proceed to implementation once the governed gate is opened.
+Execution may proceed to implementation readiness evaluation once all governed conditions are satisfied.
 
 ---
 
@@ -202,10 +185,10 @@ The change touches components that may affect security but does not directly mod
 
 Examples:
 
-• new endpoint exposing existing data  
-• integration with internal services  
-• modification of request validation  
-• changes affecting data flow  
+- new endpoint exposing existing data
+- integration with internal services
+- modification of request validation
+- changes affecting data flow
 
 Execution may proceed only with explicit review expectations recorded in the handoff or review stage.
 
@@ -217,13 +200,13 @@ The change directly modifies security-critical systems.
 
 Examples:
 
-• authentication logic changes  
-• authorization rule modifications  
-• token handling changes  
-• credential storage or verification  
-• infrastructure access policies  
+- authentication logic changes
+- authorization rule modifications
+- token handling changes
+- credential storage or verification
+- infrastructure access policies
 
-Execution must pause until explicit review or confirmation.
+Execution must pause until explicit review, confirmation, or architectural clarification is performed.
 
 ---
 
@@ -239,9 +222,9 @@ Which boundaries are involved.
 
 ## Risk Classification
 
-Low Risk  
-Medium Risk  
-High Risk
+- Low Risk
+- Medium Risk
+- High Risk
 
 ---
 
@@ -259,9 +242,9 @@ Suggested next step.
 
 Examples:
 
-Low Risk → move to implementation gate evaluation  
-Medium Risk → execution allowed with explicit review  
-High Risk → require explicit confirmation or architecture review
+- Low Risk → proceed to implementation readiness evaluation
+- Medium Risk → execution allowed only with explicit review expectations
+- High Risk → pause and require explicit confirmation or architecture review
 
 ---
 
@@ -269,12 +252,12 @@ High Risk → require explicit confirmation or architecture review
 
 The skill must treat the following areas as **high sensitivity by default**:
 
-• authentication flows  
-• password handling  
-• session tokens  
-• payment processing  
-• API credential storage  
-• encryption logic  
+- authentication flows
+- password handling
+- session tokens
+- payment processing
+- API credential storage
+- encryption logic
 
 If a task touches these areas, classify at least as **Medium Risk** unless clearly safe.
 
@@ -290,7 +273,7 @@ Its role is evaluation only.
 
 If the task itself appears unsafe or incorrectly scoped, recommend returning to:
 
-break-scope-into-tasks
+- `break-scope-into-tasks`
 
 ---
 
@@ -298,38 +281,41 @@ break-scope-into-tasks
 
 If the PRD introduces sensitive behavior not previously evaluated:
 
-use check-scope-alignment
+- use `check-scope-alignment`
 
 If the task attempts to introduce new security behavior outside PRD scope:
 
-pause execution and recommend PRD update.
+- pause execution and recommend PRD update
 
 If context is insufficient to determine risk:
 
-use detect-context-gap
+- use `detect-context-gap`
+
+If the change materially affects architectural boundaries or security-sensitive implementation design:
+
+- recommend architecture review before implementation
 
 ---
 
 # State Update Rule
 
-This skill does not create a new artifact, but when the security assessment is complete
-and risk is Low or acceptable Medium with required review noted, PROJECT_STATE.md should move to the implementation gate.
+This skill does not create a new artifact.
 
-Required next state:
+It also must not introduce a new macro phase.
 
-Current Phase:
-security-check
+When the assessment is complete, `PROJECT_STATE.md` may record the gate outcome only if that update can be done coherently within the current operational moment.
 
-Current Governing Skill:
-assess-security-boundary
+State implications:
 
-Next Expected Skill:
-implementation
+- keep the official macro phase unchanged
+- record `assess-security-boundary` under `Active Auxiliary Gates` only when the gate is actively relevant
+- do not use `Current Governing Skill`
+- do not unlock execution based on this assessment alone
+- use the result only to clarify whether implementation readiness can be evaluated safely
 
-Execution Unlocked:
-no
+If risk is High, execution must remain blocked until the required review or clarification occurs.
 
-Execution remains locked until the explicit implementation gate is satisfied.
+If risk is Low or acceptable Medium with explicit review expectations, the next allowed action may move toward implementation readiness evaluation, but not automatic implementation.
 
 ---
 
@@ -339,25 +325,21 @@ Produce a concise structured evaluation.
 
 Example output:
 
-Security Boundary Summary
-
+Security Boundary Summary  
 Authentication Boundary: no  
 Authorization Boundary: no  
 Sensitive Data Boundary: yes  
 External Integration Boundary: no  
-Infrastructure Boundary: no  
+Infrastructure Boundary: no
 
-Risk Classification
-
+Risk Classification  
 Medium Risk
 
-Reasoning
-
+Reasoning  
 The task introduces a new endpoint that exposes user profile data.
 
-Recommended Action
-
-Proceed with implementation but require validation of response filtering.
+Recommended Action  
+Proceed only if response filtering and explicit review expectations are recorded before implementation.
 
 ---
 
@@ -365,10 +347,10 @@ Proceed with implementation but require validation of response filtering.
 
 This skill must never:
 
-• implement security features  
-• modify system architecture  
-• change project artifacts  
-• bypass governance rules  
+- implement security features
+- modify system architecture
+- change project artifacts
+- bypass governance rules
 
 Its role is to **detect risk before execution**.
 
@@ -380,7 +362,7 @@ Security boundaries exist to protect the system from unintended consequences.
 
 Always prioritize:
 
-• data protection  
-• controlled system access  
-• safe integration behavior  
-• predictable execution
+- data protection
+- controlled system access
+- safe integration behavior
+- predictable execution

@@ -1,0 +1,505 @@
+---
+name: implement-handoff-scope
+description: Execute the currently active implementation scope defined by the active task and handoff, using bounded changes and optional specialized agent support when beneficial.
+---
+
+# SKILL: implement-handoff-scope
+
+## Purpose
+
+Execute the currently active implementation scope defined by the active task and active handoff.
+
+This skill is the formal governed execution unit for the `implementation` stage.
+
+Its role is to:
+
+- read the active execution boundary
+- implement only the bounded scope that was handed off
+- preserve implementation quality and maintainability
+- use specialized agents when beneficial
+- stop after implementation and hand off to governed review
+
+This skill does not close task lifecycle by itself.
+
+This skill does not decide acceptance.
+
+It executes the approved bounded implementation scope only.
+
+---
+
+# When To Use
+
+Use this skill when:
+
+- `Current Phase = implementation`
+- `Execution Unlocked = yes`
+- an active task exists
+- an active handoff exists
+- the system is ready to execute the current bounded implementation step
+
+Typical workflow usage:
+
+tasks  
+↓  
+handoff  
+↓  
+**implement-handoff-scope ← this skill**  
+↓  
+review-delivery-outcome  
+↓  
+closure decision
+
+This skill is the canonical implementation stage skill.
+
+---
+
+# When Not To Use
+
+Do NOT use this skill when:
+
+- the system is still in context, PRD, validation, or task decomposition
+- no active task exists
+- no active handoff exists
+- execution is not unlocked
+- the intended work is still ambiguous
+- the goal is review, acceptance, or lifecycle closure
+- the goal is an auxiliary critique such as security assessment, design critique, or architecture exploration
+
+This skill is for bounded implementation only.
+
+---
+
+# Required Inputs
+
+This skill should read:
+
+- `project/PROJECT_STATE.md`
+- the active task from `project/tasks/active/`
+- the active handoff from `project/handoff/active/`
+- the related PRD from `project/prd/active/`
+
+Optional inputs:
+
+- active validation artifact
+- architecture guidance from `project/memory/ARCHITECTURE.md`
+- reusable patterns from `project/memory/PATTERNS.md`
+- relevant auxiliary review outputs
+- implementation-relevant specialized agents
+
+Only retrieve what is necessary to execute the current bounded scope safely.
+
+Avoid broad repository scanning unless needed for the active implementation step.
+
+---
+
+# Pre-Step Consistency Check
+
+Before implementation begins, verify that `PROJECT_STATE.md` matches the filesystem.
+
+Minimum checks:
+
+- `Current Phase = implementation`
+- `Execution Unlocked = yes`
+- Active Task exists in `project/tasks/active/`
+- Active Handoff exists in `project/handoff/active/`
+- Active PRD exists when referenced
+- no active artifact points to a done or archived location
+- the active handoff still matches the current task boundary
+
+If a mismatch is detected:
+
+- STOP
+- report the inconsistency clearly
+- correct the inconsistency before continuing
+
+This skill must not implement on top of inconsistent state.
+
+---
+
+# Implementation Objective
+
+The objective of this skill is to answer one bounded question:
+
+**What is the smallest honest implementation that fulfills the active handoff scope for the current task?**
+
+This skill must implement the approved bounded step.
+
+It must not silently widen scope into adjacent concerns unless the current active handoff explicitly includes them.
+
+If the handoff is too vague to execute safely:
+
+- STOP
+- report the ambiguity clearly
+- recommend returning to the correct prior governed step
+
+---
+
+# Scope Discipline
+
+This skill must preserve bounded execution.
+
+It must:
+
+- implement only the active task and handoff scope
+- avoid opportunistic redesign outside the current step
+- avoid reopening planning unless truly necessary
+- avoid hidden scope expansion
+- keep the implementation tied to the current bounded objective
+
+If the work needed is clearly larger than the current task boundary:
+
+- STOP
+- recommend returning to `break-scope-into-tasks`
+
+If the handoff reveals unresolved ambiguity:
+
+- recommend `detect-context-gap`
+
+If the implementation would materially change approved scope:
+
+- recommend PRD/task/handoff correction before proceeding
+
+---
+
+# Implementation Quality Baseline
+
+This skill must preserve a minimum implementation quality baseline even when it executes without specialized agent support.
+
+Implementation quality is never optional.
+
+The implementation must follow these principles:
+
+## Clean Code Baseline
+
+The implementation must favor:
+
+- clear naming
+- explicit intent
+- readable structure
+- low hidden complexity
+- small, understandable units
+- minimal necessary change
+- maintainability for low-context continuation
+
+The implementation must avoid:
+
+- unclear shortcuts
+- speculative abstractions
+- broad rewrites without approval
+- unnecessary refactoring
+- hidden coupling
+- avoidable nesting
+- code that solves the current step by creating future maintenance debt
+
+## SOLID-Oriented Baseline
+
+The implementation should apply SOLID principles pragmatically, not dogmatically.
+
+At minimum:
+
+- **Single Responsibility Principle**: each file, module, function, or component should have one clear reason to change whenever reasonably possible
+- **Open/Closed Principle**: prefer extension-friendly structure when needed, but do not introduce abstraction layers that the current scope does not justify
+- **Liskov Substitution Principle**: do not create or preserve polymorphic structures that break expected behavior
+- **Interface Segregation Principle**: avoid forcing consumers to depend on methods or props they do not need
+- **Dependency Inversion Principle**: prefer clear boundaries and dependency direction when complexity justifies it, but do not add indirection for trivial work
+
+SOLID must improve clarity and maintainability.
+
+It must not be used to justify overengineering.
+
+## Maintainability Rule
+
+The skill must prefer implementations that are easier to continue, review, and modify later by another low-context session.
+
+If two solutions are valid, prefer the one that is:
+
+- simpler
+- clearer
+- more local
+- easier to test and reason about
+- less coupled to unrelated parts of the system
+
+---
+
+# File Discipline
+
+This skill must preserve file discipline during implementation.
+
+Rules:
+
+- prefer small, local changes over broad rewrites
+- preserve existing project structure unless change is necessary
+- avoid unnecessary file creation
+- avoid unnecessary file movement or renaming
+- keep implementation files within the recommended readability boundary when possible
+- respect the project preference for implementation files around `300 lines` maximum when feasible
+- if a file would become bloated, split responsibilities only when that split is directly justified by the active scope
+
+If the current change would force bloated files or unclear structure, prefer modularization that is directly justified by the active scope.
+
+Do not introduce abstraction layers that are not needed for the current step.
+
+---
+
+# Specialized Agent Usage Policy
+
+This skill remains the controller of the implementation stage.
+
+Specialized agents are auxiliary helpers.
+
+Agents should be invoked only when specialization would materially improve the current bounded implementation step.
+
+They are not automatic participants in every implementation action.
+
+## Preferred Agent Usage
+
+This skill should prefer calling the most relevant specialized agent when:
+
+- the task clearly belongs to a specialized domain
+- the change is non-trivial
+- specialized judgment would materially improve the implementation
+- the risk of generic execution is meaningful
+- the current bounded step would benefit from clearer domain-specific reasoning, structure, caution, or direction
+
+Examples:
+
+- frontend-heavy work → `frontend`
+- backend-heavy work → `backend`
+- schema, query, migration, or persistence work → `database`
+- sensitive security implications or trust-boundary concerns → `security`
+- structural tradeoffs, boundary shape, or component split questions → `architect`
+- unclear UI/UX direction, visual style, or interaction tone → `design-direction`
+- external reference comparison, benchmarking, or pattern investigation → `research`
+- uncertainty about durable memory destination, pattern recording, or architecture-vs-state boundary → `memory`
+
+## Direct Execution Without Specialist
+
+This skill may execute directly without specialized agent support only when:
+
+- the scoped change is small
+- the expected behavior is clear
+- the domain complexity is low for this step
+- specialization would add overhead without meaningful benefit
+
+Skipping specialization must not reduce the implementation quality baseline.
+
+## Agent Boundary Rule
+
+Agents may assist execution.
+
+Agents must not:
+
+- redefine scope
+- override governance
+- close task lifecycle
+- close handoff lifecycle
+- decide acceptance
+- become the controller of the implementation stage
+
+Skills control progression.
+
+Agents support execution.
+
+## Preferred Agent Usage
+
+This skill should prefer calling the most relevant specialized agent when:
+
+- the task clearly belongs to a specialized domain
+- the change is non-trivial
+- specialized judgment would materially improve the implementation
+- the risk of generic execution is meaningful
+
+Examples:
+
+- frontend-heavy work → `frontend`
+- backend-heavy work → `backend`
+- schema or query work → `database`
+- sensitive security implications → `security`
+
+## Direct Execution Without Specialist
+
+This skill may execute directly without specialized agent support only when:
+
+- the scoped change is small
+- the expected behavior is clear
+- the domain complexity is low for this step
+- specialization would add overhead without meaningful benefit
+
+Skipping specialization must not reduce the implementation quality baseline.
+
+## Agent Boundary Rule
+
+Agents may assist execution.
+
+Agents must not:
+
+- redefine scope
+- override governance
+- close task lifecycle
+- close handoff lifecycle
+- decide acceptance
+- become the controller of the implementation stage
+
+Skills control progression.
+
+Agents support execution.
+
+---
+
+# Implementation Execution Rules
+
+During implementation, this skill must:
+
+1. confirm the active execution boundary
+2. identify the smallest honest implementation path
+3. decide whether specialist support is beneficial
+4. implement the bounded change
+5. keep modifications as narrow as reasonably possible
+6. avoid unrelated cleanup unless truly necessary for correctness
+7. stop after implementation and return control to governed review
+
+This skill must not pretend that “code was written” equals “the step is complete and accepted”.
+
+Implementation completion is not closure.
+
+---
+
+# Output Expectations
+
+When implementation is complete, the skill must produce a concise structured report.
+
+## Implementation Summary
+
+Short summary of what was implemented.
+
+---
+
+## Files Changed
+
+List the files that were created or modified.
+
+---
+
+## Scope Confirmation
+
+State whether the active task and handoff scope were implemented as bounded.
+
+---
+
+## Specialist Usage
+
+State one of:
+
+- Specialist agent used: [agent name]
+- No specialist agent used: direct bounded implementation was sufficient
+
+---
+
+## Quality Notes
+
+State briefly how the implementation preserved:
+
+- readability
+- bounded scope
+- maintainability
+- file discipline
+
+Keep this short and factual.
+
+---
+
+## Notable Constraints or Follow-Up Risks
+
+Short factual note on any limitation, risk, or follow-up worth carrying into review.
+
+Do not hide incomplete work here as if it were already acceptable.
+
+---
+
+## Recommended Next Action
+
+Always point to:
+
+- `review-delivery-outcome`
+
+This skill must stop after implementation and recommend governed review.
+
+---
+
+# State and Lifecycle Rules
+
+This skill executes implementation work.
+
+It does not perform governed closure.
+
+When implementation is complete:
+
+- keep the official macro phase aligned with the real operational moment
+- do not move task directly to `done`
+- do not move handoff directly to `done`
+- do not archive task or handoff
+- do not claim acceptance
+- do not skip the governed `review` stage
+
+If state is updated after implementation, it must reflect a coherent move into the `review` moment only if that update can be completed honestly across the whole file.
+
+If coherent state update is not possible:
+
+- STOP
+- report the inconsistency
+- do not apply partial lifecycle progression
+
+---
+
+# Escalation Rules
+
+If the implementation reveals the task is too large:
+
+- recommend `break-scope-into-tasks`
+
+If the implementation reveals unresolved context ambiguity:
+
+- recommend `detect-context-gap`
+
+If the change crosses a sensitive security boundary not previously assessed:
+
+- recommend `assess-security-boundary`
+
+If the implementation reveals architectural instability that prevents safe bounded execution:
+
+- recommend architecture review before continuing
+
+If the implementation appears complete but follow-up work is still needed:
+
+- let governed review decide whether the outcome is accepted with follow-ups or rejected / incomplete
+
+This skill must not make closure decisions that belong to review.
+
+---
+
+# Safety Rules
+
+This skill must never:
+
+- redefine workflow stages
+- treat implementation as automatic acceptance
+- close task or handoff lifecycle directly
+- widen scope silently
+- use specialized agents as workflow controllers
+- hide incompleteness behind broad implementation claims
+
+Its role is to execute the approved bounded implementation scope honestly and stop.
+
+---
+
+# Final Rule
+
+This skill protects the integrity of the implementation stage.
+
+Always prioritize:
+
+- bounded execution
+- readable and maintainable code
+- minimal necessary change
+- honest scope discipline
+- governed review after implementation

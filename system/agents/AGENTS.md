@@ -29,6 +29,7 @@ Agents may help with:
 - specialized reasoning
 - specialized implementation support
 - specialized review support inside already authorized work
+- bounded synthesis or clarification inside a valid workflow step
 
 Agents do not define the official pipeline.
 
@@ -48,12 +49,46 @@ That means an agent may support:
 - a gate already in use
 - an active artifact that needs specialized interpretation
 - implementation work that is already authorized by governance and state
+- bounded review work that already exists
 
 Agents must not create an alternative workflow.
 
 They must not become mandatory macro stages.
 
 They must not redefine how progression works.
+
+---
+
+## Agent Invocation Rule
+
+Agents should be invoked only when specialization would materially improve the current bounded step.
+
+They are not automatic participants in every workflow action.
+
+Agent invocation must remain:
+
+- bounded
+- relevant to the current governed step
+- proportional to the real need
+- subordinate to skill and state control
+
+As a general rule:
+
+- non-trivial domain-specific work should prefer the most relevant specialized agent
+- trivial, clear, low-risk work may proceed without agent support
+- invoking an agent must improve judgment, implementation quality, review quality, or decision clarity in a meaningful way
+- invoking an agent must never replace governance, project state, or skill control
+
+Agents should be attached when they help answer questions such as:
+
+- which specialized implementation approach is most appropriate here?
+- what domain-specific caution matters inside this bounded step?
+- what specialist reasoning would reduce ambiguity or improve quality?
+- what specialized direction would make the current step more reliable?
+
+Agents must not be invoked as decorative participants.
+
+They must not be used to inflate workflow complexity when specialization adds little or no real value.
 
 ---
 
@@ -73,7 +108,7 @@ Agents answer:
 
 - what specialized support can help inside that bounded step
 - what domain-specific reasoning or execution approach is useful
-- what specialized caution or implementation support may improve the work
+- what specialized caution, synthesis, or implementation support may improve the work
 
 Agents must not absorb the role of:
 
@@ -85,8 +120,25 @@ Agents must not absorb the role of:
 - scope gating
 - security gating
 - workflow routing
+- lifecycle closure
+- state authority
 
 Those responsibilities belong to skills and gates.
+
+---
+
+## Types of Agents
+
+This layer may include different kinds of specialization agents, such as:
+
+- implementation specialists
+- review-oriented specialists
+- research or synthesis specialists
+- boundary-specific specialists
+
+These categories are descriptive only.
+
+They must not become a parallel workflow system.
 
 ---
 
@@ -115,6 +167,7 @@ Agents should remain:
 - bounded
 - low-ambiguity
 - easy to invoke when needed
+- practical in output and scope
 
 Avoid:
 
@@ -122,22 +175,48 @@ Avoid:
 - agent-centric orchestration
 - duplicated workflow logic
 - large overlapping catalogs of roles
+- vague agents with no clear deliverable value
 
 ---
 
 ## Standard Structure for Agent Files
 
-Each agent file should follow this structure:
+Each agent file should follow this structure whenever applicable:
 
 1. Title
-2. Purpose
-3. Use When
-4. Supports
-5. Typical Contribution
-6. Must Not
-7. Final Boundary
+2. Identity
+3. Core Mission
+4. Use When
+5. Supports
+6. Typical Contribution
+7. Working Style
+8. Deliverables
+9. Baseline (when relevant)
+10. Must Not
+11. Final Boundary
 
-This keeps the layer readable and structurally consistent.
+Not every agent needs a heavy baseline section, but all agents should be structurally explicit enough to remain clear, reusable, and low-ambiguity.
+
+---
+
+## Agent Quality Expectations
+
+A healthy agent should:
+
+- have a clear specialist identity
+- support bounded governed work without redefining it
+- produce practical outputs rather than vague opinion
+- remain useful under low-context execution
+- avoid hidden scope expansion
+- stop after supporting the current bounded need
+
+An unhealthy agent tends to:
+
+- become too vague
+- compete with skills
+- inflate scope
+- duplicate workflow logic
+- behave like a controller instead of a specialist
 
 ---
 
@@ -147,6 +226,7 @@ This layer is healthy when it is easy to answer:
 
 - which agents provide real specialization value?
 - how do they support governed work without replacing it?
+- what kind of output does each one improve?
 - how can the layer grow without forcing core redesign?
 
 If the agents start competing with skills or redefining workflow, this layer has drifted and should be corrected.

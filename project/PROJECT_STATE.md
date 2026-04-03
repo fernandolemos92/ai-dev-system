@@ -14,7 +14,7 @@ Current Phase: context
 
 Overall Status: active
 
-Current Focus: new governed workflow session initialization
+Current Focus: core governance and state model stabilization after runtime audit findings
 
 Last Updated: [YYYY-MM-DD] [HH:MM]
 
@@ -40,17 +40,17 @@ Execution Unlocked: no
 
 Active Auxiliary Gates: none
 
-Next Expected Skill: start
+Next Expected Skill: none
 
 ------------------------------------------------------------
 CURRENT OBJECTIVE
 ------------------------------------------------------------
 
 Primary Objective:
-start a new governed workflow session for the current project request
+consolidate the core governance, state, lifecycle, and review contracts of the ai-dev-system before starting a new governed product workflow
 
 Success Condition:
-the current request is correctly positioned in the workflow and the next valid governed step is clearly identified
+the core operating model is internally aligned across governance, state, template, lifecycle, and review closure so the next real workflow test can begin on a cleaner and more reliable foundation
 
 ------------------------------------------------------------
 CURRENT BLOCKERS
@@ -63,7 +63,7 @@ NEXT STEP
 ------------------------------------------------------------
 
 Next Allowed Action:
-start the session through `/start` and determine the correct next governed action based on the current project request and workflow state
+continue the structural audit and update the remaining core files that still need alignment before opening a new governed workflow session
 
 ------------------------------------------------------------
 STATE NOTES
@@ -72,4 +72,5 @@ STATE NOTES
 - The project is not in implementation mode.
 - No active workflow artifact is currently open.
 - No task is currently active.
-- The system should begin from the official workflow entry point.
+- The current operating mode is core stabilization, not product execution.
+- The next workflow test should begin only after the remaining core alignment work is complete.

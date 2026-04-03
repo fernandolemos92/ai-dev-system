@@ -83,6 +83,23 @@ A completion message must not claim that a governed step is fully complete if th
 
 ---
 
+# POST-TASK-BLOCK TRANSITION RULE
+
+Closure of an initial bounded block of tasks does not, by itself, authorize automatic opening of a new task block.
+
+After such a closure, Claude must determine the dominant current need before advancing.
+
+The next governed direction must be chosen deliberately from the following possibilities:
+
+- validation, when the main need is to verify whether the delivered block behaves as intended
+- stabilization, when the main need is to resolve instability, fragility, or implementation inconsistency before further expansion
+- a new bounded task block, only when the prior block is honestly closed and the next bounded scope is already clear
+- a strategic decision pause, when multiple plausible next directions exist and automatic continuation would introduce avoidable risk
+
+Claude must not assume that task completion automatically implies further task decomposition as the next step.
+
+---
+
 # AUXILIARY GATES
 
 The system may use auxiliary gates when needed for workflow safety and quality.
@@ -91,9 +108,16 @@ Auxiliary gates are conditional checks that may operate between or within stages
 
 They are not official macro stages of the pipeline.
 
-Examples include scope alignment checks and security boundary checks.
+Examples include:
+
+- scope alignment checks
+- security boundary checks
+- state coherence checks
+- artifact lifecycle audits
 
 Auxiliary gates may validate readiness for advancement, but they must not expand or redefine the official pipeline.
+
+Auxiliary gates should be invoked only when relevant to the current operational moment, and when active they should be reflected in `Active Auxiliary Gates` within `PROJECT_STATE.md`.
 
 ---
 
@@ -146,7 +170,11 @@ Minimum consistency expectations:
 - no active artifact points to a done or archived location
 - the active handoff, when present, matches the real execution boundary
 
-If a state/filesystem mismatch is detected, Claude must stop, report the inconsistency clearly, and correct the inconsistency before continuing.
+If a state/filesystem mismatch is detected:
+
+- STOP
+- report the inconsistency clearly
+- correct the inconsistency before continuing
 
 Claude must not continue governed execution on top of inconsistent operational state.
 
@@ -320,6 +348,47 @@ Implementation is also forbidden when `PROJECT_STATE.md` remains semantically in
 
 Execution readiness must never be inferred from a subset of favorable fields while the overall state remains operationally incoherent.
 
+Implementation completion alone does not authorize task or handoff closure.
+
+After implementation, governed work must pass through the official `review` stage before lifecycle promotion to `done` is allowed.
+
+---
+
+# REVIEW RULES
+
+Review is the formal governed stage used to assess whether an implemented delivery outcome is ready for honest closure.
+
+Review must not start unless all required conditions are true:
+
+- `Current Phase = review`
+- an active task exists
+- an active handoff exists
+- the active task and handoff still match the current execution boundary
+- no unresolved project state / artifact inconsistency exists
+
+Review must evaluate the delivery outcome against the active task and active handoff for the current bounded step.
+
+Review must not be treated as a specialized auxiliary critique such as design review, security review, or architecture exploration.
+
+Its role is governed delivery closure assessment.
+
+The review stage must classify the result as one of:
+
+- accepted
+- accepted with follow-ups
+- rejected / incomplete
+
+If the outcome is rejected / incomplete:
+
+- the active task must remain active
+- the active handoff must remain active
+- no done promotion is allowed
+- the next allowed action must return to the correct prior governed step
+
+If the outcome is accepted or accepted with follow-ups, task and handoff lifecycle closure may proceed only when the resulting `PROJECT_STATE.md` can be updated coherently to reflect the new operational moment.
+
+Follow-up work must not be hidden inside closure notes as if it were already delivered.
+
 ---
 
 # IMPLEMENTATION CONSTRAINTS
@@ -460,6 +529,7 @@ Claude must not:
 - continue after successful stage completion without returning control
 - apply partial lifecycle state updates and then treat them as valid governed closure
 - unlock execution on top of semantically contradictory project state
+- promote task or handoff to `done` directly from implementation without governed review closure
 
 ---
 

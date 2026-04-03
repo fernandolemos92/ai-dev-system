@@ -6,7 +6,6 @@ Governance decisions define how the system should be organized, how artifacts sh
 
 This file must remain concise and should only include decisions that affect future execution across sessions.
 
-
 ------------------------------------------------------------
 ENTRY FORMAT
 ------------------------------------------------------------
@@ -22,21 +21,25 @@ Implication:
 - [practical implication]
 - [practical implication]
 
-
 ------------------------------------------------------------
 DECISIONS
 ------------------------------------------------------------
 
-## DECISION-001 — Artifact placement policy
+## DECISION-001 — Canonical artifact placement policy
 Status: accepted
 Date: [YYYY-MM-DD]
-Summary: Project artifacts must be created only in their designated folders.
-Reason: This prevents file sprawl, duplication, and ambiguous project structure.
+Summary: Official workflow artifacts must be created only in their canonical artifact domains and lifecycle folders.
+Reason: This prevents file sprawl, lifecycle ambiguity, and inconsistent workflow state.
 Implication:
-- PRDs must be stored in `project/prd/`
-- Tasks must be stored in `project/tasks/`
+- PRDs must be stored under `project/prd/`
+- Validations must be stored under `project/validation/`
+- Tasks must be stored under `project/tasks/`
+- Handoffs must be stored under `project/handoff/`
+- Active workflow artifacts must live only in their canonical `active/` folders
+- Completed workflow artifacts must be promoted only to their canonical `done/` folders
+- Archived or superseded workflow artifacts must be moved only to their canonical `archived/` folders
 - Decision records must be stored in `project/memory/decisions/`
-- General docs must be stored in `project/docs/`
+- General supporting docs must not compete with official workflow artifact domains
 
 ## DECISION-002 — Memory structure policy
 Status: accepted
@@ -75,5 +78,7 @@ Summary: Durable project artifacts must use deterministic and readable naming co
 Reason: Predictable names improve traceability, maintenance, and low-cost model reliability.
 Implication:
 - PRDs must use `PRD-XXX-short-feature-name.md`
+- Validations must use `VALIDATION-XXX-short-scope-name.md`
 - Tasks must use `TASK-XXX-short-task-name.md`
+- Handoffs must use `HANDOFF-XXX-short-scope-name.md`
 - Decision files must use stable thematic names

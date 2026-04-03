@@ -6,7 +6,6 @@ Workflow decisions define how work moves through the system, which gates must be
 
 This file must remain concise and should only include decisions that affect future workflow behavior across sessions.
 
-
 ------------------------------------------------------------
 ENTRY FORMAT
 ------------------------------------------------------------
@@ -22,7 +21,6 @@ Implication:
 - [practical implication]
 - [practical implication]
 
-
 ------------------------------------------------------------
 DECISIONS
 ------------------------------------------------------------
@@ -37,15 +35,16 @@ Implication:
 - Implementation should not begin before scope is sufficiently bounded
 - Multi-layer work should not skip planning
 
-## DECISION-002 — One-primary-agent policy
+## DECISION-002 — One-primary-skill policy
 Status: accepted
 Date: [YYYY-MM-DD]
-Summary: The system must route work to exactly one primary agent at a time.
-Reason: This keeps execution narrow, traceable, and easier for low-cost models to follow.
+Summary: The system must route governed work through exactly one primary workflow skill at a time.
+Reason: This keeps execution narrow, traceable, and aligned with the governance-first + state-aware + skill-driven operating model.
 Implication:
-- The orchestrator must not activate multiple primary agents simultaneously
-- Multi-stage work must be executed through explicit sequential handoffs
-- The selected primary agent must always be named clearly
+- The system must not execute multiple primary workflow skills in parallel
+- Multi-stage work must progress through explicit serial transitions
+- The currently governing workflow skill should remain clear at each operational moment
+- Agents may assist, but they must not replace the primary workflow skill as the controller of progression
 
 ## DECISION-003 — One-current-action policy
 Status: accepted
@@ -80,11 +79,12 @@ Implication:
 ## DECISION-006 — State traceability policy
 Status: accepted
 Date: [YYYY-MM-DD]
-Summary: Meaningful progress must be reflected in `PROJECT_STATE.md`.
-Reason: The system needs a reliable operational snapshot across sessions.
+Summary: Meaningful governed progress must be reflected in `PROJECT_STATE.md`.
+Reason: The system needs a reliable operational snapshot across sessions without turning state into history, intention, or partial lifecycle narration.
 Implication:
-- Active work, priorities, and recent completions must stay visible
-- State should be updated after meaningful planning or implementation progress
+- Active work and the current operational moment must stay visible
+- State should be updated when a governed step closes coherently or when the live operational situation materially changes
+- Partial, contradictory, or premature state updates must not be treated as valid closure
 - The state file must remain concise and operational
 
 ## DECISION-007 — Task lifecycle must be folder-based
@@ -98,3 +98,16 @@ Implication:
 - Cold-history, obsolete, canceled, or superseded tasks must be moved to `project/tasks/archived`
 - `PROJECT_STATE.md` must point to the active task and short active queue
 - Claude should prefer active tasks first and consult done/archived only when necessary for traceability or historical context
+
+## DECISION-008 — Post-initial-task-block transition policy
+Status: accepted
+Date: [YYYY-MM-DD]
+Summary: After the closure of an initial bounded block of tasks, the system must deliberately choose the next workflow direction instead of automatically opening a new task block.
+Reason: Initial task completion does not, by itself, determine whether the system should expand scope, stabilize implementation, validate outcomes, or pause for a strategic decision.
+Implication:
+- The system must not automatically generate a new task block immediately after closing an initial bounded task set
+- The next step must be chosen based on the dominant current need: validation, stabilization, new bounded tasking, or strategic decision
+- Validation should be preferred when the main need is to test whether the delivered block behaves as intended
+- Stabilization should be preferred when the main need is to resolve instability, fragility, or implementation inconsistency before expansion
+- A new task block should be opened only when the previous block is honestly closed and the next bounded scope is already clear
+- A strategic decision pause should be used when multiple plausible next directions exist and automatic continuation would introduce avoidable risk

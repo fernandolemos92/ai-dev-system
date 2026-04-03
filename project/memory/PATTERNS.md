@@ -332,6 +332,32 @@ Avoid:
 
 ---
 
+## PATTERN-013 — Implementation quality baseline
+Type: skill
+Status: active
+Summary: Implementation work should preserve a minimum quality baseline even when no specialized agent is used.
+
+Use When:
+- executing a bounded implementation step
+- reviewing implementation outcome for closure
+- deciding whether direct execution is sufficient without specialist support
+
+Pattern:
+- prefer clear naming and explicit intent
+- keep changes local and bounded to the active scope
+- favor readable structure over cleverness
+- apply SOLID principles pragmatically when they improve maintainability
+- avoid speculative abstraction and unnecessary indirection
+- preserve file discipline, including the project preference for implementation files around 300 lines maximum when feasible
+
+Avoid:
+- treating “working code” as sufficient regardless of readability
+- introducing abstractions that the current scope does not justify
+- mixing multiple responsibilities without need
+- allowing direct execution without maintaining implementation quality
+
+---
+
 # PATTERN MAINTENANCE
 
 A pattern should be added only when it is genuinely reusable.
