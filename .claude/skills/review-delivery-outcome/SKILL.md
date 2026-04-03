@@ -34,7 +34,7 @@ It evaluates the implementation outcome and decides whether the delivery can be:
 Use this skill when:
 
 - implementation work has been completed for the current active task
-- the system has reached the official `review` phase
+- the system has reached the official `review` phase, or is coherently transitioning from completed implementation into governed review
 - a task appears implementationally complete and needs closure decision
 - task and handoff lifecycle promotion is being considered
 - the system needs to decide whether work returns to implementation or can move to done
@@ -103,7 +103,7 @@ Before reviewing the delivery, verify that `PROJECT_STATE.md` is coherent with t
 
 Minimum checks:
 
-- `Current Phase = review`
+- `Current Phase = review`, or a coherent implementation-to-review transition is explicitly represented and safe to interpret
 - Active Task exists in `project/tasks/active/`
 - Active Handoff exists in `project/handoff/active/`
 - Active PRD exists when referenced
@@ -117,6 +117,12 @@ If a mismatch is detected:
 - correct the inconsistency before continuing
 
 This skill must not review closure on top of inconsistent state.
+
+If `Current Phase` is still `implementation`, this skill must not silently treat that as harmless by default.
+
+It may proceed only when the operational moment is clearly one of completed implementation awaiting governed review, and that interpretation does not conflict with the active artifact set or the rest of the state.
+
+If that interpretation is not clearly safe, stop and require coherent state alignment first.
 
 ---
 
@@ -145,6 +151,13 @@ Questions to evaluate:
 - Was the intended bounded step actually delivered?
 - Did implementation drift beyond the approved scope?
 - Was important expected behavior left out?
+- Did the implementation cross into pending-task or future-slice scope?
+
+Scope drift is not a minor cosmetic issue in this system.
+
+If implementation clearly included behavior that belongs to later tasks or later handoffs, that must be treated as a serious review finding.
+
+The review must not call scope alignment successful when clear boundary overflow occurred.
 
 ---
 
@@ -158,6 +171,10 @@ Questions to evaluate:
 - Are there visible gaps that prevent the step from being considered complete?
 - Is the result materially usable for the bounded objective?
 
+This dimension must stay bounded to the current task.
+
+It must not excuse missing current-scope behavior by pointing to broader product progress.
+
 ---
 
 ## 3. Regression or Instability Risk
@@ -169,6 +186,10 @@ Questions to evaluate:
 - Did the change break or weaken related behavior?
 - Is the implementation obviously fragile or inconsistent?
 - Is there unresolved ambiguity that prevents safe closure?
+
+If the review lacks sufficient evidence to assert stability confidently, it must speak conservatively.
+
+It must not convert uncertainty into confident assurance.
 
 ---
 
@@ -198,6 +219,10 @@ The review should not reject a delivery merely because it is not academically pe
 
 It should reject or downgrade closure when quality problems materially hurt maintainability, readability, boundedness, or safe continuation.
 
+The review must not simply repeat implementation self-description as evidence of quality.
+
+If the implementation claimed quality attributes, this skill must still judge them independently.
+
 ---
 
 ## 5. Closure Readiness
@@ -210,6 +235,54 @@ Questions to evaluate:
 - Can the handoff honestly move from `active` to `done` or otherwise close?
 - Does `PROJECT_STATE.md` have enough clarity for coherent closure?
 - Is another bounded follow-up required before closure can be accepted?
+
+Closure readiness depends on honest bounded completion, not on narrative momentum.
+
+If the current step is not honestly complete inside its approved scope, closure is not ready.
+
+---
+
+# Evidence Discipline
+
+This skill must distinguish clearly between:
+
+- what is directly supported by reviewed artifacts or implementation evidence
+- what is a reasonable bounded inference
+- what is still uncertain
+
+It must not present uncertain claims as established facts.
+
+Examples of claims that require real support before being stated confidently include:
+
+- "code executes without errors"
+- "works in the browser"
+- "quality is clean"
+- "responsibilities are well separated"
+- "no regression was identified"
+
+If the evidence is partial or indirect, this skill must speak conservatively.
+
+---
+
+# Scope Drift Severity Rule
+
+Clear implementation beyond the active task and handoff is a major review signal.
+
+When the delivery includes work that materially belongs to:
+
+- pending tasks
+- later execution slices
+- later handoffs
+- future product behaviors not approved in the active handoff
+
+the review must not classify the result as simple `Accepted` unless that additional work is clearly trivial, non-material, and does not compromise bounded closure integrity.
+
+In most cases, meaningful scope drift should lead to one of:
+
+- `Accepted With Follow-Ups` when the current bounded task is still honestly complete and the overflow can be handled explicitly afterward
+- `Rejected / Incomplete` when the overflow materially breaks honest bounded closure or reveals unsafe task/handoff structure
+
+This skill must not normalize boundary violation as “extra helpful completeness.”
 
 ---
 
@@ -224,6 +297,7 @@ Use when:
 - the active task outcome is materially complete
 - the handoff boundary was satisfied
 - no blocking gap prevents closure
+- no meaningful boundary overflow invalidates honest bounded completion
 - the delivery is ready for governed lifecycle completion
 
 Implication:
@@ -232,15 +306,19 @@ Implication:
 - handoff may move to `project/handoff/done/` or otherwise close according to lifecycle policy
 - `PROJECT_STATE.md` may be updated coherently for the next operational moment
 
----
-
 ## Accepted With Follow-Ups
 
 Use when:
 
 - the current bounded task is sufficiently complete to close
 - but additional work is still needed afterward
-- and that additional work should not invalidate honest closure of the current step
+- and that additional work does not invalidate honest closure of the current step
+
+Typical examples include:
+
+- small quality cleanup that should be represented explicitly later
+- a bounded follow-up made visible by the current delivery
+- minor excess work that does not break honest closure but must not remain implicit
 
 Implication:
 
@@ -248,8 +326,6 @@ Implication:
 - current handoff may still close
 - follow-up work must be represented explicitly as new bounded tasking or later review action
 - follow-up work must not be hidden inside notes as if it were already done
-
----
 
 ## Rejected / Incomplete
 
@@ -259,6 +335,8 @@ Use when:
 - the handoff boundary was not actually satisfied
 - major gaps remain
 - closure would be premature or misleading
+- meaningful scope drift makes honest bounded closure unsafe
+- quality or structural issues materially damage safe continuation
 
 Implication:
 
@@ -275,7 +353,11 @@ The skill must produce a concise structured output.
 
 ## Delivery Summary
 
-Short summary of what appears to have been delivered.
+Short factual summary of what appears to have been delivered.
+
+Do not inflate delivery language.
+
+Do not rewrite the whole implementation as a success story.
 
 ---
 
@@ -290,6 +372,12 @@ Structured findings across:
 - Closure Readiness
 
 Keep each short and concrete.
+
+Where appropriate, findings must explicitly distinguish:
+
+- confirmed strengths
+- blocking concerns
+- uncertain areas
 
 ---
 
@@ -309,6 +397,8 @@ Brief explanation of why this classification was chosen.
 
 Avoid long narrative.
 
+The reasoning must explicitly reflect the most important deciding factor, especially if scope drift, incompleteness, or quality risk drove the result.
+
 ---
 
 ## Recommended Action
@@ -318,6 +408,8 @@ Examples:
 - Accepted → close task and handoff coherently
 - Accepted With Follow-Ups → close current task, then create follow-up tasking if needed
 - Rejected / Incomplete → keep task and handoff active and return to implementation
+
+Recommended action must reflect the actual classification honestly.
 
 ---
 
@@ -439,20 +531,20 @@ Delivery Summary
 Playback controls were implemented and connected to the current UI flow.
 
 Review Findings  
-Scope Alignment: The active task objective was delivered.  
-Functional Outcome: The controls appear present and usable for the intended bounded step.  
-Regression or Instability Risk: No blocking regression was identified in the reviewed scope.  
-Implementation Quality: The implementation is readable and sufficiently bounded, but a follow-up would improve separation of responsibilities in the playback controller.  
-Closure Readiness: The current task is ready for closure, but a separate follow-up is needed for edge-case playback synchronization.
+Scope Alignment: The active task objective was delivered, but a later-scope synchronization behavior also appears partially implemented.  
+Functional Outcome: The intended bounded controls appear present and usable for the current step.  
+Regression or Instability Risk: No blocking regression is directly evident from the reviewed scope, but evidence is limited.  
+Implementation Quality: The implementation is readable enough for continuation, though a follow-up would improve controller responsibility separation.  
+Closure Readiness: The current task can close honestly, but the later-scope overflow must be represented explicitly as follow-up awareness, not hidden.
 
 Outcome Classification  
 Accepted With Follow-Ups
 
 Reasoning  
-The bounded delivery is complete enough to close honestly, and the remaining quality improvements should be represented as explicit follow-up scope rather than hidden inside the current closure.
+The bounded delivery is materially complete, but the review identified non-blocking spillover beyond the current slice. Closure can still be honest only if that overflow is made explicit and future work remains governed separately.
 
 Recommended Action  
-Close the current task and handoff coherently, then create a new bounded follow-up task for playback synchronization and controller responsibility cleanup.
+Close the current task and handoff coherently if lifecycle state supports it, then represent follow-up work explicitly through new bounded tasking or later governed review.
 
 ---
 
@@ -465,6 +557,7 @@ This skill must never:
 - hide incompleteness behind vague acceptance language
 - close artifacts on top of inconsistent lifecycle state
 - treat auxiliary review as a substitute for governed delivery review
+- repeat implementation self-assessment as if it were verified evidence
 
 Its role is to decide whether the implemented delivery is honestly ready for closure.
 

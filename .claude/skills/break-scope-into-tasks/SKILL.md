@@ -78,6 +78,28 @@ Task decomposition must not compensate for unstable scope or weak validation.
 
 ---
 
+## Recheck Against Upstream Ambiguity
+
+Even if upstream artifacts exist, this skill must still recheck whether decomposition would require hidden interpretation.
+
+This skill must not proceed when task boundaries would depend on:
+
+- guessed workflow meaning
+- guessed scope exclusions
+- guessed feature coupling
+- inferred technical structure that was never established upstream
+- invented quantitative or operational precision
+
+If task decomposition would still require silent assumption or hidden design completion:
+
+- stop
+- do not generate tasks
+- return control to the earlier skill that must stabilize the ambiguity
+
+Tasking must not harden upstream ambiguity into false execution structure.
+
+---
+
 ## Bounded Task Unit Definition
 
 A good task in this system is one bounded unit of work.
@@ -136,6 +158,90 @@ Task creation remains one governed decomposition step inside a serial operationa
 
 ---
 
+## Task Shaping Rule
+
+Each task should usually represent one of the following:
+
+- one bounded user-visible behavior slice
+- one bounded enabling slice directly required by that behavior
+- one tightly coupled pair of concerns only when separating them would create artificial fragmentation
+
+A task should not combine multiple broad behaviors just because they are adjacent in the eventual product flow.
+
+If a candidate task would require phrases like:
+
+- "base app + navigation + cart + checkout"
+- "UI + backend + persistence + final flow"
+- "all remaining behavior"
+
+then it is likely too broad and must be narrowed before creation.
+
+---
+
+## Technical Decision Containment
+
+This skill must not silently convert task decomposition into technical decision-making.
+
+It must not introduce as if already decided:
+
+- stack choices
+- framework choices
+- storage choices
+- persistence choices
+- package choices
+- folder structure choices
+- implementation architecture choices
+
+unless those decisions are already materially grounded upstream by governed context, PRD continuity, or official project defaults.
+
+If a task depends on a technical decision that is still unresolved, that dependency may be noted conservatively as a dependency or open note, but it must not be silently resolved inside the task artifact.
+
+Task scope is not the place to improvise stack or architecture.
+
+---
+
+## Traceability Discipline
+
+Each task must remain traceable to the upstream basis.
+
+A task should be explainable in terms of:
+
+- which part of the active PRD it supports
+- which validation scenario or validation axis it materially contributes to
+
+This skill must avoid loose or decorative traceability.
+
+It must not attach a task to upstream artifacts that do not materially justify that task.
+
+It must also not produce tasks whose relationship to validation is so weak that later execution would require reinterpretation.
+
+If traceability is weak, decomposition is not ready.
+
+---
+
+## Active vs Pending Task Discipline
+
+When multiple tasks are created, this skill must preserve the serial operational model.
+
+It must determine:
+
+- one current `Active Task`
+- the remaining generated tasks as `Pending Tasks`
+
+The chosen `Active Task` should usually be the one that:
+
+- best unlocks later downstream work
+- is currently most foundational without being artificially over-broad
+- is coherent as the first bounded execution focus
+
+This choice must not be arbitrary.
+
+This skill must not describe all created tasks as equally active.
+
+It must not imply concurrent execution.
+
+---
+
 ## Template Adherence
 
 This skill must produce output aligned with the canonical task template located at:
@@ -153,6 +259,26 @@ The result should be:
 - template-compatible
 - easy to review
 - suitable for low-context operation
+
+---
+
+## Artifact Cleanliness Rule
+
+Each task artifact must be structurally clean and semantically coherent.
+
+This skill must not leave behind:
+
+- placeholder leftovers
+- duplicated filler
+- stray `none` lines
+- malformed bullets
+- mixed structural fragments
+- accidental contradictory sections
+- noisy references that do not correspond to real artifact state
+
+Each populated field must read as intentional final task content.
+
+Omitted content must remain omitted according to template convention, not filled with filler noise.
 
 ---
 

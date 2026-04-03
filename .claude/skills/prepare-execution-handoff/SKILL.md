@@ -130,6 +130,93 @@ Preparing a handoff only establishes the bounded execution transfer for a single
 
 ---
 
+## Execution-Boundary Discipline
+
+The handoff must describe **what may be executed now** and **what remains outside the boundary** for this selected task.
+
+It must not blur the boundary between:
+
+- the selected active task
+- pending tasks
+- future handoffs
+- future implementation slices
+
+If the next bounded execution step would require touching clearly pending-task scope, this skill must stop and surface that the task boundary is not yet safe for handoff.
+
+This skill must not “solve” oversized scope by quietly widening the handoff.
+
+---
+
+## Technical Decision Containment
+
+This skill must not silently introduce new technical decisions.
+
+It must not decide, recommend, or imply as settled inside the handoff:
+
+- frontend stack
+- backend stack
+- framework choice
+- storage choice
+- persistence choice
+- package/library choice
+- folder structure
+- implementation architecture
+- hosting/deployment structure
+
+unless those decisions are already materially grounded by one or more of:
+
+- governed project defaults
+- stabilized upstream artifacts
+- existing canonical continuity of the same execution line
+
+If a technical choice is still unresolved, this skill may only:
+
+- note it conservatively as a prerequisite or dependency, or
+- inherit the official project default when that default is already explicitly governed elsewhere
+
+It must not invent stack inside the handoff.
+
+---
+
+## Official Default Inheritance
+
+When the repository already has an official governed default for a domain such as frontend or data stack, this skill may inherit that default without re-debating it.
+
+However:
+
+- inherited defaults must not be presented as if this handoff newly decided them
+- inherited defaults must remain concise
+- inherited defaults must not expand the handoff into a design document
+
+If no official default is clearly governed upstream, this skill must not improvise one.
+
+In that case, unresolved technical dependency must remain explicitly unresolved.
+
+---
+
+## Agent Consideration Rule
+
+This skill remains skill-driven and does not depend on agents.
+
+However, for a bounded task whose execution quality could materially benefit from specialist support, this skill should consciously evaluate whether a specialist would help the next execution step.
+
+Typical examples include:
+
+- `frontend` for UI-heavy bounded execution
+- `design-direction` for interaction/visual refinement that materially affects the selected task
+- `backend` or `database` for bounded server/data concerns when those are already inside the selected task boundary
+
+This skill should either:
+
+- explicitly note that specialist support is worth attaching for the next bounded execution step, or
+- explicitly decide that direct execution can proceed without it
+
+It must not invoke agents decoratively.
+
+It also must not ignore obviously relevant specialist support without any evaluation.
+
+---
+
 ## Template Adherence
 
 This skill must produce output aligned with the canonical handoff template located at:
@@ -147,6 +234,26 @@ The result should be:
 - concise
 - execution-friendly
 - suitable for low-context operation
+
+---
+
+## Artifact Cleanliness Rule
+
+The handoff artifact must be structurally clean and semantically coherent.
+
+This skill must not leave behind:
+
+- placeholder leftovers
+- duplicated filler
+- stray `none` lines
+- contradictory scope statements
+- malformed bullets
+- accidental partial planning fragments
+- noisy technical suggestions that were not grounded upstream
+
+Every populated section must read as intentional final handoff content.
+
+Every omitted section must remain omitted according to the template convention, not filled with noise.
 
 ---
 

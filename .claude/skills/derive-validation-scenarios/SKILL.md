@@ -75,6 +75,27 @@ Validation must not be built on top of unstable scope.
 
 ---
 
+## Validation Recheck Discipline
+
+Even if a prior step already treated the PRD as ready, this skill must still perform its own bounded readiness recheck.
+
+This recheck must confirm that validation can be derived without needing to guess:
+
+- the expected behavior
+- the workflow meaning
+- the scope boundary
+- the observable outcome direction
+
+If deriving validation would require silent interpretation, hidden narrowing, or invented behavioral precision:
+
+- stop
+- do not derive validation
+- return control to `create-or-update-prd`
+
+A prior PRD completion claim does not override this recheck.
+
+---
+
 ## Validation Derivation Role
 
 Once PRD readiness is established, this skill must transform the stabilized scope into a bounded validation artifact.
@@ -126,6 +147,57 @@ Edge behavior should be included only when it meaningfully affects correctness.
 
 ---
 
+## Grounding Discipline Inside Validation
+
+Validation scenarios must be grounded in the active PRD.
+
+This skill must not silently upgrade plausible interpretation into validation truth.
+
+It must not invent:
+
+- exact counts
+- exact timing thresholds
+- exact quantitative limits
+- exact UI rules
+- exact operational constraints
+- exact failure expectations
+
+unless those are already materially grounded in the PRD.
+
+If a validation idea is useful but would still require assumption:
+
+- do not state it as a validation fact
+- either omit it
+- or surface it conservatively as a validation-relevant gap or open question if the template supports that section
+
+Validation must not harden ambiguous product scope into false precision.
+
+---
+
+## Scenario Selection Rule
+
+Each scenario or axis should correspond to something materially important in the PRD.
+
+A good scenario should be:
+
+- observable
+- bounded
+- directly connected to the active PRD
+- useful for later tasking without becoming a hidden implementation plan
+
+This skill must avoid scenarios that are:
+
+- merely decorative
+- implementation-shaped
+- duplicates of each other
+- based on assumptions not stabilized upstream
+
+If two candidate scenarios both depend on the same unresolved ambiguity, this skill should not pretend they are valid independent coverage.
+
+It should instead surface the ambiguity conservatively.
+
+---
+
 ## Template Adherence
 
 This skill must produce output aligned with the canonical validation template located at:
@@ -143,6 +215,26 @@ The result should be:
 - observable
 - downstream-friendly
 - clearly autonomous as a validation artifact
+
+---
+
+## Artifact Cleanliness Rule
+
+The validation artifact must be structurally clean and semantically coherent.
+
+This skill must not leave behind:
+
+- placeholder leftovers
+- duplicated filler
+- stray `none` lines
+- mixed partial sections that contradict each other
+- malformed bullets
+- broken language fragments
+- accidental multilingual artifacts unless they were user-provided and intentionally preserved
+
+Every populated section must read as intentional final artifact content.
+
+Every omitted section must remain omitted according to the template convention, not filled with noisy filler.
 
 ---
 

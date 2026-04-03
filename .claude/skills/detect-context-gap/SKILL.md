@@ -124,6 +124,34 @@ Examples of insufficient signal by themselves include:
 
 These details may matter later, but they do not replace contextual understanding.
 
+A feature list must not be treated as contextual readiness by itself.
+
+Examples such as:
+
+- banner
+- login
+- dashboard
+- delivery
+- checkout
+- upload
+- search
+- notification
+
+do not, by themselves, establish:
+
+- the real problem
+- the primary workflow
+- the system boundary
+- the real actor outcome
+
+This skill must actively distinguish between:
+
+- what the user explicitly stated
+- what is still unknown
+- what would require inference
+
+Unknown facts must remain unknown until clarified.
+
 ---
 
 ## Minimum Contextual Readiness for PRD
@@ -154,6 +182,33 @@ This skill must not generate PRD content inline after readiness is reached.
 
 ---
 
+## Conservative Readiness Rule
+
+This skill must behave conservatively.
+
+If there is reasonable doubt about whether workflow or boundary are truly established:
+
+- do not declare contextual readiness
+- remain in discovery
+- ask the smallest next clarification needed
+
+This skill must prefer one more bounded clarification step over premature readiness.
+
+It must not convert familiarity with a common product pattern into assumed readiness.
+
+Recognizing a known pattern such as:
+
+- marketplace
+- dashboard
+- menu
+- booking flow
+- chatbot
+- admin panel
+
+does not mean the actual context is sufficiently clear for PRD.
+
+---
+
 ## Gap Assessment
 
 When a contextual gap is detected, this skill should identify the real blocking gap as clearly as possible.
@@ -170,6 +225,65 @@ Useful gap labels include:
 The purpose of gap assessment is to keep discovery focused.
 
 It must not turn into a broad diagnostic framework or a later-stage planning exercise.
+
+When multiple gaps exist, this skill should identify:
+
+- the blocking gap that most prevents safe PRD work
+- any tightly coupled secondary gaps that must be clarified together
+
+It must not pretend that all gaps are resolved just because some are partially known.
+
+---
+
+## Benchmark and External Reference Handling
+
+When the user cites a market player, competitor, benchmark, or inspiration source such as:
+
+- "like X"
+- "inspired by Y"
+- "similar to Z"
+
+this skill must treat that reference as contextual signal, not as full contextual closure.
+
+A benchmark reference may clarify:
+
+- quality bar
+- interaction expectations
+- perceived sophistication
+- market positioning
+
+But it does not automatically establish:
+
+- the actual workflow
+- the actual boundary
+- the actual feature interpretation
+- the actual scope
+
+This skill must not convert a benchmark mention into assumed product structure.
+
+---
+
+## Agent Consideration Rule
+
+This skill remains skill-driven and discovery-only.
+
+However, when the user explicitly cites an external benchmark, competitor, or market reference that could materially improve contextual understanding, this skill should consciously evaluate whether auxiliary specialist support would help.
+
+Typical examples include:
+
+- competitor benchmarking
+- market comparison
+- feature interpretation based on a named product
+- understanding what a cited player likely represents
+
+When such a case appears, this skill should either:
+
+- explicitly note that auxiliary `research` support could help contextual grounding, or
+- explicitly decide that current discovery can proceed without it
+
+This skill must not invoke agents decoratively.
+
+But it also must not ignore obviously useful specialist support without any evaluation.
 
 ---
 
@@ -198,6 +312,25 @@ After each clarification step, this skill must re-check whether minimum contextu
 
 ---
 
+## Clarification Priorities
+
+When multiple context elements are still weak, this skill should prefer clarification in this order:
+
+1. real problem
+2. main actor
+3. desired outcome
+4. primary workflow
+5. system boundary
+6. relevant constraint or priority
+
+This is a priority guide, not a rigid script.
+
+If workflow and boundary are the main unresolved blockers, they may be asked together.
+
+If the user already gave one element clearly, do not ask it again.
+
+---
+
 ## Interaction Style
 
 When the environment supports guided interaction well, this skill must prefer AskUserQuestion-style structured questioning to reduce user effort and improve clarity.
@@ -223,6 +356,11 @@ The fallback must still remain:
 - bounded
 - low-friction
 - focused only on the current blocking gaps
+
+The fallback should usually ask no more than:
+
+- one question when there is one dominant blocking gap
+- up to three tightly grouped questions when multiple coupled gaps must be clarified together
 
 ---
 
@@ -255,6 +393,25 @@ If readiness is achieved:
 - declare readiness concisely
 - name `create-or-update-prd` as the next allowed skill
 - stop without generating PRD content inline
+
+---
+
+## Readiness Decision Discipline
+
+Before declaring `Context Ready for PRD`, this skill must be able to state, in grounded form:
+
+- what the real problem is
+- who the main actor is
+- what successful outcome matters for that actor
+- what the main end-to-end workflow is
+- what the system is and is not at a high level
+- which relevant constraint or priority is known
+
+If one or more of those would still need guessing, assumption, or pattern completion:
+
+- do not declare readiness
+
+The skill must not treat its own inferred interpretation as if the user had already confirmed it.
 
 ---
 
@@ -340,6 +497,12 @@ A correct output in this mode must include:
 3. the next clarifying question or grouped guided question block
 4. a clear indication that discovery continues
 
+The assessment must distinguish between:
+
+- confirmed context
+- unresolved context
+- context that would still require inference
+
 ### Output Mode B — Context Ready for PRD
 
 Use this only when minimum contextual readiness is actually established.
@@ -350,6 +513,8 @@ A correct output in this mode must include:
 2. a short summary of why readiness is sufficient
 3. identification of `create-or-update-prd` as the next allowed skill
 4. a clear stop that returns control without drafting PRD inline
+
+The readiness summary must be grounded in clarified context, not in unverified inference.
 
 The output must stay focused on contextual understanding and readiness.
 

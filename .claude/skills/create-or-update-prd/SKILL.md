@@ -83,6 +83,29 @@ This skill must not fill contextual gaps silently.
 
 ---
 
+## Readiness Recheck Discipline
+
+Even if the prior contextual skill reported readiness, this skill must still perform its own bounded readiness recheck before creating or updating the PRD.
+
+This recheck must confirm that the PRD can be grounded without needing to guess:
+
+- the real problem
+- the main actor
+- the desired outcome
+- the primary workflow
+- the system boundary
+- the relevant constraint or priority
+
+If the PRD would still require pattern completion, guesswork, hidden assumptions, or silent narrowing of ambiguity:
+
+- stop
+- do not create or update the PRD
+- return control to `detect-context-gap`
+
+A previous readiness claim does not override this recheck.
+
+---
+
 ## Allowed Clarifications
 
 This skill may ask for small clarifications only when the missing point is local, bounded, and does not reopen discovery.
@@ -151,6 +174,54 @@ It must not drift into:
 
 ---
 
+## Grounding Discipline Inside the PRD
+
+The PRD must distinguish clearly between:
+
+- grounded context already established
+- bounded assumptions that are explicitly marked as assumptions
+- unresolved items that remain open and should not be silently converted into facts
+
+This skill must not present inferred structure as if it had already been confirmed.
+
+Examples of content that must not be silently invented include:
+
+- exact workflow steps not actually clarified
+- exact channel or platform boundary not actually clarified
+- exact operational exclusions framed as closed non-scope without basis
+- quantitative limits, counts, timings, or thresholds not actually grounded
+- downstream artifact references that do not yet exist
+- technical defaults framed as product facts when they were never established in context
+
+When something is plausible but not actually clarified, it must either:
+
+- remain outside the PRD until clarified, or
+- be marked explicitly in the appropriate assumptions / risks / open questions area if the template supports it
+
+Plausibility is not confirmation.
+
+---
+
+## Scope and Non-Scope Discipline
+
+This skill must keep scope bounded without inventing exclusions.
+
+`In Scope` should contain only behavior and product scope that are grounded in the stabilized context.
+
+`Out of Scope` should contain only exclusions that are materially supported by one of the following:
+
+- the user explicitly excluded it
+- the stabilized context clearly bounded it out
+- the repository’s governed scope already established that exclusion for the same PRD continuity line
+
+This skill must not use `Out of Scope` as a place to silently narrow ambiguous requirements.
+
+If an exclusion would still require interpretation rather than grounding, it must not be presented as a closed product decision.
+
+In such cases, it should remain open or be treated conservatively.
+
+---
+
 ## Template Adherence
 
 This skill must produce output that is aligned with the canonical PRD template located at:
@@ -184,6 +255,23 @@ It must not:
 - treat a non-canonical PRD path as valid step closure
 
 If the PRD artifact cannot be materialized in the canonical active PRD location, this skill must stop and report that PRD closure remains operationally incomplete.
+
+---
+
+## Downstream Artifact Reference Rule
+
+This skill must not reference downstream artifacts as if they already exist when they do not.
+
+It must not:
+
+- cite Tasks that have not been created
+- cite Validation artifacts that have not been created
+- cite Handoffs that have not been created
+- create artificial downstream traceability by anticipation
+
+If the PRD template includes related references sections, those sections must remain truthful to the real current artifact set.
+
+This skill must not fabricate future linkage in order to make the PRD appear more complete.
 
 ---
 

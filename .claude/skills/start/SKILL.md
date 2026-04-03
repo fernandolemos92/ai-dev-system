@@ -114,6 +114,78 @@ It must not create circular user-facing wording such as instructing the user to 
 
 ---
 
+## State Classification Before Objective Exposure
+
+Before exposing session objectives, this skill must classify the current state into one of the following routing situations:
+
+1. **neutral empty governed start**
+2. **structural/core maintenance state**
+3. **active governed workflow state**
+4. **later-stage resumable execution state**
+5. **state/artifact inconsistency state**
+
+This classification must be grounded in canonical state fields and real state text.
+
+This classification step is mandatory.
+
+### Neutral empty governed start
+
+Treat the state as a neutral empty governed start only when all of the following are true:
+
+- `Current Phase = context`
+- `Execution Unlocked = no`
+- `Active PRD = none`
+- `Active Validation = none`
+- `Active Task = none`
+- `Active Handoff = none`
+
+and the state does **not** indicate ongoing structural, governance, audit, stabilization, alignment, repair, migration, lifecycle cleanup, or other core-system work in fields such as:
+
+- `Current Focus`
+- `Primary Objective`
+- `Next Allowed Action`
+- `State Notes`
+
+### Structural/core maintenance state
+
+Treat the state as structural/core maintenance when:
+
+- the system is still in `context`
+- no workflow artifact is active
+- and the state text clearly indicates that current work is about the system itself rather than about starting a new governed product workflow
+
+Typical signals include wording such as:
+
+- stabilization
+- audit
+- alignment
+- governance work
+- lifecycle cleanup
+- repair
+- migration
+- core refactor follow-up
+- template/state/governance consolidation
+
+In this situation, the state must not be treated as a neutral new-project starting position.
+
+### Active governed workflow state
+
+Treat the state as active governed workflow when one or more active artifacts already exist, or when the phase clearly indicates governed work already in motion.
+
+### Later-stage resumable execution state
+
+Treat the state as later-stage resumable execution when:
+
+- an active Task exists
+- an active Handoff exists
+- or the current phase is `handoff`, `implementation`, or `review`
+
+### State/artifact inconsistency state
+
+Treat the state as inconsistent when an active artifact is referenced but cannot be loaded from its canonical active location, or when the active artifact set conflicts with the described live operational state in a way that prevents safe routing.
+
+---
+
 ## Session Objective Model
 
 After initialization, this skill must expose only the session objectives that are valid for the current operational state.
@@ -146,13 +218,9 @@ This skill must expose only objectives that are valid for the real current state
 
 ### Start a new project
 
-Show this only when the system is effectively in an empty governed starting position, such as:
+Show this only when the system is in a **neutral empty governed start**.
 
-- `Current Phase = context`
-- no active PRD
-- no active Validation
-- no active Task
-- no active Handoff
+Do not show this as the primary objective when the state is actually a structural/core maintenance state.
 
 ### Continue current work
 
@@ -161,6 +229,9 @@ Show this when governed project work already exists or planning is already in pr
 - an active artifact exists
 - the current phase is already beyond a blank starting context
 - the state clearly indicates ongoing governed work
+- the state is a structural/core maintenance state that is still active
+
+This option is valid both for product workflow continuation and for active system/core alignment work, when that is what the state actually describes.
 
 ### Resume active execution
 
@@ -168,7 +239,7 @@ Show this when execution-relevant governed work is already in motion, such as:
 
 - an active Task exists
 - an active Handoff exists
-- the current phase is `handoff`, `implementation`, or another clearly resumable later-stage state
+- the current phase is `handoff`, `implementation`, `review`, or another clearly resumable later-stage state
 
 ### Review current project state
 
@@ -180,18 +251,9 @@ Show this only when an existing governed project basis already exists and the re
 
 This option must never authorize direct implementation from `start`.
 
-### Empty-context validation rule
+### Neutral-empty-context rule
 
-When all of the following are true:
-
-- `Current Phase = context`
-- `Execution Unlocked = no`
-- `Active PRD = none`
-- `Active Validation = none`
-- `Active Task = none`
-- `Active Handoff = none`
-
-then the only valid session objectives are:
+When the state is classified as a **neutral empty governed start**, then the only valid session objectives are:
 
 1. `Start a new project`
 2. `Review current project state`
@@ -202,7 +264,20 @@ In this situation, this skill must not expose:
 - `Resume active execution`
 - `Request a bounded change inside an existing governed project`
 
-This rule takes priority over broader example interpretations for empty governed starting positions.
+This rule applies only after the mandatory state classification step has already determined that the current situation is truly a neutral empty governed start.
+
+It must not be applied blindly to every `context + no artifacts` state.
+
+### Structural/core-maintenance rule
+
+When the state is classified as a **structural/core maintenance state**, the valid session objectives must be limited to options compatible with that maintenance situation, such as:
+
+1. `Continue current work`
+2. `Review current project state`
+
+In this situation, this skill must not pretend that the repository is in a neutral new-product starting position.
+
+It must not force `Start a new project` as the default objective when the state text clearly indicates ongoing system/core work.
 
 ---
 
@@ -231,6 +306,10 @@ Routing must occur only after valid session objectives have been exposed clearly
 This skill must not skip directly from loading to generic recommendations.
 
 This skill must not auto-select a session objective on behalf of the user unless the user has already made an explicit choice in the current turn.
+
+When the state is classified as structural/core maintenance, routing must remain faithful to the maintenance situation described by state.
+
+It must not reinterpret that state as a new product workflow opening unless the user explicitly chooses a valid objective that changes the session direction and such a change is compatible with governance.
 
 ---
 
@@ -387,6 +466,7 @@ Recommended output style:
 - Initialized: yes
 - Current Phase: [value]
 - Overall Status: [value]
+- Current Focus: [value]
 - Active Artifacts: [summary]
 - Execution Unlocked: [yes/no]
 - Next Expected Skill: [value]
@@ -418,7 +498,8 @@ A correct `start` must never:
 - end without a final user-facing output block
 - produce circular instructions that tell the user to run `/start` while `/start` is already the active entry skill
 - invent narrative state summaries in place of canonical state fields
-- expose invalid objectives for an empty context state
+- expose invalid objectives for a neutral empty governed start
+- treat every `context + no artifacts` state as a new-project opening
 - auto-select a session objective before the user explicitly chooses one
 
 It must do nothing beyond that boundary.

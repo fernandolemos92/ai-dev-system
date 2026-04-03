@@ -161,6 +161,105 @@ If the implementation would materially change approved scope:
 
 ---
 
+# Hard Boundary Rule
+
+This skill must treat the active task and active handoff as the only approved implementation boundary.
+
+It must not implement behavior that clearly belongs to:
+
+- `Pending Tasks`
+- future handoffs
+- later execution slices
+- adjacent features not included in the active handoff
+- supportive capabilities that are convenient but not required by the active scope
+
+It must not justify boundary expansion with reasoning such as:
+
+- "this will help later"
+- "this is already nearby"
+- "this is small enough to include"
+- "this improves completeness"
+- "this makes the demo better"
+
+If the smallest honest implementation would still spill into pending-task scope:
+
+- STOP
+- report that the task boundary is too broad or the handoff is unsafe
+- recommend returning to the prior governed step
+
+This skill must not implement future work “for convenience.”
+
+---
+
+# Pending Task Protection
+
+When `Pending Tasks` exist, this skill must treat them as explicitly out of execution scope unless the active handoff itself materially includes a dependency that was already approved inside the current boundary.
+
+This skill must not:
+
+- partially implement pending-task behavior
+- scaffold pending-task behavior beyond what is strictly required by the current task boundary
+- silently include future task outcomes inside the active implementation
+
+A reusable local seam is acceptable only when it is directly required by the active task and does not itself implement future behavior.
+
+Preparing for future extensibility is not a license to implement future features.
+
+---
+
+# Technical Decision Containment
+
+This skill must not silently introduce new technical decisions.
+
+It must not decide, recommend, or treat as settled during implementation:
+
+- stack choice
+- framework choice
+- storage choice
+- persistence choice
+- package choice
+- folder structure
+- architectural pattern
+
+unless those decisions are already materially grounded by one or more of:
+
+- governed project defaults
+- stabilized upstream artifacts
+- existing repository continuity for the same execution line
+
+If a technical decision is still unresolved and materially blocks safe implementation:
+
+- STOP
+- report the blocking dependency clearly
+- recommend returning to the appropriate prior step
+
+This skill must not improvise stack or structure just to keep implementation moving.
+
+---
+
+# Existing Structure Preservation
+
+This skill must preserve the existing project structure whenever possible.
+
+It must not create a new structural baseline for the project unless that baseline is already explicitly grounded upstream or already materially present in the repository.
+
+It must not silently decide:
+
+- that code belongs in the repository root
+- that a new app folder should be created
+- that a new frontend structure should be introduced
+- that a new persistence layer should be added
+
+unless the active handoff explicitly and validly includes that structural move.
+
+If implementation would require creating a new structural baseline that has not been governed upstream:
+
+- STOP
+- surface the structural dependency clearly
+- recommend returning to the correct earlier step
+
+---
+
 # Implementation Quality Baseline
 
 This skill must preserve a minimum implementation quality baseline even when it executes without specialized agent support.
@@ -228,7 +327,7 @@ This skill must preserve file discipline during implementation.
 Rules:
 
 - prefer small, local changes over broad rewrites
-- preserve existing project structure unless change is necessary
+- preserve existing project structure unless change is necessary and already governed
 - avoid unnecessary file creation
 - avoid unnecessary file movement or renaming
 - keep implementation files within the recommended readability boundary when possible
@@ -241,9 +340,26 @@ Do not introduce abstraction layers that are not needed for the current step.
 
 ---
 
-# Specialized Agent Usage Policy
+# Specialist Evaluation Rule
 
 This skill remains the controller of the implementation stage.
+
+Specialized agents are auxiliary helpers.
+
+Before implementing, this skill should make a conscious specialist decision.
+
+It should either:
+
+- attach the most relevant specialist because doing so would materially improve the bounded implementation step, or
+- explicitly proceed without specialist because the change is small, clear, and low-risk
+
+This evaluation should be based on the actual bounded task.
+
+It must not be skipped by habit.
+
+---
+
+# Specialized Agent Usage Policy
 
 Specialized agents are auxiliary helpers.
 
@@ -300,49 +416,23 @@ Skills control progression.
 
 Agents support execution.
 
-## Preferred Agent Usage
+---
 
-This skill should prefer calling the most relevant specialized agent when:
+# Minimal Honest Implementation Rule
 
-- the task clearly belongs to a specialized domain
-- the change is non-trivial
-- specialized judgment would materially improve the implementation
-- the risk of generic execution is meaningful
+This skill must actively prefer the smallest honest implementation that satisfies the current active handoff.
 
-Examples:
+It must not optimize for:
 
-- frontend-heavy work → `frontend`
-- backend-heavy work → `backend`
-- schema or query work → `database`
-- sensitive security implications → `security`
+- demo impressiveness
+- apparent completeness
+- future convenience
+- anticipatory extensibility
+- adjacent feature readiness
 
-## Direct Execution Without Specialist
+when those goals would expand implementation beyond the current approved boundary.
 
-This skill may execute directly without specialized agent support only when:
-
-- the scoped change is small
-- the expected behavior is clear
-- the domain complexity is low for this step
-- specialization would add overhead without meaningful benefit
-
-Skipping specialization must not reduce the implementation quality baseline.
-
-## Agent Boundary Rule
-
-Agents may assist execution.
-
-Agents must not:
-
-- redefine scope
-- override governance
-- close task lifecycle
-- close handoff lifecycle
-- decide acceptance
-- become the controller of the implementation stage
-
-Skills control progression.
-
-Agents support execution.
+If a more minimal implementation fully satisfies the active handoff, it must be preferred.
 
 ---
 
@@ -351,8 +441,8 @@ Agents support execution.
 During implementation, this skill must:
 
 1. confirm the active execution boundary
-2. identify the smallest honest implementation path
-3. decide whether specialist support is beneficial
+2. confirm whether specialist support is beneficial
+3. identify the smallest honest implementation path
 4. implement the bounded change
 5. keep modifications as narrow as reasonably possible
 6. avoid unrelated cleanup unless truly necessary for correctness
@@ -370,19 +460,32 @@ When implementation is complete, the skill must produce a concise structured rep
 
 ## Implementation Summary
 
-Short summary of what was implemented.
+Short factual summary of what was implemented.
+
+Do not include aspirational language.
+
+Do not claim broader completion than the actual bounded change.
 
 ---
 
 ## Files Changed
 
-List the files that were created or modified.
+List only the files that were actually created or modified.
+
+Do not imply repository-wide completion.
 
 ---
 
 ## Scope Confirmation
 
-State whether the active task and handoff scope were implemented as bounded.
+State one of:
+
+- `Bounded scope implemented as handed off`
+- `Implementation stopped because bounded scope could not be honored safely`
+
+If the implementation stopped early, say so clearly.
+
+If bounded scope was exceeded, do not hide that fact.
 
 ---
 
@@ -390,29 +493,35 @@ State whether the active task and handoff scope were implemented as bounded.
 
 State one of:
 
-- Specialist agent used: [agent name]
-- No specialist agent used: direct bounded implementation was sufficient
+- `Specialist agent used: [agent name]`
+- `No specialist agent used: direct bounded implementation was sufficient`
+
+If no specialist was used, that statement must reflect an actual conscious evaluation, not a silent default.
 
 ---
 
 ## Quality Notes
 
-State briefly how the implementation preserved:
+State briefly and factually how the implementation preserved:
 
 - readability
 - bounded scope
 - maintainability
 - file discipline
 
-Keep this short and factual.
+Do not self-award quality in broad terms that are not supported by the actual result.
+
+Prefer factual notes over praise language.
 
 ---
 
 ## Notable Constraints or Follow-Up Risks
 
-Short factual note on any limitation, risk, or follow-up worth carrying into review.
+Short factual note on any limitation, risk, unresolved dependency, or follow-up worth carrying into review.
 
 Do not hide incomplete work here as if it were already acceptable.
+
+If pending-task boundary was approached but not crossed, this may be noted here.
 
 ---
 
