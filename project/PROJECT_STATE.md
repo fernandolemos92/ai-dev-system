@@ -14,7 +14,7 @@ Current Phase: context
 
 Overall Status: active
 
-Current Focus: core governance and state model stabilization after runtime audit findings
+Current Focus: none
 
 Last Updated: [YYYY-MM-DD] [HH:MM]
 
@@ -40,17 +40,17 @@ Execution Unlocked: no
 
 Active Auxiliary Gates: none
 
-Next Expected Skill: none
+Next Expected Skill: start
 
 ------------------------------------------------------------
 CURRENT OBJECTIVE
 ------------------------------------------------------------
 
 Primary Objective:
-consolidate the core governance, state, lifecycle, and review contracts of the ai-dev-system before starting a new governed product workflow
+begin a new governed workflow session from a neutral starting position
 
 Success Condition:
-the core operating model is internally aligned across governance, state, template, lifecycle, and review closure so the next real workflow test can begin on a cleaner and more reliable foundation
+the system initializes correctly through `/start`, exposes the valid neutral session objectives, and remains aligned with governed routing behavior
 
 ------------------------------------------------------------
 CURRENT BLOCKERS
@@ -63,7 +63,7 @@ NEXT STEP
 ------------------------------------------------------------
 
 Next Allowed Action:
-continue the structural audit and update the remaining core files that still need alignment before opening a new governed workflow session
+begin a new governed session through `/start`
 
 ------------------------------------------------------------
 STATE NOTES
@@ -72,5 +72,4 @@ STATE NOTES
 - The project is not in implementation mode.
 - No active workflow artifact is currently open.
 - No task is currently active.
-- The current operating mode is core stabilization, not product execution.
-- The next workflow test should begin only after the remaining core alignment work is complete.
+- The current operating mode is a neutral governed starting position.
