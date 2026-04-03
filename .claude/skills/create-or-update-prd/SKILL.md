@@ -185,6 +185,34 @@ unless those statements are already explicitly grounded in stabilized context an
 
 ---
 
+## Technical Baseline Boundary Inside the PRD
+
+This skill must not use the PRD to silently settle technical baseline decisions that have not been explicitly authorized upstream.
+
+Examples include:
+
+- frontend framework choice
+- backend framework choice
+- storage or persistence choice
+- architectural style
+- folder structure
+- state management baseline
+- "no backend for MVP" style implementation shortcuts
+
+Even when a plausible technical path seems simple or common, this skill must not convert it into PRD fact unless one of the following is true:
+
+- the baseline was explicitly stated by the user in stabilized context
+- the baseline is explicitly authorized by project-level defaults
+- the baseline is already governed by durable project decisions for the same execution line
+
+If an official technical default exists upstream, this skill may inherit it only when that inheritance is necessary and truthful to the PRD's product-level purpose.
+
+Even in that case, the PRD must not over-specify implementation shape beyond what is actually needed at product level.
+
+Technical convenience is not product grounding.
+
+---
+
 ## Grounding Discipline Inside the PRD
 
 The PRD must distinguish clearly between:
@@ -281,6 +309,22 @@ If the PRD artifact cannot be materialized in the canonical active PRD location,
 
 ---
 
+## Canonical Loading and Write Discipline
+
+This skill must prefer direct canonical paths when they are already known.
+
+It must not use broad repository scanning as a substitute for canonical artifact and template locations when the correct path is already defined by governance, state, or repository structure.
+
+For this skill, the expected canonical structural anchors are:
+
+- `project/prd/templates/PRD_TEMPLATE.md`
+- `project/prd/active/`
+- `project/PROJECT_STATE.md`
+
+If these paths are known and available, this skill must use them directly rather than performing broad exploratory globbing.
+
+---
+
 ## Downstream Artifact Reference Rule
 
 This skill must not reference downstream artifacts as if they already exist when they do not.
@@ -329,6 +373,7 @@ If `PROJECT_STATE.md` is updated after PRD creation or revision, the resulting s
 
 - current phase
 - current focus
+- last updated
 - active PRD
 - active validation
 - active task
@@ -371,6 +416,29 @@ A narrated future step, by itself, is not sufficient to move the live phase forw
 If this skill cannot close the state coherently, it must stop and report that lifecycle closure remains incomplete.
 
 It must not treat a partial state patch as a valid completed transition.
+
+A coherent state closure for this step should be applied as one full lifecycle update for the new operational moment, not as a sequence of narrow patches that temporarily leave contradictory values in place.
+
+If the skill cannot represent the new lifecycle moment cleanly in one coherent closure pass, it must stop and report incomplete closure rather than applying partial edits and narrating success.
+
+---
+
+## Completion and Stop Discipline
+
+After PRD creation or revision, this skill must stop after:
+
+- producing the bounded PRD artifact
+- applying a coherent state closure when that closure is valid
+- reporting PRD closure and the next allowed governed action
+
+It must not:
+
+- invoke `derive-validation-scenarios` inline
+- continue into validation behavior
+- continue into tasking, handoff, implementation, or review
+- treat the next expected skill as authorization for same-turn continuation
+
+A narrated next step is not execution of that next step.
 
 ---
 
@@ -446,6 +514,12 @@ If PRD artifact creation succeeds but coherent lifecycle closure fails:
 If the PRD artifact exists but the resulting state prematurely advances to validation or otherwise mixes current closure with a downstream stage that has not materially started, this skill must treat lifecycle closure as incomplete.
 
 In that situation, the completion language must remain conservative and must not narrate the project as already being in validation.
+
+If the PRD would require introducing technical baseline decisions that are not materially authorized upstream:
+
+- stop
+- surface the missing technical authority clearly
+- keep the PRD conservative rather than inventing implementation baseline
 
 This skill must never justify PRD creation through assumption, familiarity, or momentum.
 

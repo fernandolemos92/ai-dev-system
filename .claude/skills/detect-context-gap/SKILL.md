@@ -348,6 +348,12 @@ AskUserQuestion is a usability aid, not the purpose of the skill.
 
 This skill should use structured interaction to improve contextual clarity, not to create interface overhead.
 
+When using AskUserQuestion with selectable options, the structured payload must follow the exact runtime schema expected by the environment.
+
+This skill must not guess option schema.
+
+If schema certainty is not high, this skill must prefer a plain-text guided question block over a speculative structured payload.
+
 If AskUserQuestion is unavailable, fails, or does not visibly render, this skill must fall back to a concise plain-text guided question block.
 
 The fallback must still remain:
@@ -378,6 +384,8 @@ It must not:
 - jump from near-readiness into PRD drafting
 - mix discovery with MVP planning, solution framing, architecture, implementation setup, or coding
 - simulate the behavior of `create-or-update-prd`
+- invoke `create-or-update-prd` inline after declaring readiness
+- continue into any downstream macro stage in the same turn after contextual readiness is established
 
 After each clarification step, the skill must re-check whether minimum contextual readiness has actually been achieved.
 
@@ -393,6 +401,7 @@ If readiness is achieved:
 - declare readiness concisely
 - name `create-or-update-prd` as the next allowed skill
 - stop without generating PRD content inline
+- return control cleanly to the user without calling the downstream skill in the same turn
 
 ---
 
@@ -434,6 +443,7 @@ This skill must not:
 - generate code
 - offer starter templates or scaffolds
 - move the system into later-stage outputs prematurely
+- call downstream macro-stage skills inline after declaring readiness
 
 Its role is limited to:
 
@@ -466,6 +476,18 @@ If AskUserQuestion is unavailable, fails, or does not visibly render:
 - preserve only the questions needed for the current blocking gaps
 - avoid broad questionnaires
 - stop after presenting the fallback question block
+
+If AskUserQuestion returns a schema, validation, or runtime interaction error:
+
+- treat the guided interaction attempt as failed
+- do not treat the failed attempt as successful clarification
+- fall back immediately to a concise plain-text guided question block
+- preserve only the questions needed for the current blocking gaps
+- stop after presenting the fallback question block
+
+If guided interaction fails and the fallback question block is presented, this skill must wait for the user answer before performing another readiness decision.
+
+It must not continue as though the failed guided interaction had already produced a valid clarification step.
 
 If minimum contextual readiness is reached:
 
@@ -528,6 +550,7 @@ It must not drift into:
 - task decomposition
 - implementation suggestions
 - code or template offers
+- downstream skill execution inline
 
 ---
 
