@@ -253,6 +253,32 @@ If a number, threshold, timing, count, or limit was not materially grounded in s
 
 ---
 
+## Product-Level Precision Discipline
+
+This skill must avoid filling the PRD with convenient but unconfirmed operational detail.
+
+It must not silently convert likely behavior into confirmed requirement merely because that behavior is common in similar products.
+
+Examples include:
+
+- notification behavior not actually clarified
+- confirmation behavior not actually clarified
+- default onboarding or starter content not actually clarified
+- browser support matrices not actually clarified
+- performance targets not actually clarified
+- storage or persistence behavior described as a settled product fact without grounding
+- default account model or identity model not actually clarified
+
+If such detail is useful but not materially confirmed, it must be handled conservatively by one of the following:
+
+- omit it from the PRD
+- keep it explicitly open
+- place it in assumptions / risks / open questions only when the template supports that treatment truthfully
+
+The PRD must prefer truthful incompleteness over polished invention.
+
+---
+
 ## Scope and Non-Scope Discipline
 
 This skill must keep scope bounded without inventing exclusions.
@@ -423,6 +449,29 @@ If the skill cannot represent the new lifecycle moment cleanly in one coherent c
 
 ---
 
+## Post-PRD Live-State Wording Rule
+
+Immediately after successful PRD closure, the live state must describe the current operational situation as:
+
+- a project with an active PRD
+- no active downstream workflow artifact yet
+- validation pending as the next allowed governed step
+
+It must not remain centered on the just-finished creation act as if that were still the present operational objective.
+
+Therefore, after coherent PRD closure:
+
+- `Primary Objective` should describe the current live project objective with PRD stabilized and validation pending
+- `Success Condition` should describe what successful advancement now depends on, rather than merely restating that the PRD was created
+- `Current Focus` should reflect the current active bounded focus, not a retrospective narration of the just-completed write event
+- `State Notes` should reflect the live situation conservatively, without implying downstream work has already begun
+
+A state that still reads primarily like "create the PRD" after PRD closure is semantically stale even if the artifact exists.
+
+This skill must prefer a truthful live snapshot over a retrospective completion summary.
+
+---
+
 ## Completion and Stop Discipline
 
 After PRD creation or revision, this skill must stop after:
@@ -520,6 +569,12 @@ If the PRD would require introducing technical baseline decisions that are not m
 - stop
 - surface the missing technical authority clearly
 - keep the PRD conservative rather than inventing implementation baseline
+
+If the PRD would require introducing unconfirmed operational precision that was not materially grounded in stabilized context:
+
+- keep the PRD conservative
+- convert the point into an explicit open question or assumption when truthful
+- otherwise omit it rather than upgrading it into a confirmed requirement
 
 This skill must never justify PRD creation through assumption, familiarity, or momentum.
 

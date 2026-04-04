@@ -110,9 +110,48 @@ If a mismatch is detected:
 
 - STOP
 - report the inconsistency clearly
-- correct the inconsistency before continuing
+- return control to the correct earlier governed step or explicit state-correction action before continuing
 
 This skill must not implement on top of inconsistent state.
+
+---
+
+# No Self-Authorization Rule
+
+This skill must never satisfy its own entry conditions by mutating `PROJECT_STATE.md` merely to make implementation possible.
+
+In particular, this skill must not:
+
+- change `Current Phase` from `handoff` to `implementation` on its own just to begin execution
+- change `Execution Unlocked` from `no` to `yes` on its own just to begin execution
+- reinterpret “implementation is the next stage” as “implementation is now authorized”
+- treat a favorable subset of fields as permission to start implementation while the overall state is still pre-implementation
+
+If the pre-step consistency check shows that implementation is not yet formally authorized, the correct behavior is:
+
+- STOP
+- report exactly which entry conditions are false
+- return control to the correct prior governed step or explicit state-correction path
+
+This skill may only execute when formal implementation readiness is already materially reflected in the current state.
+
+This skill must not self-authorize execution.
+
+---
+
+# Entry Failure Routing Discipline
+
+When implementation cannot begin because entry conditions are not satisfied, this skill must remain conservative about the next move.
+
+Typical safe outcomes include:
+
+- returning control to handoff/state correction when the handoff exists but formal execution readiness is still not reflected coherently
+- returning control to task decomposition when the active task boundary is too large or unsafe
+- returning control to upstream clarification when the execution boundary is ambiguous
+
+This skill must not convert a blocked implementation attempt into an implementation-start transition by itself.
+
+A blocked implementation attempt remains blocked until readiness is explicitly and coherently established outside this skill.
 
 ---
 
@@ -261,6 +300,27 @@ If implementation would require creating a new structural baseline that has not 
 - STOP
 - surface the structural dependency clearly
 - recommend returning to the correct earlier step
+
+A missing application scaffold, framework bootstrap, database layer, or package baseline is a structural dependency when those elements are not already materially present and governed for the same execution line.
+
+This skill must not bootstrap a new application or persistence baseline merely because doing so appears to be the fastest path.
+
+---
+
+# Repository Inspection Discipline
+
+This skill must inspect only the part of the repository needed for the active implementation step.
+
+It must not use broad repository-wide scanning by default.
+
+Examples of disallowed behavior unless clearly necessary:
+
+- repository-wide globbing without a bounded reason
+- scanning large unrelated directories
+- exploring broad project structure just to infer a new baseline
+- treating absence of code as permission to create a new structure
+
+If bounded execution requires structural knowledge, inspect only the smallest relevant area.
 
 ---
 
@@ -545,6 +605,12 @@ This skill executes implementation work.
 
 It does not perform governed closure.
 
+It must not mutate `PROJECT_STATE.md` merely to manufacture entry readiness for itself.
+
+In particular, this skill must not update state from `handoff` to `implementation`, or from `Execution Unlocked: no` to `yes`, as a way to satisfy its own entry checks.
+
+Those conditions must already be true before bounded implementation begins.
+
 When implementation is complete:
 
 - keep the official macro phase aligned with the real operational moment
@@ -600,6 +666,8 @@ This skill must never:
 - widen scope silently
 - use specialized agents as workflow controllers
 - hide incompleteness behind broad implementation claims
+- self-authorize implementation by changing state to satisfy entry conditions
+- bootstrap a new application or new project baseline when that structural move is not already governed upstream and explicitly inside the active handoff boundary
 
 Its role is to execute the approved bounded implementation scope honestly and stop.
 

@@ -378,6 +378,54 @@ It must not treat a partial or contradictory state patch as a valid completed tr
 
 ---
 
+## Locked-Execution Wording Rule
+
+When the handoff artifact is successfully created but `Execution Unlocked` remains `no`, the resulting live state must remain explicitly centered on **handoff prepared, implementation pending formal readiness**.
+
+In that situation:
+
+- `Primary Objective` must describe the current live objective conservatively at the handoff-prepared moment
+- `Success Condition` must describe what still needs to become true before implementation can start safely
+- `Next Allowed Action` must not read like execution is already authorized now
+- `State Notes` must not imply that implementation has started or may begin immediately
+
+Examples of wording that this skill must avoid when `Execution Unlocked = no` include:
+
+- "execute the active handoff now"
+- "start implementation"
+- "run the implementation step now"
+- "implementation is ready to begin now"
+- "execute TASK-001 through the prepared handoff"
+
+When execution remains locked, implementation may be referenced only as:
+
+- the next governed stage
+- a later governed step pending formal readiness
+- a future step that still depends on coherent implementation authorization
+
+This skill must prefer conservative live-state wording over eager transition wording.
+
+---
+
+## Completion Message Discipline for Locked Execution
+
+If the resulting state reflects handoff prepared but execution still locked, the completion message must remain equally conservative.
+
+It may say that:
+
+- the handoff artifact was created
+- the handoff preparation step is complete
+- implementation remains the next governed stage
+- formal execution readiness is still pending
+
+It must not compress "next stage" into "authorized now."
+
+The completion message must mirror the actual state exactly.
+
+If the state does not formally authorize implementation, the message must not imply that the user may now execute the handoff.
+
+---
+
 ## Boundaries
 
 This skill must not:
