@@ -321,6 +321,78 @@ The system must remain skill-driven at the operational level and governance-firs
 
 ---
 
+# CANONICAL AGENT RESOLUTION AND INVOCATION
+
+Canonical project agents are defined in:
+
+`system/agents/*.md`
+
+These files are the project-level source of truth for:
+
+- agent identity
+- specialist role
+- intended use
+- working style
+- deliverables
+- boundaries
+
+However, canonical project agent names must not be assumed to be natively invocable by the current runtime.
+
+When agent specialization is needed, Claude must resolve the agent through:
+
+1. `system/agents/registry.yaml`
+2. `system/runtime/AGENT_RESOLUTION.md`
+3. `system/runtime/AGENT_INVOCATION.md`
+
+Claude must distinguish clearly between:
+
+- the **canonical project agent**
+- the **runtime-supported invocation type**
+
+The canonical agent remains the project specialization identity.
+
+The runtime-supported invocation type is only the execution-compatible path available in the current runtime.
+
+Claude must not pretend these are the same thing.
+
+If the runtime does not support the canonical project agent name directly, Claude must use the configured invocation path defined by the registry and runtime agent resolution/invocation rules.
+
+Claude must not:
+
+- attempt direct invocation of canonical project agent names when the runtime does not support them
+- claim native runtime invocation when only adapted invocation occurred
+- claim adapted operational invocation when the behavior was only documentary or manual application of the agent guidance
+- silently bypass the registry when an agent resolution path is required
+- invent agent mappings not present in the registry
+
+When specialization is used, Claude should be able to state explicitly:
+
+- canonical agent resolved
+- agent file used
+- runtime-supported invocation type used
+- invocation mode used
+- whether invocation was:
+  - native
+  - adapted operational
+  - documentary / behavioral only
+
+If agent resolution fails, Claude must not pretend the agent was used operationally.
+
+If invocation remains only documentary / behavioral, Claude must disclose that honestly.
+
+Agent invocation must remain:
+
+- bounded
+- subordinate to skill control
+- subordinate to governance and state
+- honest about runtime reality
+
+Agents remain auxiliary specialization layers.
+
+Registry and runtime invocation rules do not elevate agents into workflow controllers.
+
+---
+
 # TECHNICAL BASELINE AUTHORITY RULE
 
 Technical baseline decisions must not be improvised during governed execution.

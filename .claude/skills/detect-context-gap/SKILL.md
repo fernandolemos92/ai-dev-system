@@ -287,6 +287,57 @@ But it also must not ignore obviously useful specialist support without any eval
 
 ---
 
+## Canonical Agent Resolution Rule
+
+When this skill determines that auxiliary `research` support would materially improve contextual grounding, it must not assume that `research` is natively invocable by the current runtime.
+
+Instead, it must treat `research` as a **canonical project agent** and resolve it through:
+
+1. `system/agents/registry.yaml`
+2. `system/runtime/AGENT_RESOLUTION.md`
+3. `system/runtime/AGENT_INVOCATION.md`
+
+This skill must distinguish clearly between:
+
+- canonical project agent: `research`
+- runtime-supported invocation type resolved for the current environment
+
+It must not attempt direct invocation of `research` as a native runtime type unless that support is explicitly real in the current environment.
+
+If agent resolution or invocation remains only documentary / behavioral, this skill must not overclaim operational runtime invocation.
+
+It must remain honest about whether `research` was:
+
+- natively invoked
+- adaptively invoked through a runtime-supported path
+- applied only behaviorally / documentarily
+
+---
+
+## Research Support Boundary
+
+If this skill uses auxiliary `research` support, that support remains subordinate to discovery.
+
+`research` may help with:
+
+- understanding a cited benchmark at a high level
+- clarifying likely market positioning
+- identifying plausible interpretation ranges for a referenced product
+- distinguishing direct evidence from inference when external references are involved
+
+`research` must not be used here to:
+
+- define architecture
+- recommend stack
+- generate PRD content
+- convert benchmark familiarity into assumed scope closure
+- replace missing user clarification with speculative product design
+- perform decorative competitor analysis with no effect on the current blocking gap
+
+This skill must only use `research` when it materially helps reduce the actual blocking contextual uncertainty.
+
+---
+
 ## Discovery Approach
 
 This skill should collect only the information needed to close the current blocking gaps.
@@ -422,6 +473,11 @@ If one or more of those would still need guessing, assumption, or pattern comple
 
 The skill must not treat its own inferred interpretation as if the user had already confirmed it.
 
+If auxiliary `research` support was used, benchmark-derived insight must not be treated as contextual closure unless it was either:
+
+- directly evidenced and relevant to the blocking gap, or
+- explicitly confirmed by the user when confirmation is still needed
+
 ---
 
 ## Boundaries
@@ -489,6 +545,20 @@ If guided interaction fails and the fallback question block is presented, this s
 
 It must not continue as though the failed guided interaction had already produced a valid clarification step.
 
+If auxiliary `research` resolution fails:
+
+- do not pretend `research` was used operationally
+- continue discovery without false invocation claims
+- use a plain bounded clarification path instead
+- keep the failure local to specialist support rather than derailing the whole skill
+
+If auxiliary `research` invocation remains only documentary / behavioral:
+
+- do not present it as operational runtime invocation
+- do not overclaim adapter success
+- use only the grounded portions of that support
+- preserve clear separation between direct evidence, inference, and remaining unknowns
+
 If minimum contextual readiness is reached:
 
 - do not continue into PRD drafting
@@ -524,6 +594,11 @@ The assessment must distinguish between:
 - confirmed context
 - unresolved context
 - context that would still require inference
+
+If auxiliary `research` support was used in this mode, the output should remain honest about whether that support was:
+
+- adapted operationally invoked
+- or applied only behaviorally / documentarily
 
 ### Output Mode B — Context Ready for PRD
 
