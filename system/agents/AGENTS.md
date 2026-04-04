@@ -92,6 +92,97 @@ They must not be used to inflate workflow complexity when specialization adds li
 
 ---
 
+## Runtime Invocation Model
+
+Agent files in `system/agents/*.md` define the **canonical project agents**.
+
+These files are the source of truth for:
+
+- agent identity
+- specialist role
+- intended usage
+- working style
+- boundaries
+- expected contribution
+
+However, agent files are not assumed to be natively invocable by every runtime.
+
+When the active runtime does not support project-defined agent names directly, agent invocation must happen through an operational resolution layer.
+
+That layer should:
+
+- resolve the canonical project agent name
+- locate the corresponding agent file
+- determine the supported runtime invocation mode
+- adapt the project agent to a runtime-supported execution path when necessary
+
+This means the system may distinguish between:
+
+- **canonical project agent**  
+- **runtime-supported agent invocation type**
+
+The project agent remains the specialization source of truth.
+
+The runtime invocation path is only the execution bridge.
+
+Agents must therefore be understood as:
+
+- canonical at the project level
+- potentially adapted at runtime level
+
+This distinction must not change the role of agents in the governed workflow.
+
+---
+
+## Agent Registry Rule
+
+The project may maintain an operational registry for agents.
+
+When present, that registry should function as the explicit mapping layer between:
+
+- canonical project agent name
+- agent file path
+- intended domain
+- runtime invocation mode or runtime-supported type
+
+The registry exists to make agent resolution explicit and repeatable.
+
+It must not redefine the agent itself.
+
+The agent file remains the specialization definition.
+
+The registry only supports operational lookup and runtime adaptation.
+
+If a registry exists, skills or execution layers that attach agents should prefer resolving agents through that registry rather than inferring agent identity ad hoc.
+
+---
+
+## Adapter Rule
+
+If the runtime only supports fixed native agent types, the system may use an adapter layer.
+
+The adapter may:
+
+- resolve the canonical project agent from the registry
+- read the corresponding agent definition file
+- select a runtime-supported invocation type
+- pass the agent guidance into that runtime-supported path
+
+This allows the system to preserve project-defined specialization without pretending that the runtime natively recognizes custom project agent names.
+
+The adapter is an execution bridge.
+
+It is not the source of truth for agent identity.
+
+The adapter must not:
+
+- redefine the agent's purpose
+- mutate governance
+- replace skill control
+- invent agent behavior that is not grounded in the agent file
+
+---
+
 ## Boundary with Skills
 
 Skills are the main operational units of the governed workflow.
@@ -156,6 +247,16 @@ Adding a new agent must not, by itself:
 
 Specialization must grow by attachment, not by core rewrite.
 
+If the project uses a registry or adapter layer, adding a new agent may require:
+
+- a new canonical agent file
+- a new registry entry
+- a compatible runtime adaptation path when needed
+
+That operational requirement must remain lightweight.
+
+It must not turn the agents layer into a heavy platform.
+
 ---
 
 ## Free-Model Compatibility
@@ -176,6 +277,8 @@ Avoid:
 - duplicated workflow logic
 - large overlapping catalogs of roles
 - vague agents with no clear deliverable value
+
+If a registry or adapter is used, it should remain equally lightweight and low-ambiguity.
 
 ---
 
@@ -218,6 +321,13 @@ An unhealthy agent tends to:
 - duplicate workflow logic
 - behave like a controller instead of a specialist
 
+A healthy operational agent model should also make it clear:
+
+- how the canonical project agent is resolved
+- whether runtime invocation is native or adapted
+- where the source of truth for the agent lives
+- how invocation remains consistent across sessions
+
 ---
 
 ## Success Condition
@@ -228,5 +338,8 @@ This layer is healthy when it is easy to answer:
 - how do they support governed work without replacing it?
 - what kind of output does each one improve?
 - how can the layer grow without forcing core redesign?
+- how is a canonical project agent resolved into a runtime-usable invocation path?
 
 If the agents start competing with skills or redefining workflow, this layer has drifted and should be corrected.
+
+If agent files exist but cannot be resolved into a runtime-usable path, the layer is only partially operational and still needs an explicit registry and/or adapter bridge.

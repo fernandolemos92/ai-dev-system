@@ -1,0 +1,7 @@
+agents:
+  research:
+    file: system/agents/research.md
+    runtime_type: general
+    domain: benchmark-and-external-reference
+    invocation_mode: adapter
+    description: External research and benchmark support for discovery, PRD, and validation when market/reference grounding is useful.
