@@ -267,7 +267,7 @@ This skill must not convert a benchmark mention into assumed product structure.
 
 This skill remains skill-driven and discovery-only.
 
-However, when the user explicitly cites an external benchmark, competitor, or market reference that could materially improve contextual understanding, this skill should consciously evaluate whether auxiliary specialist support would help.
+However, when the user explicitly cites an external benchmark, competitor, or market reference that could materially improve contextual understanding, or when discovery would materially benefit from bounded specialist support, this skill should consciously evaluate whether auxiliary specialist support would help.
 
 Typical examples include:
 
@@ -275,10 +275,11 @@ Typical examples include:
 - market comparison
 - feature interpretation based on a named product
 - understanding what a cited player likely represents
+- clarifying likely UI/UX direction at a discovery level when product type, trust profile, or interaction style is still ambiguous
 
 When such a case appears, this skill should either:
 
-- explicitly note that auxiliary `research` support could help contextual grounding, or
+- explicitly note that auxiliary specialist support could help contextual grounding, or
 - explicitly decide that current discovery can proceed without it
 
 This skill must not invoke agents decoratively.
@@ -289,9 +290,9 @@ But it also must not ignore obviously useful specialist support without any eval
 
 ## Canonical Agent Resolution Rule
 
-When this skill determines that auxiliary `research` support would materially improve contextual grounding, it must not assume that `research` is natively invocable by the current runtime.
+When this skill determines that auxiliary specialist support would materially improve contextual grounding, it must not assume that a canonical project agent is natively invocable by the current runtime.
 
-Instead, it must treat `research` as a **canonical project agent** and resolve it through:
+Instead, it must treat the needed specialist as a **canonical project agent** and resolve it through:
 
 1. `system/agents/registry.yaml`
 2. `system/runtime/AGENT_RESOLUTION.md`
@@ -299,14 +300,14 @@ Instead, it must treat `research` as a **canonical project agent** and resolve i
 
 This skill must distinguish clearly between:
 
-- canonical project agent: `research`
+- canonical project agent
 - runtime-supported invocation type resolved for the current environment
 
-It must not attempt direct invocation of `research` as a native runtime type unless that support is explicitly real in the current environment.
+It must not attempt direct invocation of a canonical project agent as a native runtime type unless that support is explicitly real in the current environment.
 
 If agent resolution or invocation remains only documentary / behavioral, this skill must not overclaim operational runtime invocation.
 
-It must remain honest about whether `research` was:
+It must remain honest about whether the auxiliary specialist support was:
 
 - natively invoked
 - adaptively invoked through a runtime-supported path
@@ -316,25 +317,28 @@ It must remain honest about whether `research` was:
 
 ## Research Support Boundary
 
-If this skill uses auxiliary `research` support, that support remains subordinate to discovery.
+If this skill uses auxiliary specialist support, that support remains subordinate to discovery.
 
-`research` may help with:
+Examples:
 
-- understanding a cited benchmark at a high level
-- clarifying likely market positioning
-- identifying plausible interpretation ranges for a referenced product
-- distinguishing direct evidence from inference when external references are involved
+- `research` may help with understanding a cited benchmark at a high level
+- `research` may help with clarifying likely market positioning
+- `research` may help with identifying plausible interpretation ranges for a referenced product
+- `research` may help with distinguishing direct evidence from inference when external references are involved
+- `design-direction` may help with clarifying likely UI/UX direction at a discovery level
+- `design-direction` may help with clarifying trust-sensitive interaction expectations
+- `design-direction` may help with clarifying likely interface tone or anti-patterns to avoid when the product type is still ambiguous
 
-`research` must not be used here to:
+Auxiliary specialist support must not be used here to:
 
 - define architecture
 - recommend stack
 - generate PRD content
 - convert benchmark familiarity into assumed scope closure
 - replace missing user clarification with speculative product design
-- perform decorative competitor analysis with no effect on the current blocking gap
+- perform decorative specialist analysis with no effect on the current blocking gap
 
-This skill must only use `research` when it materially helps reduce the actual blocking contextual uncertainty.
+This skill must only use auxiliary specialist support when it materially helps reduce the actual blocking contextual uncertainty.
 
 ---
 
@@ -473,7 +477,7 @@ If one or more of those would still need guessing, assumption, or pattern comple
 
 The skill must not treat its own inferred interpretation as if the user had already confirmed it.
 
-If auxiliary `research` support was used, benchmark-derived insight must not be treated as contextual closure unless it was either:
+If auxiliary specialist support was used, specialist-derived insight must not be treated as contextual closure unless it was either:
 
 - directly evidenced and relevant to the blocking gap, or
 - explicitly confirmed by the user when confirmation is still needed
@@ -545,14 +549,14 @@ If guided interaction fails and the fallback question block is presented, this s
 
 It must not continue as though the failed guided interaction had already produced a valid clarification step.
 
-If auxiliary `research` resolution fails:
+If auxiliary specialist resolution fails:
 
-- do not pretend `research` was used operationally
+- do not pretend auxiliary specialist support was used operationally
 - continue discovery without false invocation claims
 - use a plain bounded clarification path instead
 - keep the failure local to specialist support rather than derailing the whole skill
 
-If auxiliary `research` invocation remains only documentary / behavioral:
+If auxiliary specialist invocation remains only documentary / behavioral:
 
 - do not present it as operational runtime invocation
 - do not overclaim adapter success
@@ -595,7 +599,7 @@ The assessment must distinguish between:
 - unresolved context
 - context that would still require inference
 
-If auxiliary `research` support was used in this mode, the output should remain honest about whether that support was:
+If auxiliary specialist support was used in this mode, the output should remain honest about whether that support was:
 
 - adapted operationally invoked
 - or applied only behaviorally / documentarily

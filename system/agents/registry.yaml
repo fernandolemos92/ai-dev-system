@@ -5,3 +5,52 @@ agents:
     domain: benchmark-and-external-reference
     invocation_mode: adapter
     description: External research and benchmark support for discovery, PRD, and validation when market/reference grounding is useful.
+
+  design-direction:
+    file: system/agents/design-direction.md
+    runtime_type: general
+    domain: ui-ux-and-visual-direction
+    invocation_mode: adapter
+    description: UI/UX direction, visual strategy, interaction tone, and design coherence support for bounded governed work.
+
+  architect:
+    file: system/agents/architect.md
+    runtime_type: general
+    domain: structural-reasoning-and-architecture
+    invocation_mode: adapter
+    description: Structural reasoning, boundary clarity, component interaction, and architectural tradeoff support for bounded governed work.
+
+  frontend:
+    file: system/agents/frontend.md
+    runtime_type: general
+    domain: frontend-implementation-and-ui-structure
+    invocation_mode: adapter
+    description: Frontend-specific support for UI structure, interaction behavior, accessibility, maintainability, and client-side boundaries.
+
+  backend:
+    file: system/agents/backend.md
+    runtime_type: general
+    domain: backend-implementation-and-service-logic
+    invocation_mode: adapter
+    description: Backend-oriented support for service structure, handlers, contracts, and implementation decisions inside authorized work.
+
+  database:
+    file: system/agents/database.md
+    runtime_type: general
+    domain: data-model-and-persistence
+    invocation_mode: adapter
+    description: Data modeling, persistence structure, schema reasoning, and database-oriented implementation support inside bounded governed work.
+
+  security:
+    file: system/agents/security.md
+    runtime_type: general
+    domain: security-boundary-and-risk
+    invocation_mode: adapter
+    description: Security-oriented support for risk awareness, boundary analysis, and safer governed reasoning or implementation decisions.
+
+  memory:
+    file: system/agents/memory.md
+    runtime_type: general
+    domain: memory-routing-and-durable-context
+    invocation_mode: adapter
+    description: Support for deciding what belongs in durable memory, operational state, or artifacts without polluting the workflow.
