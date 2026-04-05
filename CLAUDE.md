@@ -16,7 +16,7 @@ It defines:
 
 - the official pipeline
 - the rules of progression and blocking
-- the role boundaries between governance, state, skills, artifacts, memory, and agents
+- the role boundaries between governance, state, skills, artifacts, memory, agents, and external capability providers
 - the macro constraints that preserve predictable execution
 
 It does not define current project state, repository architecture in full detail, or the full philosophy of the project.
@@ -37,10 +37,13 @@ This means:
 - artifacts materialize durable progress
 - memory preserves durable decisions, architecture, and patterns
 - agents provide auxiliary specialization without becoming the workflow core
+- external capability providers may supply bounded evidence or technical support without becoming workflow authority
 
 Skills must operate inside governance and state constraints.
 
 Agents must not redefine the workflow hierarchy.
+
+External capability providers must not redefine the workflow hierarchy.
 
 ---
 
@@ -321,6 +324,56 @@ The system must remain skill-driven at the operational level and governance-firs
 
 ---
 
+# ROLE OF MCP TOOLS AND EXTERNAL DOCUMENTATION EVIDENCE
+
+MCP tools and external documentation providers are auxiliary capability layers.
+
+They may provide current library documentation, API references, framework guidance, configuration evidence, and version-aware implementation context.
+
+They are not workflow authorities.
+
+They must not:
+
+- redefine the official pipeline
+- override governance
+- replace project state
+- replace skills as the primary operational execution mechanism
+- authorize technical baselines on their own
+- justify stage advancement on their own
+
+Context7 is an approved external documentation evidence provider for this system when current library or framework knowledge is materially relevant to the bounded step.
+
+Context7 should be used when the step depends on current or version-sensitive documentation for:
+
+- frameworks
+- libraries
+- SDKs
+- APIs
+- configuration surfaces
+- implementation patterns tied to specific tool versions
+
+Context7 must be treated as evidence support only.
+
+Its role is to improve technical accuracy within an already authorized bounded step.
+
+Context7 does not decide what the workflow should do.
+
+Context7 does not decide whether implementation is authorized.
+
+Context7 does not replace project defaults, architecture decisions, or governed technical authority.
+
+When using Context7 or another MCP documentation provider, Claude must:
+
+- keep the query narrowly scoped to the actual bounded need
+- prefer explicit library and version grounding when available
+- avoid unnecessary retrieval breadth
+- avoid transmitting sensitive or repository-specific details when they are not required for the lookup
+- disclose honestly that external documentation support was used when that support materially shaped the output
+
+If external documentation evidence cannot be grounded cleanly to the bounded step, Claude should proceed without forcing MCP usage.
+
+---
+
 # CANONICAL AGENT RESOLUTION AND INVOCATION
 
 Canonical project agents are defined in:
@@ -391,6 +444,10 @@ Agents remain auxiliary specialization layers.
 
 Registry and runtime invocation rules do not elevate agents into workflow controllers.
 
+MCP tools and external documentation providers must also remain subordinate to governance, state, and skill control.
+
+They do not become canonical project agents merely because they are runtime-available.
+
 ---
 
 # TECHNICAL BASELINE AUTHORITY RULE
@@ -437,6 +494,8 @@ Handoff preparation must not invent technical baseline.
 
 Implementation must not invent technical baseline.
 
+External documentation evidence, including Context7 output, may inform execution inside an already authorized baseline, but it must not be treated as authority to create, choose, or legitimize a missing baseline.
+
 If an official project default exists, Claude may inherit it without re-deciding it.
 
 If no official default exists, Claude must not improvise one.
@@ -481,6 +540,10 @@ Implementation is also forbidden when `PROJECT_STATE.md` remains semantically in
 - task or handoff focus is ambiguous or contradictory
 
 Execution readiness must never be inferred from a subset of favorable fields while the overall state remains operationally incoherent.
+
+When implementation depends on current or version-sensitive framework, library, SDK, API, or configuration knowledge, Claude should use the configured external documentation evidence provider, including Context7 when available, before proposing code, setup, or configuration guidance.
+
+Such usage must remain bounded to the authorized execution step and must not be treated as authorization to widen scope, choose missing baselines, or bypass governance.
 
 Implementation completion alone does not authorize task or handoff closure.
 
@@ -643,6 +706,14 @@ Adding a new skill must not, by itself:
 - require refactoring the state template
 - compete with the official conceptual model
 
+Adding a new MCP tool or external documentation provider must not, by itself:
+
+- alter the official pipeline
+- alter the central governance model
+- alter the state model
+- alter the structural role of artifacts
+- invert the hierarchy between governance, state, skills, agents, and runtime capabilities
+
 Domain expansion must happen through specialization, not through repeated reinterpretation of the core.
 
 The core must know contracts, not growing catalogs of concrete specializations.
@@ -664,6 +735,8 @@ Claude must not:
 - apply partial lifecycle state updates and then treat them as valid governed closure
 - unlock execution on top of semantically contradictory project state
 - promote task or handoff to `done` directly from implementation without governed review closure
+- treat external documentation evidence as workflow authorization
+- treat Context7 or any MCP provider as a substitute for governed technical authority
 
 ---
 

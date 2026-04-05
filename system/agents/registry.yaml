@@ -54,3 +54,10 @@ agents:
     domain: memory-routing-and-durable-context
     invocation_mode: adapter
     description: Support for deciding what belongs in durable memory, operational state, or artifacts without polluting the workflow.
+
+  context7-docs:
+    file: system/agents/context7-docs.md
+    runtime_type: mcp
+    domain: library-framework-and-api-documentation
+    invocation_mode: optional-mcp
+    description: Optional external documentation evidence provider for current library, framework, SDK, API, and version-sensitive configuration guidance inside already authorized bounded work.
