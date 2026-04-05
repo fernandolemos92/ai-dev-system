@@ -152,6 +152,8 @@ This skill must actively distinguish between:
 
 Unknown facts must remain unknown until clarified.
 
+When the product has both a paying customer and a distinct primary end-user experience, this skill must not collapse those roles into a single actor label unless the user explicitly framed them that way.
+
 ---
 
 ## Minimum Contextual Readiness for PRD
@@ -180,6 +182,26 @@ If all of these elements become sufficiently clear:
 
 This skill must not generate PRD content inline after readiness is reached.
 
+Minimum contextual readiness alone does not justify skipping obviously relevant bounded specialist support.
+
+If the remaining blocking uncertainty is materially about:
+
+- market expectations
+- benchmark grounding
+- trust signals
+- experience direction
+- interaction tone
+- likely UX interpretation of a cited product type or competitor set
+
+this skill should prefer bounded auxiliary specialist support before declaring `Context Ready for PRD`, as long as the core problem, actor, and high-level flow are already sufficiently clear to make that specialist support meaningful.
+
+For user-facing products, if the remaining blocking uncertainty materially depends on both:
+
+- what the market teaches users to expect
+- and what direction of experience is likely appropriate
+
+this skill should normally prefer using both `research` and `design-direction` in bounded form before declaring readiness.
+
 ---
 
 ## Conservative Readiness Rule
@@ -207,6 +229,17 @@ Recognizing a known pattern such as:
 
 does not mean the actual context is sufficiently clear for PRD.
 
+If the unresolved uncertainty is no longer mainly about raw problem definition, actor, or boundary, but instead about:
+
+- what the market teaches users to expect
+- what benchmark references actually imply
+- what trust profile matters
+- what direction of experience is likely appropriate
+
+this skill should not default to repeated generic questioning if bounded specialist support would clarify the gap more safely.
+
+For user-facing products with both benchmark uncertainty and experience-direction uncertainty still open, this skill should not treat one of those gaps as optional if both materially affect PRD safety.
+
 ---
 
 ## Gap Assessment
@@ -232,6 +265,17 @@ When multiple gaps exist, this skill should identify:
 - any tightly coupled secondary gaps that must be clarified together
 
 It must not pretend that all gaps are resolved just because some are partially known.
+
+When the foundational context is already sufficiently clear, this skill should also identify whether the remaining blocking gap is now primarily:
+
+- a benchmark grounding gap
+- a market expectation gap
+- a trust signal gap
+- an experience direction gap
+
+If so, the skill should evaluate bounded specialist support instead of continuing with generic clarification by default.
+
+If the product is clearly user-facing and the remaining blockers span both market expectation and experience direction, this skill should treat those as a coupled gap set rather than prematurely choosing only one.
 
 ---
 
@@ -261,6 +305,10 @@ But it does not automatically establish:
 
 This skill must not convert a benchmark mention into assumed product structure.
 
+If benchmark references remain materially important after the core problem, actor, and high-level flow are already sufficiently clear, this should be treated as a strong signal that bounded `research` support may now be justified.
+
+If the product is user-facing and benchmark references also materially shape trust, scanning, or experience expectations, this should also be treated as a signal that bounded `design-direction` may be justified alongside `research`.
+
 ---
 
 ## Agent Consideration Rule
@@ -286,6 +334,30 @@ This skill must not invoke agents decoratively.
 
 But it also must not ignore obviously useful specialist support without any evaluation.
 
+Once the following are sufficiently clear at a high level:
+
+- the core problem
+- the main actor
+- the main workflow
+
+and the remaining blocking uncertainty is materially about benchmark grounding, market expectation, trust profile, or experience direction, this skill should prefer bounded auxiliary specialist support over continued generic questioning.
+
+In those cases, the preferred activation logic is:
+
+- use `research` when the blocking uncertainty is mainly about competitors, market patterns, benchmark grounding, or what users have likely been taught to expect
+- use `design-direction` when the blocking uncertainty is mainly about trust-sensitive UX direction, interaction tone, scanning behavior, interface direction, or anti-pattern risk
+- use both, in bounded form, when benchmark grounding and experience direction are both materially blocking safe contextual closure
+
+For user-facing products, if benchmark grounding and experience direction are both material to PRD safety, this skill should normally prefer invoking both rather than treating one as optional.
+
+This preference exists to improve discovery quality before PRD, not to replace the skill as the main driver.
+
+This evaluation must not depend on whether the specialist appears in an available skill list.
+
+Auxiliary specialist support here must be treated as a canonical project agent question, not as a downstream skill availability question.
+
+The absence of `research` or `design-direction` from a skill menu is not, by itself, a valid reason to skip canonical agent resolution.
+
 ---
 
 ## Canonical Agent Resolution Rule
@@ -305,6 +377,10 @@ This skill must distinguish clearly between:
 
 It must not attempt direct invocation of a canonical project agent as a native runtime type unless that support is explicitly real in the current environment.
 
+It must not substitute “available skill list” reasoning for canonical agent resolution.
+
+A specialist may be unavailable as a skill while still being available as a canonical project agent resolved through registry and adapter logic.
+
 If agent resolution or invocation remains only documentary / behavioral, this skill must not overclaim operational runtime invocation.
 
 It must remain honest about whether the auxiliary specialist support was:
@@ -312,6 +388,10 @@ It must remain honest about whether the auxiliary specialist support was:
 - natively invoked
 - adaptively invoked through a runtime-supported path
 - applied only behaviorally / documentarily
+
+When specialist support is materially needed for the remaining blocking gap, this skill should prefer actually attempting canonical resolution and bounded invocation rather than merely mentioning that a specialist could help.
+
+If both `research` and `design-direction` are materially relevant, this skill should normally attempt canonical resolution for both rather than only one.
 
 ---
 
@@ -340,6 +420,17 @@ Auxiliary specialist support must not be used here to:
 
 This skill must only use auxiliary specialist support when it materially helps reduce the actual blocking contextual uncertainty.
 
+If specialist support is used, the skill should continue to own the discovery state and integrate the bounded findings back into contextual clarification.
+
+It must not hand over the session to the specialist as though the specialist were now the workflow controller.
+
+When both `research` and `design-direction` are used, they should be treated as complementary inputs:
+
+- `research` grounds the market and benchmark reality
+- `design-direction` grounds the likely experience and trust direction
+
+Neither alone should be treated as full contextual closure when both dimensions materially matter.
+
 ---
 
 ## Discovery Approach
@@ -365,6 +456,10 @@ It should ask only what is needed to make the next contextual decision safer.
 
 After each clarification step, this skill must re-check whether minimum contextual readiness has actually been achieved.
 
+When the foundational context is in place and the remaining uncertainty is specialist-shaped, the discovery approach should shift from repeated generic clarification toward bounded specialist support plus targeted follow-up questions.
+
+When the product is user-facing and both market expectation and experience direction remain materially open, the discovery approach should normally prefer a coupled `research` + `design-direction` pass before PRD readiness is considered.
+
 ---
 
 ## Clarification Priorities
@@ -383,6 +478,15 @@ This is a priority guide, not a rigid script.
 If workflow and boundary are the main unresolved blockers, they may be asked together.
 
 If the user already gave one element clearly, do not ask it again.
+
+After the core problem, actor, and primary workflow are sufficiently clear, the next priority may shift toward bounded specialist grounding if the remaining blockers are mainly about:
+
+- competitor understanding
+- market expectation
+- trust signals
+- experience direction
+
+For user-facing products, if these blockers span both benchmark understanding and experience direction, this skill should normally prefer both specialist inputs before readiness is declared.
 
 ---
 
@@ -423,6 +527,8 @@ The fallback should usually ask no more than:
 - one question when there is one dominant blocking gap
 - up to three tightly grouped questions when multiple coupled gaps must be clarified together
 
+Specialist support should not replace this interaction style, but it may reduce the number of generic questions needed when the remaining uncertainty is better answered through bounded benchmark or design-direction input.
+
 ---
 
 ## Anti-Premature Progression
@@ -458,6 +564,17 @@ If readiness is achieved:
 - stop without generating PRD content inline
 - return control cleanly to the user without calling the downstream skill in the same turn
 
+This skill must not declare readiness merely because the core problem, actor, and flow are clear if a still-material blocking gap remains around:
+
+- benchmark grounding
+- market expectation
+- trust profile
+- experience direction
+
+and bounded specialist support has not yet been meaningfully evaluated or attempted.
+
+For user-facing products, if benchmark grounding and experience direction are both still materially relevant and only one has been explored, this skill should normally keep readiness unconfirmed.
+
 ---
 
 ## Readiness Decision Discipline
@@ -481,6 +598,19 @@ If auxiliary specialist support was used, specialist-derived insight must not be
 
 - directly evidenced and relevant to the blocking gap, or
 - explicitly confirmed by the user when confirmation is still needed
+
+If the remaining uncertainty is materially about benchmark meaning, market expectation, trust profile, or experience direction, this skill should not declare readiness without first evaluating whether bounded `research` and/or `design-direction` support is needed.
+
+If such support is clearly relevant and has not yet been attempted, readiness should normally remain unconfirmed.
+
+For user-facing products, if both market grounding and experience direction materially shape the safety of the PRD, this skill should normally prefer both `research` and `design-direction` before declaring readiness.
+
+When the product has a distinct buyer and a distinct primary end-user experience, the readiness summary must preserve that distinction instead of flattening both roles into a single actor statement.
+
+A correct grounded summary in those cases should make clear, at minimum:
+
+- who buys or adopts the product
+- who is the primary user of the experience being optimized
 
 ---
 
@@ -512,6 +642,10 @@ Its role is limited to:
 - clarifying relevant missing context
 - improving readiness for later PRD work
 - declaring readiness when the minimum threshold is actually met
+
+This includes deciding when bounded specialist support is the right next move inside discovery.
+
+It does not include surrendering workflow control to the specialist.
 
 ---
 
@@ -563,6 +697,10 @@ If auxiliary specialist invocation remains only documentary / behavioral:
 - use only the grounded portions of that support
 - preserve clear separation between direct evidence, inference, and remaining unknowns
 
+If specialist support was materially appropriate but could not be invoked, the skill should continue discovery honestly and treat the unresolved benchmark / trust / experience-direction gap as still open unless it can be closed safely through user clarification alone.
+
+If both `research` and `design-direction` were materially appropriate but only one could be invoked, the skill should normally keep contextual closure conservative rather than treating the single specialist as sufficient by default.
+
 If minimum contextual readiness is reached:
 
 - do not continue into PRD drafting
@@ -604,6 +742,10 @@ If auxiliary specialist support was used in this mode, the output should remain 
 - adapted operationally invoked
 - or applied only behaviorally / documentarily
 
+If auxiliary specialist support was materially relevant but has not yet been attempted, the output should make that need visible rather than silently continuing as though generic questioning were still the only reasonable path.
+
+For user-facing products, if both `research` and `design-direction` are materially relevant and only one has been attempted, the output should make the remaining specialist-shaped gap explicit.
+
 ### Output Mode B — Context Ready for PRD
 
 Use this only when minimum contextual readiness is actually established.
@@ -630,6 +772,12 @@ It must not drift into:
 - implementation suggestions
 - code or template offers
 - downstream skill execution inline
+
+This mode should not be used if materially relevant benchmark/trust/experience-direction gaps remain unresolved and bounded specialist support has not yet been meaningfully evaluated.
+
+For user-facing products, this mode should not normally be used if both benchmark grounding and experience direction materially matter and only one of those has been explored.
+
+If the product has a distinct buyer and a distinct primary end-user experience, the readiness summary should preserve both roles explicitly instead of collapsing them into a single actor label.
 
 ---
 
@@ -658,3 +806,7 @@ It must not answer:
 - whether to generate starter code
 
 Its job is to close contextual gaps until PRD becomes genuinely justifiable, then stop and hand off the next step cleanly.
+
+When benchmark grounding or experience direction is a material blocker after the foundational context is already clear, a correct next step may be bounded specialist support through `research` and/or `design-direction` before PRD readiness is declared.
+
+For user-facing products, when market expectation and experience direction are both materially relevant to PRD safety, a correct next step will often be bounded support from both before closure.
