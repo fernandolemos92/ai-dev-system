@@ -14,9 +14,11 @@ This skill exists to:
 - load the core authority files in the correct order
 - interpret the current operational state
 - identify the valid session objectives for the current situation
-- route the session to the next allowed governed path
+- route the session to the next allowed governed workflow entry or bounded path
 
 This skill is the operational entry point for new sessions and workflow resumptions.
+
+For `New Project`, this skill must establish governing workflow entry before downstream bounded skill execution begins.
 
 It does not perform product discovery, artifact generation, or implementation work.
 
@@ -89,8 +91,12 @@ After reading `project/PROJECT_STATE.md`, this skill must determine:
 - Current Focus
 - Execution Unlocked
 - Next Expected Skill
+- Active Research
 - Active PRD
 - Active Validation
+- Active Experience
+- Active Strategy
+- Active Design Foundation
 - Active Task
 - Active Handoff
 - whether a state/artifact inconsistency exists that prevents safe routing
@@ -111,6 +117,10 @@ It must not replace canonical state fields with inferred narrative substitutes s
 When `Next Expected Skill = start`, this must be treated as confirmation that initialization is the current valid entry action.
 
 It must not create circular user-facing wording such as instructing the user to begin `/start` when `/start` is already the current running skill.
+
+When `Current Phase = design`, this skill must treat that as a real governed phase rather than paraphrasing it away into generic wording such as “design work maybe pending.”
+
+If `Active Design Foundation` exists, it must be reported as a real active artifact in the operational summary rather than being omitted or collapsed into `Active Experience`.
 
 ---
 
@@ -136,6 +146,7 @@ Treat the state as a neutral empty governed start only when all of the following
 - `Execution Unlocked = no`
 - `Active PRD = none`
 - `Active Validation = none`
+- `Active Design Foundation = none`
 - `Active Task = none`
 - `Active Handoff = none`
 
@@ -172,13 +183,27 @@ In this situation, the state must not be treated as a neutral new-project starti
 
 Treat the state as active governed workflow when one or more active artifacts already exist, or when the phase clearly indicates governed work already in motion.
 
+This includes cases such as:
+
+- `Current Phase = research`
+- `Current Phase = experience`
+- `Current Phase = strategy`
+- `Current Phase = prd`
+- `Current Phase = design`
+- `Current Phase = validation`
+- an active Research artifact exists
+- an active Experience artifact exists
+- an active Strategy artifact exists
+- an active Design Foundation exists
+- an active PRD exists
+
 ### Later-stage resumable execution state
 
 Treat the state as later-stage resumable execution when:
 
 - an active Task exists
 - an active Handoff exists
-- or the current phase is `handoff`, `implementation`, or `review`
+- or the current phase is `handoff`, `execution-unlock`, `implementation`, or `review`
 
 ### State/artifact inconsistency state
 
@@ -212,6 +237,28 @@ It must not replace valid session objectives with generic advice, process commen
 
 ---
 
+## Workflow Entry Rule
+
+This skill must not treat session routing as downstream skill selection only.
+
+When the selected objective is `Start a new project`, this skill must first establish the governing workflow entry required by governance.
+
+For a standard new product or software project start, the governing workflow is normally:
+
+`system/workflows/product-definition.md`
+
+unless state or governance clearly requires another valid workflow entry.
+
+Accordingly:
+
+- `Start a new project` must not route directly into an isolated downstream skill as though workflow context were optional
+- workflow entry must be made explicit first
+- only after workflow entry is established may the controlling bounded skill for that workflow begin
+
+This skill may still name the controlling next skill, but it must do so as part of workflow entry rather than as a skill-only shortcut.
+
+---
+
 ## Objective Availability Rules
 
 This skill must expose only objectives that are valid for the real current state.
@@ -239,7 +286,7 @@ Show this when execution-relevant governed work is already in motion, such as:
 
 - an active Task exists
 - an active Handoff exists
-- the current phase is `handoff`, `implementation`, `review`, or another clearly resumable later-stage state
+- the current phase is `handoff`, `execution-unlock`, `implementation`, `review`, or another clearly resumable later-stage state
 
 ### Review current project state
 
@@ -283,7 +330,7 @@ It must not force `Start a new project` as the default objective when the state 
 
 ## Routing Rules
 
-After the user selects a valid session objective, this skill must route to the next allowed governed path.
+After the user selects a valid session objective, this skill must route to the next allowed governed workflow entry or bounded path.
 
 Routing must follow this order of authority:
 
@@ -294,9 +341,13 @@ Routing must follow this order of authority:
 
 ### Routing behavior
 
-- If the selected objective requires contextual discovery, route to `detect-context-gap`.
-- If context is already stable enough for PRD work, route to `create-or-update-prd`.
-- If a later governed phase is already active, route to the next valid step indicated by state.
+- If the selected objective is `Start a new project`, establish entry into the governing workflow first rather than routing directly to an isolated downstream skill.
+- For a standard new project start, the governing workflow should normally be `product-definition`.
+- Once workflow entry is established, the controlling bounded skill for that workflow should be identified.
+- If the governing workflow entry for `New Project` is `product-definition`, the controlling bounded skill must normally be `discover-missing-context`.
+- A later bounded skill may be selected only when `PROJECT_STATE.md` already reflects that contextual discovery has materially completed inside the governing workflow and no governing workflow-domain prerequisite still blocks later progression.
+- `Start a new project` must not rely on optimistic interpretation of the current request alone as sufficient proof that contextual discovery has already been completed. `discover-missing-context` must be used unless context is already genuinely stable enough for later bounded progression.
+- If a later governed phase is already active, route to the next valid bounded step indicated by state.
 - If the selected objective is only to review current state, provide a concise state summary and stop.
 - If the selected objective depends on a dedicated bounded-change skill that does not exist, report the missing dependency and stop.
 - Never route directly from `start` to implementation.
@@ -324,6 +375,9 @@ It must not:
 - treat implementation intent as implementation authorization
 - interpret auxiliary checks as macro stages
 - continue into downstream execution inline after routing is determined
+- treat workflow entry as optional for `New Project`
+- route `New Project` directly into an isolated downstream skill without first entering its governing workflow
+- collapse workflow entry and downstream execution into one uncontrolled routing shortcut
 
 When `Current Phase = context`, this skill must behave conservatively.
 
@@ -336,7 +390,7 @@ If the request still requires guessing or discovering core product information s
 
 then routing must prefer:
 
-- `detect-context-gap`
+- `discover-missing-context`
 
 If there is doubt about contextual readiness, prefer safer discovery over premature planning.
 
@@ -350,6 +404,7 @@ This skill must not:
 - collect product requirements
 - generate a PRD
 - generate a Validation artifact
+- generate a Design Foundation artifact
 - generate Tasks
 - generate a Handoff
 - produce implementation instructions
@@ -445,13 +500,18 @@ It must produce:
 3. a valid session objective selection
 4. a routing decision or safe stop
 
+For `Start a new project`, the routing decision must make the governing workflow entry visible, not only the downstream skill name.
+
 A non-error final response from this skill must always contain all of the following:
 
 - initialization status
 - current phase
+- overall status
+- current focus
 - active artifact summary
 - execution status
 - valid session objectives or a concise state-review stop
+- explicit governing workflow entry when `Start a new project` is selected
 
 The operational state summary must use canonical state fields and direct state values.
 
@@ -467,7 +527,15 @@ Recommended output style:
 - Current Phase: [value]
 - Overall Status: [value]
 - Current Focus: [value]
-- Active Artifacts: [summary]
+- Active Artifacts:
+  - Research: [value]
+  - PRD: [value]
+  - Validation: [value]
+  - Experience: [value]
+  - Strategy: [value]
+  - Design Foundation: [value]
+  - Task: [value]
+  - Handoff: [value]
 - Execution Unlocked: [yes/no]
 - Next Expected Skill: [value]
 - Valid Session Objectives:
@@ -501,5 +569,7 @@ A correct `start` must never:
 - expose invalid objectives for a neutral empty governed start
 - treat every `context + no artifacts` state as a new-project opening
 - auto-select a session objective before the user explicitly chooses one
+- route `Start a new project` directly into an isolated downstream skill without first establishing the governing workflow
+- present skill-only routing as if workflow entry had already been satisfied
 
 It must do nothing beyond that boundary.

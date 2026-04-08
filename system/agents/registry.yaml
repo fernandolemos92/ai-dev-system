@@ -1,63 +1,140 @@
 agents:
-  research:
-    file: system/agents/research.md
-    runtime_type: general
-    domain: benchmark-and-external-reference
-    invocation_mode: adapter
-    description: External research and benchmark support for discovery, PRD, and validation when market/reference grounding is useful.
-
-  design-direction:
-    file: system/agents/design-direction.md
-    runtime_type: general
-    domain: ui-ux-and-visual-direction
-    invocation_mode: adapter
-    description: UI/UX direction, visual strategy, interaction tone, and design coherence support for bounded governed work.
-
   architect:
-    file: system/agents/architect.md
+    file: system/agents/core/architect-agent.md
     runtime_type: general
-    domain: structural-reasoning-and-architecture
+    domain: core
     invocation_mode: adapter
-    description: Structural reasoning, boundary clarity, component interaction, and architectural tradeoff support for bounded governed work.
-
-  frontend:
-    file: system/agents/frontend.md
-    runtime_type: general
-    domain: frontend-implementation-and-ui-structure
-    invocation_mode: adapter
-    description: Frontend-specific support for UI structure, interaction behavior, accessibility, maintainability, and client-side boundaries.
-
-  backend:
-    file: system/agents/backend.md
-    runtime_type: general
-    domain: backend-implementation-and-service-logic
-    invocation_mode: adapter
-    description: Backend-oriented support for service structure, handlers, contracts, and implementation decisions inside authorized work.
-
-  database:
-    file: system/agents/database.md
-    runtime_type: general
-    domain: data-model-and-persistence
-    invocation_mode: adapter
-    description: Data modeling, persistence structure, schema reasoning, and database-oriented implementation support inside bounded governed work.
-
-  security:
-    file: system/agents/security.md
-    runtime_type: general
-    domain: security-boundary-and-risk
-    invocation_mode: adapter
-    description: Security-oriented support for risk awareness, boundary analysis, and safer governed reasoning or implementation decisions.
+    description: Structural reasoning, boundary clarity, component interaction, and architectural tradeoff support.
 
   memory:
-    file: system/agents/memory.md
+    file: system/agents/core/memory-agent.md
     runtime_type: general
-    domain: memory-routing-and-durable-context
+    domain: core
     invocation_mode: adapter
-    description: Support for deciding what belongs in durable memory, operational state, or artifacts without polluting the workflow.
+    description: Support for routing information to durable memory, live state, or artifacts without polluting the workflow.
 
-  context7-docs:
-    file: system/agents/context7-docs.md
-    runtime_type: mcp
-    domain: library-framework-and-api-documentation
-    invocation_mode: optional-mcp
-    description: Optional external documentation evidence provider for current library, framework, SDK, API, and version-sensitive configuration guidance inside already authorized bounded work.
+  research:
+    file: system/agents/core/research-agent.md
+    runtime_type: general
+    domain: core
+    invocation_mode: adapter
+    description: External reference, benchmark, and evidence-aware research support for governed work.
+
+  security:
+    file: system/agents/core/security-agent.md
+    runtime_type: general
+    domain: core
+    invocation_mode: adapter
+    description: Security-oriented support for trust boundaries, exposure surfaces, and safer bounded reasoning.
+
+  technical-baseline:
+    file: system/agents/core/technical-baseline-agent.md
+    runtime_type: general
+    domain: core
+    invocation_mode: adapter
+    description: Technical approach selection support for best modern/performant/maintainable path per project class, avoiding default stacks and preferring TypeScript and frameworked approaches for user-facing products.
+
+  branding:
+    file: system/agents/design/branding-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: Branding direction support for visual tone, expression, and brand coherence.
+
+  design-system:
+    file: system/agents/design/design-system-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: Design system support for component consistency, tokens, patterns, and scalable UI decisions.
+
+  information-architecture:
+    file: system/agents/design/information-architecture-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: Information architecture support for structure, hierarchy, and navigation clarity.
+
+  motion:
+    file: system/agents/design/motion-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: Motion support for restrained, useful, and context-appropriate interaction feedback.
+
+  page-strategy:
+    file: system/agents/design/page-strategy-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: Page-level strategy support for surface composition, hierarchy, and strategic page structure.
+
+  ui:
+    file: system/agents/design/ui-agent.md
+    runtime_type: general
+    domain: design
+    invocation_mode: adapter
+    description: UI direction support for surface clarity, interaction quality, and visual usability.
+
+  analytics:
+    file: system/agents/growth/analytics-agent.md
+    runtime_type: general
+    domain: growth
+    invocation_mode: adapter
+    description: Analytics and funnel support for measurement logic and decision visibility.
+
+  copy-messaging:
+    file: system/agents/growth/copy-messaging-agent.md
+    runtime_type: general
+    domain: growth
+    invocation_mode: adapter
+    description: Copy and messaging support for clarity, persuasion, and communication coherence.
+
+  cro:
+    file: system/agents/growth/cro-agent.md
+    runtime_type: general
+    domain: growth
+    invocation_mode: adapter
+    description: Conversion-oriented support for friction reduction and clearer user decision paths.
+
+  positioning:
+    file: system/agents/growth/positioning-agent.md
+    runtime_type: general
+    domain: growth
+    invocation_mode: adapter
+    description: Positioning support for market framing, differentiation, and value articulation.
+
+  seo:
+    file: system/agents/growth/seo-agent.md
+    runtime_type: general
+    domain: growth
+    invocation_mode: adapter
+    description: Search visibility support for discoverability-oriented content and structure decisions.
+
+  backend:
+    file: system/agents/implementation/backend-agent.md
+    runtime_type: general
+    domain: implementation
+    invocation_mode: adapter
+    description: Backend implementation support for services, handlers, contracts, and execution structure.
+
+  database:
+    file: system/agents/implementation/database-agent.md
+    runtime_type: general
+    domain: implementation
+    invocation_mode: adapter
+    description: Data modeling and persistence support for schemas, storage structure, and database decisions.
+
+  frontend:
+    file: system/agents/implementation/frontend-agent.md
+    runtime_type: general
+    domain: implementation
+    invocation_mode: adapter
+    description: Frontend implementation support for UI structure, interaction behavior, accessibility, and maintainability.
+
+  qa:
+    file: system/agents/implementation/qa-agent.md
+    runtime_type: general
+    domain: implementation
+    invocation_mode: adapter
+    description: Delivery-quality support for verification thinking, failure modes, and bounded review support.

@@ -8,15 +8,20 @@ They exist to provide specialized support when governed work requires deeper dom
 
 The system remains:
 
-**governance-first + state-aware + skill-driven execution**
+**governance-first + state-aware + workflow-orchestrated + skill-executed execution**
 
 That means:
 
 - governance defines what is allowed
 - state defines the current operational situation
-- skills execute the main governed workflow operations
+- workflows define the macro operating contracts and govern traversal
+- skills execute the bounded governed operations inside the active workflow or gate
 - artifacts preserve durable progress
 - agents provide specialized support without becoming the workflow core
+
+Agents do not weaken workflow authority.
+
+They exist to deepen bounded governed work, not to replace the active workflow or the controlling skill.
 
 ---
 
@@ -39,11 +44,53 @@ Agents do not act as parallel governance.
 
 ---
 
+## Taxonomy
+
+Canonical project agents are organized by domain:
+
+### `core/`
+
+- `architect-agent.md`
+- `memory-agent.md`
+- `research-agent.md`
+- `security-agent.md`
+- `technical-baseline-agent.md`
+
+### `design/`
+
+- `branding-agent.md`
+- `design-system-agent.md`
+- `information-architecture-agent.md`
+- `motion-agent.md`
+- `page-strategy-agent.md`
+- `ui-agent.md`
+
+### `growth/`
+
+- `analytics-agent.md`
+- `copy-messaging-agent.md`
+- `cro-agent.md`
+- `positioning-agent.md`
+- `seo-agent.md`
+
+### `implementation/`
+
+- `backend-agent.md`
+- `database-agent.md`
+- `frontend-agent.md`
+- `qa-agent.md`
+
+These files define the canonical project specialists.
+
+The registry maps them to runtime-usable execution paths.
+
+---
+
 ## How Agents Fit the System
 
 Agents must enter by **attachment** to governed work that already exists.
 
-That means an agent may support:
+An agent may support:
 
 - a skill already in progress
 - a gate already in use
@@ -59,7 +106,7 @@ They must not redefine how progression works.
 
 ---
 
-## Agent Invocation Rule
+## Invocation Rule
 
 Agents should be invoked only when specialization would materially improve the current bounded step.
 
@@ -70,124 +117,178 @@ Agent invocation must remain:
 - bounded
 - relevant to the current governed step
 - proportional to the real need
-- subordinate to skill and state control
-
-As a general rule:
-
-- non-trivial domain-specific work should prefer the most relevant specialized agent
-- trivial, clear, low-risk work may proceed without agent support
-- invoking an agent must improve judgment, implementation quality, review quality, or decision clarity in a meaningful way
-- invoking an agent must never replace governance, project state, or skill control
-
-Agents should be attached when they help answer questions such as:
-
-- which specialized implementation approach is most appropriate here?
-- what domain-specific caution matters inside this bounded step?
-- what specialist reasoning would reduce ambiguity or improve quality?
-- what specialized direction would make the current step more reliable?
+- subordinate to governance, state, workflow, and skill control
 
 Agents must not be invoked as decorative participants.
 
-They must not be used to inflate workflow complexity when specialization adds little or no real value.
+When multiple agents appear adjacent, the system must prefer the one whose bounded responsibility most directly matches the active question.
+
+The runtime must not treat nearby agents as interchangeable merely because they operate in the same domain.
 
 ---
 
-## Runtime Invocation Model
+## Invocation Heuristics by Domain
 
-Agent files in `system/agents/*.md` define the **canonical project agents**.
+These heuristics exist to reduce ambiguity during agent selection.
 
-These files are the source of truth for:
+They do not replace governance, workflow contracts, or the registry.
 
-- agent identity
-- specialist role
-- intended usage
-- working style
-- boundaries
-- expected contribution
+They are a bounded operational aid for choosing the most relevant specialist when a workflow materially requires domain support.
 
-However, agent files are not assumed to be natively invocable by every runtime.
+### Design-domain heuristics
 
-When the active runtime does not support project-defined agent names directly, agent invocation must happen through an operational resolution layer.
+Use `branding` when the active need is primarily about:
 
-That layer should:
+- identity
+- felt tone
+- visual personality
+- trust or emotional signal through expression
+- coherence of how the product should feel
 
-- resolve the canonical project agent name
-- locate the corresponding agent file
-- determine the supported runtime invocation mode
-- adapt the project agent to a runtime-supported execution path when necessary
+Use `design-system` when the active need is primarily about:
 
-This means the system may distinguish between:
+- reusable interface rules
+- tokens
+- shared primitives
+- cross-surface consistency
+- component and pattern coherence
+- stable visual and interaction rules that must survive across multiple screens, sections, or states
 
-- **canonical project agent**  
-- **runtime-supported agent invocation type**
+For web/desktop user-facing products, `design-system` should normally be treated as a default materially relevant design specialist unless a governed equivalent already exists for the same execution line.
 
-The project agent remains the specialization source of truth.
+In those cases, the runtime should prefer explaining why `design-system` is non-blocking rather than silently omitting it.
 
-The runtime invocation path is only the execution bridge.
+Use `ui` when the active need is primarily about:
 
-Agents must therefore be understood as:
+- surface-level interface clarity
+- visual hierarchy
+- component application
+- state readability
+- composition of an actual screen or interface
 
-- canonical at the project level
-- potentially adapted at runtime level
+Use `information-architecture` when the active need is primarily about:
 
-This distinction must not change the role of agents in the governed workflow.
+- grouping
+- hierarchy of meaning
+- navigation logic
+- structural comprehension
+- what belongs together, what is primary, and what should be deferred
+
+Use `page-strategy` when the active need is primarily about:
+
+- section order
+- page unfolding
+- scan rhythm
+- narrative progression across a surface
+- CTA placement in relation to page sequence
+
+Use `motion` when the active need is primarily about:
+
+- whether motion should exist at all
+- how movement should support clarity, hierarchy, feedback, or tone
+- restrained transition behavior
+- when stillness is preferable to animation
+
+### Growth-domain heuristics
+
+Use `positioning` when the active need is primarily about:
+
+- what the product is
+- who it is for
+- what value angle should be emphasized
+- market-facing meaning
+- differentiation framing
+
+Use `copy-messaging` when the active need is primarily about:
+
+- how the value should be expressed in words
+- headline / support copy direction
+- CTA wording direction
+- trust-building language
+- message clarity
+
+Use `seo` when the active need is primarily about:
+
+- discoverability
+- search intent
+- search-facing structure
+- topical emphasis for findability
+- organic visibility direction
+
+Use `cro` when the active need is primarily about:
+
+- friction reduction
+- action readiness
+- commitment hesitation
+- CTA effectiveness at decision level
+- improving the path from understanding to action
+
+Use `analytics` when the active need is primarily about:
+
+- what should be measured
+- which behaviors or milestones matter
+- funnel observability
+- signal vs noise
+- measurement logic for later learning
+
+### Cross-domain boundary heuristics
+
+When the ambiguity is between `branding` and `positioning`:
+
+- prefer `branding` for felt identity and expressive coherence
+- prefer `positioning` for market-facing meaning and value framing
+
+When the ambiguity is between `ui` and `copy-messaging`:
+
+- prefer `ui` for visual emphasis and interface readability
+- prefer `copy-messaging` for verbal emphasis and wording clarity
+
+When the ambiguity is between `page-strategy` and `cro`:
+
+- prefer `page-strategy` for sequence and surface unfolding
+- prefer `cro` for friction, hesitation, and commitment quality
+
+When the ambiguity is between `information-architecture` and `seo`:
+
+- prefer `information-architecture` for understandability
+- prefer `seo` for findability
+
+If the active need still spans multiple specialists materially, the controlling workflow or skill may use more than one specialist.
+
+But the system must still report, honestly and explicitly:
+
+- which specialists were materially required
+- which were actually used
+- whether each contribution was strong, partial, or unavailable
 
 ---
 
-## Agent Registry Rule
+## Registry and Runtime Bridge
 
-The project may maintain an operational registry for agents.
+The project maintains an operational registry in:
 
-When present, that registry should function as the explicit mapping layer between:
+`system/agents/registry.yaml`
+
+That registry maps:
 
 - canonical project agent name
-- agent file path
-- intended domain
-- runtime invocation mode or runtime-supported type
+- actual agent file path
+- domain
+- runtime type
+- invocation mode
 
-The registry exists to make agent resolution explicit and repeatable.
+Runtime routing and execution behavior are defined separately in:
 
-It must not redefine the agent itself.
+- `system/runtime/AGENT_ROUTING.md`
+- `system/runtime/AGENT_EXECUTION_RULES.md`
 
-The agent file remains the specialization definition.
+The registry is the lookup layer.
 
-The registry only supports operational lookup and runtime adaptation.
-
-If a registry exists, skills or execution layers that attach agents should prefer resolving agents through that registry rather than inferring agent identity ad hoc.
-
----
-
-## Adapter Rule
-
-If the runtime only supports fixed native agent types, the system may use an adapter layer.
-
-The adapter may:
-
-- resolve the canonical project agent from the registry
-- read the corresponding agent definition file
-- select a runtime-supported invocation type
-- pass the agent guidance into that runtime-supported path
-
-This allows the system to preserve project-defined specialization without pretending that the runtime natively recognizes custom project agent names.
-
-The adapter is an execution bridge.
-
-It is not the source of truth for agent identity.
-
-The adapter must not:
-
-- redefine the agent's purpose
-- mutate governance
-- replace skill control
-- invent agent behavior that is not grounded in the agent file
+The agent file remains the specialization-definition layer.
 
 ---
 
 ## Boundary with Skills
-
-Skills are the main operational units of the governed workflow.
-
-Agents are optional specialization helpers.
 
 Skills answer:
 
@@ -199,147 +300,20 @@ Agents answer:
 
 - what specialized support can help inside that bounded step
 - what domain-specific reasoning or execution approach is useful
-- what specialized caution, synthesis, or implementation support may improve the work
+- what specialist caution or synthesis may improve the work
 
 Agents must not absorb the role of:
 
-- contextual discovery
-- PRD creation
-- validation derivation
-- task decomposition
-- handoff generation
-- scope gating
-- security gating
 - workflow routing
-- lifecycle closure
+- stage authority
+- lifecycle closure authority
 - state authority
-
-Those responsibilities belong to skills and gates.
-
----
-
-## Types of Agents
-
-This layer may include different kinds of specialization agents, such as:
-
-- implementation specialists
-- review-oriented specialists
-- research or synthesis specialists
-- boundary-specific specialists
-
-These categories are descriptive only.
-
-They must not become a parallel workflow system.
+- bounded skill execution itself
 
 ---
 
-## Extensibility Rule
+## Final Rule
 
-This layer must remain extensible without pressuring the core.
+Agents exist to deepen the system without redefining it.
 
-Adding a new agent must not, by itself:
-
-- change the official pipeline
-- change governance
-- change project state structure
-- redefine the role of artifacts
-- compete with skills as the main operational mechanism
-
-Specialization must grow by attachment, not by core rewrite.
-
-If the project uses a registry or adapter layer, adding a new agent may require:
-
-- a new canonical agent file
-- a new registry entry
-- a compatible runtime adaptation path when needed
-
-That operational requirement must remain lightweight.
-
-It must not turn the agents layer into a heavy platform.
-
----
-
-## Free-Model Compatibility
-
-Agents should remain:
-
-- short
-- clear
-- bounded
-- low-ambiguity
-- easy to invoke when needed
-- practical in output and scope
-
-Avoid:
-
-- inflated taxonomies
-- agent-centric orchestration
-- duplicated workflow logic
-- large overlapping catalogs of roles
-- vague agents with no clear deliverable value
-
-If a registry or adapter is used, it should remain equally lightweight and low-ambiguity.
-
----
-
-## Standard Structure for Agent Files
-
-Each agent file should follow this structure whenever applicable:
-
-1. Title
-2. Identity
-3. Core Mission
-4. Use When
-5. Supports
-6. Typical Contribution
-7. Working Style
-8. Deliverables
-9. Baseline (when relevant)
-10. Must Not
-11. Final Boundary
-
-Not every agent needs a heavy baseline section, but all agents should be structurally explicit enough to remain clear, reusable, and low-ambiguity.
-
----
-
-## Agent Quality Expectations
-
-A healthy agent should:
-
-- have a clear specialist identity
-- support bounded governed work without redefining it
-- produce practical outputs rather than vague opinion
-- remain useful under low-context execution
-- avoid hidden scope expansion
-- stop after supporting the current bounded need
-
-An unhealthy agent tends to:
-
-- become too vague
-- compete with skills
-- inflate scope
-- duplicate workflow logic
-- behave like a controller instead of a specialist
-
-A healthy operational agent model should also make it clear:
-
-- how the canonical project agent is resolved
-- whether runtime invocation is native or adapted
-- where the source of truth for the agent lives
-- how invocation remains consistent across sessions
-
----
-
-## Success Condition
-
-This layer is healthy when it is easy to answer:
-
-- which agents provide real specialization value?
-- how do they support governed work without replacing it?
-- what kind of output does each one improve?
-- how can the layer grow without forcing core redesign?
-- how is a canonical project agent resolved into a runtime-usable invocation path?
-
-If the agents start competing with skills or redefining workflow, this layer has drifted and should be corrected.
-
-If agent files exist but cannot be resolved into a runtime-usable path, the layer is only partially operational and still needs an explicit registry and/or adapter bridge.
+They are specialists by attachment, not workflow controllers.

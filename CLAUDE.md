@@ -1,25 +1,35 @@
 # CLAUDE SYSTEM GOVERNANCE
 
-This file defines the operational governance of the AI development workflow used in this repository.
+This file defines the constitutional governance of the AI development workflow used in this repository.
 
-Claude must follow these rules when interpreting project state, advancing workflow stages, generating artifacts, or executing implementation work.
+Claude must follow these rules when interpreting project state, advancing workflow stages, generating artifacts, invoking specialization, or executing implementation work.
 
-This file governs what the system may do, may not do, and under which conditions it may advance or must stop.
+This file is the highest governance authority of the system.
+
+It defines what the system may do, may not do, and under which conditions it may advance or must stop.
 
 ---
 
 # PURPOSE OF THIS FILE
 
-`CLAUDE.md` is the maximum operational governance document of the system.
+`CLAUDE.md` is the constitutional governance layer of the system.
 
 It defines:
 
-- the official pipeline
-- the rules of progression and blocking
-- the role boundaries between governance, state, skills, artifacts, memory, agents, and external capability providers
-- the macro constraints that preserve predictable execution
+- the official stage model
+- progression and blocking rules
+- authority order
+- the relationship between governance, state, workflows, policies, skills, agents, artifacts, memory, and external capability providers
+- the global constraints that preserve predictable execution
 
-It does not define current project state, repository architecture in full detail, or the full philosophy of the project.
+It does not serve as:
+
+- the live operational state
+- the repository map
+- a replacement for workflow contracts
+- a replacement for policy files
+- a replacement for runtime routing or execution rules
+- a replacement for skill instructions
 
 ---
 
@@ -27,200 +37,242 @@ It does not define current project state, repository architecture in full detail
 
 The official operational model of this system is:
 
-**governance-first + state-aware + skill-driven execution**
+**governance-first + state-aware + workflow-orchestrated + skill-executed execution**
 
 This means:
 
-- governance defines the allowed workflow
-- project state defines the current operational situation
-- skills execute valid workflow operations and transitions
+- governance defines what is allowed
+- project state defines the current operational moment
+- workflows define the mandatory macro operating contracts for governed progression
+- skills execute bounded work inside the currently governing workflow
+- policies define transversal rules that apply across multiple steps
 - artifacts materialize durable progress
-- memory preserves durable decisions, architecture, and patterns
-- agents provide auxiliary specialization without becoming the workflow core
-- external capability providers may supply bounded evidence or technical support without becoming workflow authority
+- memory preserves durable architecture, decisions, and patterns
+- agents provide bounded domain specialization inside an active workflow
+- external capability providers may supply evidence or technical support without becoming workflow authority
 
-Skills must operate inside governance and state constraints.
+If two layers appear to conflict, the higher authority layer wins.
 
-Agents must not redefine the workflow hierarchy.
+The system must not behave as skill-first when a workflow-governed path is required.
 
-External capability providers must not redefine the workflow hierarchy.
+For governed progression, workflow traversal is primary.
 
----
-
-# OFFICIAL PIPELINE
-
-All governed work must follow the official pipeline:
-
-`context → prd → validation → tasks → handoff → implementation → review`
-
-Stages must not be skipped.
-
-Claude must never propose bypassing required stages.
-
-Claude must never reinterpret auxiliary checks as official macro stages.
+Skill execution happens inside the currently governing workflow rather than replacing it.
 
 ---
 
-# PROGRESSION AND BLOCKING RULES
+# AUTHORITY ORDER
 
-Claude may advance only to the single next valid stage allowed by the official pipeline and the current project state.
-
-Claude must stop when any required prerequisite for the next stage is missing, unresolved, inconsistent, or not yet stabilized.
-
-Claude must not:
-
-- skip stages
-- merge multiple stage transitions into one continuous governed step
-- generate later-stage outputs before earlier-stage stabilization exists
-- treat heuristic confidence as a substitute for required workflow readiness
-
-If a stage completes successfully, Claude must stop after that stage, report completion, surface the active artifact set, indicate the next allowed action, and wait for user control.
-
-A stage transition must not be considered complete if the corresponding `PROJECT_STATE.md` update is partial, contradictory, or still reflects the pre-transition operational situation.
-
-If an artifact is created but `PROJECT_STATE.md` does not fully and coherently reflect the new operational state, Claude must treat the transition as incomplete, report the inconsistency clearly, and stop without continuing to the next governed step.
-
-Claude must never treat a narrated, attempted, or partially applied state update as authoritative unless the resulting `PROJECT_STATE.md` coherently reflects the current phase, active artifacts, execution flags, objective, success condition, next expected skill, and next allowed action.
-
-A completion message must not claim that a governed step is fully complete if the resulting `PROJECT_STATE.md` still materially describes a prior stage or a contradictory lifecycle situation.
-
----
-
-# POST-TASK-BLOCK TRANSITION RULE
-
-Closure of an initial bounded block of tasks does not, by itself, authorize automatic opening of a new task block.
-
-After such a closure, Claude must determine the dominant current need before advancing.
-
-The next governed direction must be chosen deliberately from the following possibilities:
-
-- validation, when the main need is to verify whether the delivered block behaves as intended
-- stabilization, when the main need is to resolve instability, fragility, or implementation inconsistency before further expansion
-- a new bounded task block, only when the prior block is honestly closed and the next bounded scope is already clear
-- a strategic decision pause, when multiple plausible next directions exist and automatic continuation would introduce avoidable risk
-
-Claude must not assume that task completion automatically implies further task decomposition as the next step.
-
----
-
-# AUXILIARY GATES
-
-The system may use auxiliary gates when needed for workflow safety and quality.
-
-Auxiliary gates are conditional checks that may operate between or within stages.
-
-They are not official macro stages of the pipeline.
-
-Examples include:
-
-- scope alignment checks
-- security boundary checks
-- state coherence checks
-- artifact lifecycle audits
-
-Auxiliary gates may validate readiness for advancement, but they must not expand or redefine the official pipeline.
-
-Auxiliary gates should be invoked only when relevant to the current operational moment, and when active they should be reflected in `Active Auxiliary Gates` within `PROJECT_STATE.md`.
-
----
-
-# GOVERNANCE FILE ORDER
-
-The system is governed by these core files in this order:
+The system is governed by these core layers in this order:
 
 1. `CLAUDE.md`
 2. `project/PROJECT_CONTEXT.md`
 3. `project/PROJECT_STATE.md`
+4. relevant active artifacts referenced by `PROJECT_STATE.md`
+5. applicable `system/workflows/*.md`
+6. applicable `system/policies/*.md`
+7. the currently active skill
+8. any attached agents or external evidence providers
 
-If `PROJECT_STATE.md` references active artifacts, Claude must load the relevant active artifact next.
+These layers serve different purposes:
 
-These files serve different purposes:
-
-- `CLAUDE.md` defines governance
-- `PROJECT_CONTEXT.md` defines project identity and philosophy
-- `PROJECT_STATE.md` defines current operational state
+- `CLAUDE.md` defines constitutional rules
+- `PROJECT_CONTEXT.md` defines identity, philosophy, and official defaults
+- `PROJECT_STATE.md` defines the live operational situation
+- active artifacts define bounded durable scope
+- workflows define macro operating contracts
+- policies define transversal discipline
+- skills perform bounded work
+- agents and external providers provide specialization or evidence only
 
 Claude must preserve this separation of authority.
 
 ---
 
+# OFFICIAL MICRO PIPELINE
+
+All governed work must respect the official stage model:
+
+`context → research → experience → strategy → prd → design → validation → tasks → handoff → execution-unlock → implementation → review`
+
+Interpretation rules:
+
+- `research`, `experience`, `strategy`, and `design` are governed optional domain stages
+- optional stages must not be fabricated decoratively
+- optional stages must be used when their corresponding domain work is materially needed
+- required later stages must not be skipped just because an optional stage was not used
+- `design` is the governed project-level design-system stage and belongs after `prd` when interface coherence, component/system integrity, or implementation-contract seriousness materially affect safe progression
+- `execution-unlock` remains the governed transition between `handoff` and `implementation`
+
+The macro workflow layer in `system/workflows/` organizes broader operating spans around this stage model.
+
+Workflow files must not replace the official micro pipeline.
+
+---
+
+# WORKFLOW TRAVERSAL RULE
+
+The official micro pipeline defines the governed stage order.
+
+The macro workflow layer defines how those stages are traversed in a disciplined way.
+
+For governed work, Claude must not treat workflows as decorative documentation.
+
+Claude must traverse the relevant governing workflow before advancing through the bounded skill operating inside that workflow.
+
+This means:
+
+- workflow entry must be explicit
+- the controlling workflow must be identifiable for the current bounded step
+- the controlling skill must execute inside that workflow context
+- workflow-required synthesis and structured outputs must be honored before advancing
+
+A skill must not behave as though it alone defines the governed path when a relevant workflow contract exists.
+
+If a workflow materially governs the current step, silent bypass is not allowed.
+
+The system may still remain serial and bounded.
+
+Workflow traversal does not authorize multi-step chaining.
+
+It defines the mandatory macro operating contract that bounded skills must respect.
+
+---
+
+# PROGRESSION AND BLOCKING RULES
+
+Claude may advance only to the single next valid governed step allowed by:
+
+- the official micro pipeline
+- the current live project state
+- the active artifact set
+- applicable workflow and policy constraints
+
+Claude must stop when any required prerequisite is missing, unresolved, inconsistent, contradictory, or not yet stabilized.
+
+Claude must not:
+
+- skip required stages
+- merge multiple governed stage transitions into one continuous step
+- generate later-stage outputs before earlier-stage stabilization exists
+- treat heuristic confidence as a substitute for required readiness
+- narrate completion when the operational state is not coherently closed
+
+If a governed step completes successfully, Claude must stop after that bounded step, report completion honestly, surface the active artifact set, indicate the next allowed action, and return control.
+
+A stage transition is not complete if the corresponding `PROJECT_STATE.md` update is partial, contradictory, or still materially anchored to the prior operational moment.
+
+---
+
+# STEP COMPLETION PAUSE RULE
+
+Successful completion of one bounded governed step always requires an explicit return of control before any later governed step begins.
+
+This pause is mandatory even when the next step appears obvious.
+
+State closure, artifact materialization, and completion messaging must all describe only the step that just closed.
+
+They must not be used as a springboard for same-turn continuation.
+
+The system must therefore not chain, in the same turn, across boundaries such as:
+
+- `tasks → handoff`
+- `handoff → execution-unlock`
+- `execution-unlock → implementation`
+- `implementation → review`
+- `review / closure → activation of a new task block`
+
+Narrating a later step, recommending a later step, or setting `Next Expected Skill` does not authorize performing that later step in the same turn.
+
+A coherent step-closing state update is part of closure.
+
+It is not permission to continue.
+
+---
+
 # ROLE OF PROJECT STATE
 
-`project/PROJECT_STATE.md` is the operational source of truth for the current workflow situation.
+`project/PROJECT_STATE.md` is the live operational source of truth.
 
-It defines where the project currently is, which artifacts are active, which transitions are currently allowed, and which governed action is expected next.
+It defines:
+
+- where the project currently is
+- which artifacts are active
+- which transitions are currently allowed
+- which skill is expected next
+- what the current bounded objective is
 
 If conversation context conflicts with `PROJECT_STATE.md`, the project state takes priority.
 
-However, `Next Expected Skill` is advisory for the next valid governed action only. It must never authorize automatic same-turn continuation.
+However, `Next Expected Skill` is advisory for the next valid bounded step only.
 
-Claude must not treat governance rules as a substitute for state, and must not treat state as a substitute for governance.
+It never authorizes automatic same-turn continuation.
 
 `PROJECT_STATE.md` must describe one coherent operational moment.
 
-Its major fields must not point to different stages of the workflow at the same time.
+Its major fields must not point to different stages of work at the same time.
 
 ---
 
 # STATE AND ARTIFACT CONSISTENCY
 
-Before executing a workflow step or implementation step, Claude must verify that `PROJECT_STATE.md` is consistent with the real active artifacts.
+Before executing a governed step or implementation step, Claude must verify that `PROJECT_STATE.md` is consistent with the real active artifacts.
 
 Minimum consistency expectations:
 
 - every active artifact referenced in `PROJECT_STATE.md` exists
-- every active artifact is located in its canonical active directory
+- every active artifact lives in its canonical active directory
 - no active artifact points to a done or archived location
 - the active handoff, when present, matches the real execution boundary
+- the recorded phase, objective, flags, and next allowed action describe the same operational moment
 
-If a state/filesystem mismatch is detected:
+If a state or filesystem mismatch is detected:
 
 - STOP
 - report the inconsistency clearly
 - correct the inconsistency before continuing
 
-Claude must not continue governed execution on top of inconsistent operational state.
+Claude must never continue governed execution on top of inconsistent operational state.
 
-A `PROJECT_STATE.md` update is invalid when it leaves the file in a semantically contradictory condition, including cases where the recorded phase, active artifacts, execution flags, objective, success condition, or next allowed action no longer describe the same operational moment.
-
-If a state update changes only part of the lifecycle situation while leaving the rest of the file materially anchored to the prior stage, Claude must treat the state as inconsistent and must stop rather than advancing on top of it.
-
-When a governed step closes successfully and `PROJECT_STATE.md` is updated, the update must be treated as a full lifecycle closure for that step, not as a narrow field patch.
-
-At minimum, a coherent stage-closing state update must align:
+A valid stage-closing state update must align, at minimum:
 
 - `Current Phase`
 - `Current Focus`
 - `Last Updated`
 - active artifacts relevant to the new moment
 - `Execution Unlocked`
+- `Active Auxiliary Gates`
 - `Next Expected Skill`
 - `Primary Objective`
 - `Success Condition`
 - `Next Allowed Action`
 - `STATE NOTES`
 
-If Claude cannot update the state coherently across the fields required to represent the new operational moment, Claude must stop and report that the transition remains operationally incomplete.
+If Claude cannot update the live state coherently across the fields needed to represent the new operational moment, Claude must stop and report the transition as operationally incomplete.
+
+Detailed lifecycle discipline belongs in:
+
+`system/policies/artifact-lifecycle-policy.md`
 
 ---
 
 # STATE UPDATE POLICY
 
-After a governed step successfully creates or updates a canonical workflow artifact, Claude may update `PROJECT_STATE.md` automatically as part of closing that same step.
+After a governed step successfully creates or updates a canonical artifact, Claude may update `PROJECT_STATE.md` automatically as part of closing that same bounded step.
 
 This is allowed only when all of the following are true:
 
 - the step outcome is real and materialized
 - the new operational moment is uniquely determined
 - the resulting state can be updated coherently
-- the update does not merge multiple governed stage transitions into one
+- the update does not merge multiple governed transitions into one
 - the update does not leave the file in a partial or contradictory condition
 
 A state update is part of step closure.
 
-It is not, by itself, permission to continue into the next governed stage in the same turn.
+It is not permission to continue into the next governed stage in the same turn.
 
-If a coherent state update cannot be completed, Claude must stop, report the inconsistency, and return control rather than applying a partial lifecycle transition.
+If coherent state closure cannot be completed, Claude must stop, report the inconsistency, and return control.
 
 ---
 
@@ -228,36 +280,51 @@ If a coherent state update cannot be completed, Claude must stop, report the inc
 
 This system uses artifact-driven workflow control.
 
-Artifacts are durable workflow checkpoints that stabilize decisions and reduce dependence on the current conversation.
+Artifacts are durable checkpoints that stabilize decisions and reduce dependence on the current conversation.
 
-The official pipeline artifacts are:
+Core progression artifacts are:
 
 - PRD
+- Design Foundation
 - Validation
 - Task
 - Handoff
 
-Claude must treat active artifacts as authoritative boundaries for governed progression.
+Optional domain artifacts are:
 
-Claude must not generate an artifact that belongs to a later stage before the earlier stage has been properly stabilized.
+- Research
+- Experience
+- Strategy
 
----
+Core progression artifacts drive the minimum product-to-execution path.
 
-# ARTIFACT PLACEMENT AND LOADING
+Optional domain artifacts deepen the work when the project materially requires research grounding, experience direction, or growth strategy.
 
-Artifacts must be created, stored, updated, and loaded from their canonical locations.
+`Design Foundation` is a core progression artifact for execution lines where interface coherence, design-system integrity, or implementation-contract seriousness materially affect safe downstream work.
 
-Claude must use the repository’s canonical artifact structure and must load active artifacts from their expected active directories.
+Claude must not generate an artifact from a later stage before the earlier stage has been properly stabilized.
 
-Claude must avoid unnecessary repository-wide scanning when active artifact references already exist in project state.
+Artifacts must be created, stored, updated, and loaded from canonical locations.
 
-Claude must not reference artifacts as active if they do not exist or are stored in the wrong lifecycle location.
+Lifecycle directories are:
+
+- `active/`
+- `done/`
+- `archived/`
+- `templates/`
+
+Claude must not reference a non-canonical path as active or continue work on top of ambiguous lifecycle state.
+
+Detailed lifecycle rules belong in:
+
+- `system/policies/artifact-lifecycle-policy.md`
+- `system/policies/design-governance-policy.md`
 
 ---
 
 # CONTEXT COMPLETENESS RULE
 
-During the `context` phase, Claude must not transition to PRD creation based only on a high-level idea, conceptual framing, or loosely defined request.
+During `context`, Claude must not transition to PRD creation based only on a broad idea, conceptual framing, or loosely defined request.
 
 Minimum operational clarity is required before PRD creation.
 
@@ -265,70 +332,263 @@ At minimum, context must include:
 
 - at least one concrete workflow or interaction path
 - a clear system boundary
-- basic operational clarity about how the system behaves at a high level
+- basic operational clarity about high-level behavior
 
-If required context remains missing, vague, conceptual only, undecided, or still under exploration, Claude must remain in contextual discovery and must not generate a PRD.
-
-PRD creation is forbidden while required context remains unresolved.
+If required context remains missing, vague, conceptual only, undecided, or still exploratory, Claude must remain in contextual discovery.
 
 Heuristic confidence does not override this rule.
 
 ---
 
+# NEW PROJECT ENTRY RULE
+
+When the user selects or clearly requests `New Project`, the system must not route directly into an isolated downstream skill as though workflow context were optional.
+
+A new project must first enter its governing macro workflow.
+
+For a standard new product or software project start, the default governing workflow is:
+
+`system/workflows/product-definition.md`
+
+unless governance, project state, or an explicitly different valid starting condition clearly requires another workflow.
+
+Accordingly:
+
+- `New Project` must enter the governing workflow first
+- only after workflow entry is established may the controlling bounded skill begin
+- the system must not treat direct skill hopping as an acceptable substitute for workflow entry
+
+For `New Project`, the system should not behave as though context discovery alone is the whole operating model.
+
+It must treat discovery as a bounded operation inside the governing workflow.
+
+If optional upstream domain work such as `research` is materially required by the governing workflow, that work must be handled through explicit workflow-aware progression rather than ad hoc skill improvisation.
+
+---
+
+# OPTIONAL DOMAIN STAGE RULE
+
+The system may use governed optional domain stages when the project materially benefits from them.
+
+These stages are:
+
+- `research`
+- `experience`
+- `strategy`
+- `design`
+
+These domains are not decorative.
+
+They are optional only in the sense that not every project requires all of them.
+
+When a domain is materially relevant, its omission must not remain silent.
+
+The controlling workflow and controlling skill must explicitly evaluate whether the domain is materially needed.
+
+Examples:
+
+- use `research` when benchmark, category, competitive, market, or external reference grounding materially affects safe product definition
+- use `experience` when UI, information architecture, motion, trust-sensitive interaction, or surface-level experience direction materially affects safe progression upstream of product definition
+- use `strategy` when positioning, messaging, CRO, SEO, discoverability, or analytics logic materially affects safe progression
+- use `design` when project-level design-system definition, token/component/state/surface contracts, or implementation-contract seriousness materially affect safe progression between PRD and downstream validation/tasks
+
+If such work is not genuinely needed, the system may proceed without opening that optional stage.
+
+If such work is genuinely needed, Claude must not pretend the project is ready without it.
+
+For user-facing products, when benchmark grounding and experience direction both materially affect PRD safety, the system should normally treat those as coupled domain needs rather than silently choosing only one.
+
+For interface-heavy products, when PRD safety and downstream implementation depend materially on coherent design-system instantiation, the system should normally treat `design` as a real downstream requirement rather than a decorative extension.
+
+The detailed operating span of each domain belongs in the relevant workflow file under:
+
+`system/workflows/`
+
+---
+
+# DESIGN LAYER RULE
+
+The design layer is a governed part of the system architecture.
+
+It must not be treated as:
+
+- a loose aesthetic extension
+- an implicit frontend concern
+- a substitute for experience direction
+- a substitute for project-specific implementation handoff
+
+The canonical layered design model is:
+
+- `Experience Direction` for upstream guardrails
+- `Design Rules` for global constitutional design rules
+- `Design Foundation` for the project-level design system artifact
+- `Implementation Contract` as a mandatory section inside a valid project-level design foundation
+
+Canonical locations are:
+
+- `project/experience/...`
+- `system/design/rules/...`
+- `project/design/...`
+
+`Experience Direction` is not a full design system.
+
+`Design Rules` are global and do not make project-specific design decisions.
+
+`Design Foundation` is project-specific and must translate stabilized product direction into a materially implementable design layer.
+
+When used, `design` belongs after `prd` and before downstream validation, task decomposition, and execution preparation.
+
+Detailed design-layer integration discipline belongs in:
+
+`system/policies/design-governance-policy.md`
+
+---
+
+# AUXILIARY GATES
+
+The system may use auxiliary gates when needed for workflow safety and quality.
+
+Auxiliary gates are conditional checks.
+
+They are not official macro stages.
+
+Examples include:
+
+- scope alignment checks
+- security boundary checks
+- state coherence checks
+- artifact lifecycle audits
+- motion necessity checks
+
+Auxiliary gates may validate readiness for advancement, but they must not redefine the pipeline.
+
+When active, they should be reflected in `Active Auxiliary Gates` in `PROJECT_STATE.md`.
+
+---
+
 # ROLE OF SKILLS
 
-Skills are the primary operational execution units of the governed workflow.
+Skills are bounded execution units of governed work.
+
+Skills execute inside the currently controlling workflow or gate.
 
 Skills must:
 
-1. operate only within the allowed workflow stage or auxiliary gate
+1. operate only within the currently allowed stage or gate
 2. respect current project state
-3. use the relevant active artifact when one exists
-4. stay within their own scope
-5. produce outputs compatible with governed progression
+3. respect the currently governing workflow
+4. use the relevant active artifact when one exists
+5. stay within their own bounded scope
+6. produce outputs compatible with governed progression
 
 Skills do not invent workflow.
 
 Skills do not redefine stages.
 
-Skills do not authorize themselves outside governance and state constraints.
+Skills do not authorize themselves outside governance, state, workflow, and policy constraints.
 
-Claude must not execute a skill belonging to a later stage before the current stage is properly completed.
+A skill must not behave as though workflow traversal is optional when a governing workflow contract materially applies to the current bounded step.
 
-Claude must not chain multiple governed stage transitions in a single turn.
+When a skill closes its bounded step, it must stop after:
 
-When a skill completes its bounded step, it must stop after:
-
-- producing the bounded artifact or bounded outcome for that step
-- applying a coherent state closure when that closure is valid
+- producing the bounded outcome or artifact
+- applying coherent state closure when valid
 - reporting completion and the next allowed action
 
-A skill must not continue from successful closure of one macro stage into execution of the next macro stage in the same turn.
+A skill must never continue from one successful macro step into another macro step in the same turn.
+
+A skill must not silently compensate for missing workflow traversal by improvising downstream progression.
 
 ---
 
 # ROLE OF AGENTS
 
-Agents are auxiliary specialization layers.
+Agents are bounded domain specialization layers.
 
-They may support domain-specific execution or reasoning, but they are not the core workflow authority.
+They do not replace governance, state, workflows, or skills.
+
+However, they are not merely decorative optional attachments when a governing workflow materially requires domain specialization.
+
+Canonical project agents live under:
+
+`system/agents/`
 
 Agents must not:
 
 - redefine the official pipeline
 - override governance
 - replace project state
-- compete with skills as the primary operational workflow mechanism
+- create a parallel governance model
+- replace bounded skill execution as the workflow controller
 
-The system must remain skill-driven at the operational level and governance-first at the structural level.
+The system remains workflow-orchestrated and skill-executed.
+
+Accordingly:
+
+- workflows determine when domain specialization is materially required
+- skills execute bounded work inside that workflow
+- agents provide the required domain specialization inside the active workflow context
+
+When a relevant workflow requires specialist participation for safe progression, the controlling skill must not silently bypass that participation.
+
+Canonical agent naming, registry discipline, routing, and execution behavior belong in:
+
+- `system/agents/AGENTS.md`
+- `system/agents/registry.yaml`
+- `system/runtime/AGENT_ROUTING.md`
+- `system/runtime/AGENT_EXECUTION_RULES.md`
 
 ---
 
-# ROLE OF MCP TOOLS AND EXTERNAL DOCUMENTATION EVIDENCE
+# WORKFLOW SPECIALIZATION RULE
 
-MCP tools and external documentation providers are auxiliary capability layers.
+When a governing workflow materially depends on domain specialization, the system must not treat specialist participation as optional decoration.
 
-They may provide current library documentation, API references, framework guidance, configuration evidence, and version-aware implementation context.
+In those cases, the controlling skill must explicitly ensure that the relevant specialists are invoked, resolved, or consciously handled according to the workflow contract.
+
+This rule applies across governed progression up to implementation.
+
+A correct governed step should therefore be able to state, honestly:
+
+- which workflow is currently governing the step
+- which specialists were materially required
+- which specialists were actually used
+- whether synthesis and structured output for that workflow were completed
+- what the next allowed bounded step is
+
+If materially required specialization was not performed, the system must not pretend the workflow step is fully mature.
+
+Silent omission is not valid workflow completion.
+
+---
+
+# ROLE OF POLICIES
+
+Policies are transversal rule files that apply across workflows, skills, stages, or domains.
+
+They do not replace governance.
+
+They do not replace project state.
+
+They do not replace skills.
+
+The main policy families in this system cover:
+
+- naming discipline
+- artifact lifecycle discipline
+- design governance discipline
+- evidence and inference discipline
+- Context7 usage discipline
+
+Detailed transversal rules belong in:
+
+`system/policies/`
+
+---
+
+# EXTERNAL DOCUMENTATION AND CONTEXT7
+
+External documentation providers are auxiliary evidence layers.
 
 They are not workflow authorities.
 
@@ -337,116 +597,37 @@ They must not:
 - redefine the official pipeline
 - override governance
 - replace project state
-- replace skills as the primary operational execution mechanism
 - authorize technical baselines on their own
 - justify stage advancement on their own
 
-Context7 is an approved external documentation evidence provider for this system when current library or framework knowledge is materially relevant to the bounded step.
+Context7 is an approved external documentation evidence provider when current or version-sensitive documentation is materially relevant to an already authorized bounded step.
 
-Context7 should be used when the step depends on current or version-sensitive documentation for:
+Context7 is not a canonical project agent.
 
-- frameworks
-- libraries
-- SDKs
-- APIs
-- configuration surfaces
-- implementation patterns tied to specific tool versions
+It is a policy-governed external capability.
 
-Context7 must be treated as evidence support only.
+Detailed usage discipline belongs in:
 
-Its role is to improve technical accuracy within an already authorized bounded step.
-
-Context7 does not decide what the workflow should do.
-
-Context7 does not decide whether implementation is authorized.
-
-Context7 does not replace project defaults, architecture decisions, or governed technical authority.
-
-When using Context7 or another MCP documentation provider, Claude must:
-
-- keep the query narrowly scoped to the actual bounded need
-- prefer explicit library and version grounding when available
-- avoid unnecessary retrieval breadth
-- avoid transmitting sensitive or repository-specific details when they are not required for the lookup
-- disclose honestly that external documentation support was used when that support materially shaped the output
-
-If external documentation evidence cannot be grounded cleanly to the bounded step, Claude should proceed without forcing MCP usage.
+`system/policies/context7-policy.md`
 
 ---
 
-# CANONICAL AGENT RESOLUTION AND INVOCATION
+# EVIDENCE DISCIPLINE
 
-Canonical project agents are defined in:
+When the system performs research, external comparison, framework lookup, benchmark interpretation, or review reasoning that depends on evidence, Claude must distinguish clearly between:
 
-`system/agents/*.md`
+- direct evidence
+- strong inference
+- weak inference
+- unknown / not yet verified
 
-These files are the project-level source of truth for:
+Claude must not present inference as if it were directly evidenced.
 
-- agent identity
-- specialist role
-- intended use
-- working style
-- deliverables
-- boundaries
+Claude must not overstate certainty beyond what the available evidence supports.
 
-However, canonical project agent names must not be assumed to be natively invocable by the current runtime.
+Detailed evidence discipline belongs in:
 
-When agent specialization is needed, Claude must resolve the agent through:
-
-1. `system/agents/registry.yaml`
-2. `system/runtime/AGENT_RESOLUTION.md`
-3. `system/runtime/AGENT_INVOCATION.md`
-
-Claude must distinguish clearly between:
-
-- the **canonical project agent**
-- the **runtime-supported invocation type**
-
-The canonical agent remains the project specialization identity.
-
-The runtime-supported invocation type is only the execution-compatible path available in the current runtime.
-
-Claude must not pretend these are the same thing.
-
-If the runtime does not support the canonical project agent name directly, Claude must use the configured invocation path defined by the registry and runtime agent resolution/invocation rules.
-
-Claude must not:
-
-- attempt direct invocation of canonical project agent names when the runtime does not support them
-- claim native runtime invocation when only adapted invocation occurred
-- claim adapted operational invocation when the behavior was only documentary or manual application of the agent guidance
-- silently bypass the registry when an agent resolution path is required
-- invent agent mappings not present in the registry
-
-When specialization is used, Claude should be able to state explicitly:
-
-- canonical agent resolved
-- agent file used
-- runtime-supported invocation type used
-- invocation mode used
-- whether invocation was:
-  - native
-  - adapted operational
-  - documentary / behavioral only
-
-If agent resolution fails, Claude must not pretend the agent was used operationally.
-
-If invocation remains only documentary / behavioral, Claude must disclose that honestly.
-
-Agent invocation must remain:
-
-- bounded
-- subordinate to skill control
-- subordinate to governance and state
-- honest about runtime reality
-
-Agents remain auxiliary specialization layers.
-
-Registry and runtime invocation rules do not elevate agents into workflow controllers.
-
-MCP tools and external documentation providers must also remain subordinate to governance, state, and skill control.
-
-They do not become canonical project agents merely because they are runtime-available.
+`system/policies/evidence-policy.md`
 
 ---
 
@@ -463,42 +644,84 @@ Examples include:
 - persistence choice
 - folder structure
 - architectural baseline
-- implementation foundation for a new product codebase
-
-Claude must not treat the “simplest” or “most common” option as an authorized default unless that default is already explicitly governed upstream.
+- implementation foundation for a new codebase
 
 A technical baseline is considered officially authorized only when it is materially grounded by one or more of:
 
 - an explicit governance rule in `CLAUDE.md`
 - an explicit project-level default in `project/PROJECT_CONTEXT.md`
 - an explicit durable architecture decision in `project/memory/decisions/`
-- an already-existing repository implementation baseline that clearly governs the same execution line
+- an already existing repository implementation baseline that clearly governs the same execution line
 
-If no such authority exists, the technical baseline must be treated as an open dependency.
+If no such authority exists, the baseline remains an open dependency.
 
 In that situation, Claude must not:
 
 - choose a stack implicitly
 - choose a framework implicitly
-- choose folder structure implicitly
-- choose persistence or storage implicitly
-- proceed with implementation as though the baseline were already settled
+- choose structure implicitly
+- choose persistence implicitly
+- proceed as though the baseline were settled
 
-Absence of technical decision does not authorize fallback-by-convenience.
+“Simple”, “default”, “vanilla”, or “good enough for now” are not substitutes for governed technical authority.
 
-“Most simple”, “most direct”, “vanilla”, “default”, or “good enough for now” are not valid substitutes for governed technical authority.
+If a bounded step depends materially on a missing baseline, Claude must stop, surface the dependency clearly, and return control to the correct prior decision layer.
 
-If a bounded workflow step depends materially on a missing technical baseline, Claude must stop, surface the dependency clearly, and return control to the correct prior governed step or decision layer.
+External documentation, including Context7, may inform execution inside an already authorized baseline, but it must not create the baseline.
 
-Handoff preparation must not invent technical baseline.
+---
 
-Implementation must not invent technical baseline.
+# EXECUTION-UNLOCK RULES
 
-External documentation evidence, including Context7 output, may inform execution inside an already authorized baseline, but it must not be treated as authority to create, choose, or legitimize a missing baseline.
+`execution-unlock` is the governed transition between `handoff` and `implementation`.
 
-If an official project default exists, Claude may inherit it without re-deciding it.
+The existence of an active handoff does not, by itself, authorize implementation.
 
-If no official default exists, Claude must not improvise one.
+The canonical skill for this transition is:
+
+`authorize-implementation`
+
+At minimum, execution unlock requires:
+
+- `Current Phase = handoff` or `Current Phase = execution-unlock` depending on the exact current closure moment reflected in state
+- `Execution Unlocked = no`
+- an active task exists
+- an active handoff exists
+- the active task and handoff are consistent with `PROJECT_STATE.md`
+- active artifacts exist in canonical active locations
+- no unresolved state or artifact inconsistency materially undermines readiness
+- no missing technical baseline materially blocks execution
+- no explicit blocker prevents safe bounded implementation
+
+If unlock is approved, Claude may update `PROJECT_STATE.md` coherently to reflect the new implementation-ready moment, including:
+
+- `Current Phase = implementation`
+- `Execution Unlocked = yes`
+- `Next Expected Skill = implement-approved-scope`
+- a `Next Allowed Action` explicitly bounded to execution of the active handoff
+
+If unlock is not approved, Claude must:
+
+- keep `Execution Unlocked = no`
+- avoid promoting the phase to `implementation`
+- explain the blocking reason truthfully
+- return control to the correct prior governed step
+
+Execution unlock is a transition gate only.
+
+It must not:
+
+- implement the handoff
+- invent new technical baselines
+- silently promote the project into implementation
+
+Even when unlock is approved, the system must stop after that bounded transition decision.
+
+Approval of unlock does not authorize same-turn implementation execution.
+
+Detailed operating span for this domain belongs in:
+
+`system/workflows/governed-implementation.md`
 
 ---
 
@@ -512,42 +735,41 @@ Implementation must not start unless all required conditions are true:
 - `Execution Unlocked = yes`
 - an active task exists
 - an active handoff exists
-- no unresolved project state / artifact inconsistency exists
+- no unresolved project state or artifact inconsistency exists
 
-Preparation for implementation is not implementation.
+Formal authorization must come from the governed execution-unlock transition.
 
-A handoff alone does not authorize implementation.
+The canonical implementation skill is:
 
-If any required condition is false, Claude must stop and return control to the correct prior governed step.
+`implement-approved-scope`
 
-Implementation is also forbidden when the bounded execution step materially depends on a technical baseline that has not been explicitly authorized upstream.
+Implementation is forbidden when the bounded execution step materially depends on a technical baseline that has not been explicitly authorized upstream.
 
-This includes cases where the active task or handoff would require Claude to choose or invent:
+Implementation is also forbidden when `PROJECT_STATE.md` remains semantically inconsistent.
 
-- stack
-- framework
-- structural baseline
-- persistence model
-- project structure
+When implementation depends on current or version-sensitive framework, library, SDK, API, or configuration knowledge, Claude should use the configured external documentation provider, including Context7 when available, before proposing code or configuration guidance.
 
-In such situations, Claude must stop and surface the missing technical authority rather than proceeding with an implicit fallback.
-
-Implementation is also forbidden when `PROJECT_STATE.md` remains semantically inconsistent, including cases where:
-
-- the phase and objective do not describe the same operational moment
-- the next expected skill and next allowed action point to different stages
-- execution flags imply readiness while objective or notes still describe a prior stage
-- task or handoff focus is ambiguous or contradictory
-
-Execution readiness must never be inferred from a subset of favorable fields while the overall state remains operationally incoherent.
-
-When implementation depends on current or version-sensitive framework, library, SDK, API, or configuration knowledge, Claude should use the configured external documentation evidence provider, including Context7 when available, before proposing code, setup, or configuration guidance.
-
-Such usage must remain bounded to the authorized execution step and must not be treated as authorization to widen scope, choose missing baselines, or bypass governance.
+Such usage must remain bounded to the already authorized execution step.
 
 Implementation completion alone does not authorize task or handoff closure.
 
-After implementation, governed work must pass through the official `review` stage before lifecycle promotion to `done` is allowed.
+After implementation, governed work must pass through `review` before lifecycle promotion to `done` is allowed.
+
+---
+
+# PRE-IMPLEMENTATION WORKFLOW COMPLETION RULE
+
+Before the system may enter governed implementation, the pre-implementation workflow path must be materially complete for the active execution line.
+
+This means, at minimum:
+
+- the governing workflows up to implementation have been actually traversed rather than merely referenced
+- required bounded skills have completed honestly
+- materially relevant specialist participation has been handled according to workflow needs
+- required synthesis and structured outputs have been produced
+- the active handoff represents a truly bounded next execution step
+
+Implementation readiness must not be claimed on the basis of artifacts alone if the upstream workflow path remained only partially materialized.
 
 ---
 
@@ -561,15 +783,13 @@ Review must not start unless all required conditions are true:
 - an active task exists
 - an active handoff exists
 - the active task and handoff still match the current execution boundary
-- no unresolved project state / artifact inconsistency exists
+- no unresolved project state or artifact inconsistency exists
 
-Review must evaluate the delivery outcome against the active task and active handoff for the current bounded step.
+The canonical review skill is:
 
-Review must not be treated as a specialized auxiliary critique such as design review, security review, or architecture exploration.
+`review-delivery`
 
-Its role is governed delivery closure assessment.
-
-The review stage must classify the result as one of:
+Review must classify the outcome as one of:
 
 - accepted
 - accepted with follow-ups
@@ -586,6 +806,67 @@ If the outcome is accepted or accepted with follow-ups, task and handoff lifecyc
 
 Follow-up work must not be hidden inside closure notes as if it were already delivered.
 
+Review and review-based closure are still one bounded governed step.
+
+Even when review accepts closure and lifecycle promotion succeeds, the system must stop after that bounded review/closure moment.
+
+Review closure must not automatically:
+
+- activate the next pending task
+- prepare the next handoff
+- unlock the next execution line
+- resume implementation on another scope slice
+
+Detailed review and closure behavior belongs in:
+
+`system/workflows/review-and-closure.md`
+
+---
+
+# POST-TASK-BLOCK TRANSITION RULE
+
+Closure of one bounded block of tasks does not, by itself, authorize automatic opening of another task block.
+
+After such a closure, Claude must determine the dominant current need before advancing.
+
+The next governed direction must be chosen deliberately from possibilities such as:
+
+- validation, when the main need is to verify behavior
+- stabilization, when the main need is to resolve fragility or inconsistency
+- a new bounded task block, only when the prior block is honestly closed and the next bounded scope is clear
+- a strategic decision pause, when multiple plausible directions exist and automatic continuation would introduce avoidable risk
+
+Claude must not assume that task completion automatically implies further task decomposition as the next step.
+
+Claude must not auto-promote a pending task into `Active Task` merely because the prior task just closed.
+
+Such activation requires an explicit governed reentry moment reflected coherently in `PROJECT_STATE.md`.
+
+---
+
+# POST-IMPLEMENTATION REENTRY RULE
+
+After implementation and review, the system must not reopen work through ad hoc continuation.
+
+If further work is needed, the next governed direction must be chosen explicitly based on the dominant need.
+
+Possible reentry directions include:
+
+- return to review follow-up handling
+- stabilization work
+- a new bounded task block
+- renewed validation
+- renewed strategy or experience work if newly uncovered gaps materially require it
+- a strategic decision pause
+
+The system must not assume that implementation automatically implies new task generation.
+
+New task creation after implementation must be justified through governed reentry rather than momentum.
+
+Review-based closure of one task/handoff pair must not automatically select the next pending task as active execution focus in the same turn.
+
+The post-closure operational moment must be represented honestly before any new execution line is opened.
+
 ---
 
 # IMPLEMENTATION CONSTRAINTS
@@ -600,7 +881,7 @@ Maximum recommended file size for implementation code files:
 
 This guidance applies to implementation code outputs only.
 
-It does not apply to governance files, memory files, or workflow artifacts.
+It does not apply to governance files, workflow files, policy files, memory files, or artifact files.
 
 ## Code quality expectations
 
@@ -630,10 +911,10 @@ Default operating limits:
 
 - validation scenarios: maximum 5
 - tasks per decomposition: maximum 5
-- handoffs per execution: maximum 1
+- handoffs per execution line: maximum 1
 - active implementation targets: maximum 1
 
-Claude must prefer bounded outputs, low ambiguity, and low context expansion.
+Claude should prefer bounded outputs, low ambiguity, and low context expansion.
 
 ---
 
@@ -647,31 +928,29 @@ Claude must not treat the system as parallel-first.
 
 Claude must not open multiple concurrent implementation tracks unless the system is explicitly redesigned to allow it.
 
-This serial rule also applies to operational task focus.
+When multiple task artifacts exist, the state model should distinguish the single current active task from the remaining pending tasks.
 
-When multiple task artifacts exist, Claude must not represent all of them as simultaneously active implementation work by default.
-
-The operational model should preserve one current execution target at a time.
-
-If multiple task artifacts are present, the state model should distinguish the current active task from the remaining non-active tasks rather than collapsing them all into the same active execution slot.
-
-Claude must not describe bounded task artifact creation as parallel operational execution when the system is still governed in serial mode.
+Claude must not describe bounded task artifact creation as parallel execution when the system is still governed in serial mode.
 
 ---
 
 # DURABLE MEMORY BOUNDARY
 
-Durable decisions, structural architecture notes, and reusable patterns belong in:
+Durable decisions, structural notes, and reusable patterns belong in:
 
 `project/memory/`
 
 Claude must not overload governance with architecture memory, and must not overload project state with durable design knowledge.
 
+The canonical skill for routing such updates is:
+
+`route-memory-update`
+
 ---
 
 # FAILURE HANDLING
 
-If required context, required artifacts, or required consistency conditions are missing, Claude must stop and surface the missing prerequisite clearly.
+If required context, required artifacts, required authority, or required consistency conditions are missing, Claude must stop and surface the missing prerequisite clearly.
 
 Claude must never:
 
@@ -682,7 +961,7 @@ Claude must never:
 
 Safe blocking is preferred over invalid advancement.
 
-If artifact creation succeeds but lifecycle closure fails, Claude must report the step as operationally incomplete rather than pretending the governed transition fully passed.
+If artifact creation succeeds but coherent lifecycle closure fails, Claude must report the step as operationally incomplete rather than pretending the governed transition fully passed.
 
 ---
 
@@ -692,31 +971,23 @@ The spine of the system must remain stable while specialized capabilities grow b
 
 Adding a new agent must not, by itself:
 
-- alter the official pipeline
+- alter the official stage model
 - alter the central governance model
 - alter the state model
 - alter the structural role of artifacts
-- invert the hierarchy between governance, state, skills, and agents
+- invert the hierarchy between governance, state, workflows, policies, skills, agents, and external providers
 
-Adding a new skill must not, by itself:
+Adding a new workflow, policy, or skill must not, by itself:
 
-- redefine phases
-- create a new macro stage
+- create a competing constitution
 - create a parallel governance model
-- require refactoring the state template
+- silently redefine stages
+- require uncontrolled redesign of the state model
 - compete with the official conceptual model
 
-Adding a new MCP tool or external documentation provider must not, by itself:
+Domain expansion must happen through specialization, not repeated reinvention of the core.
 
-- alter the official pipeline
-- alter the central governance model
-- alter the state model
-- alter the structural role of artifacts
-- invert the hierarchy between governance, state, skills, agents, and runtime capabilities
-
-Domain expansion must happen through specialization, not through repeated reinterpretation of the core.
-
-The core must know contracts, not growing catalogs of concrete specializations.
+The core must know contracts, not growing catalogs of special cases.
 
 ---
 
@@ -724,19 +995,26 @@ The core must know contracts, not growing catalogs of concrete specializations.
 
 Claude must not:
 
-- skip official stages
+- skip required governed stages
 - treat auxiliary gates as macro stages
 - maintain multiple competing workflow truths
-- reacouple governance with project context, project state, or architecture memory
-- overload the governance file with expanding specialization catalogs
+- collapse governance, state, workflow, policy, skill, and agent responsibilities into one layer
 - chain multiple governed stage transitions in one turn
 - start implementation without formal entry conditions
-- continue after successful stage completion without returning control
-- apply partial lifecycle state updates and then treat them as valid governed closure
-- unlock execution on top of semantically contradictory project state
+- continue automatically after successful stage completion
+- apply partial lifecycle state updates and then treat them as valid closure
+- unlock execution on top of semantically contradictory state
 - promote task or handoff to `done` directly from implementation without governed review closure
 - treat external documentation evidence as workflow authorization
-- treat Context7 or any MCP provider as a substitute for governed technical authority
+- treat Context7 or any external provider as a substitute for governed technical authority
+- treat workflow traversal as optional during governed progression
+- route `New Project` directly into an isolated downstream skill without first entering its governing workflow
+- silently bypass materially required specialist participation
+- confuse canonical project agents with skills or macro stages
+- use specialist-shaped uncertainty as a reason to improvise downstream skill hopping
+- reopen post-implementation work through ad hoc continuation instead of governed reentry
+- auto-promote a pending task into active execution focus immediately after review closure
+- treat review-based closure as permission to open the next execution line in the same turn
 
 ---
 

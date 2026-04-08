@@ -47,23 +47,23 @@ Do not use this gate when:
 
 If context is still missing, use:
 
-`detect-context-gap`
+`discover-missing-context`
 
 If the PRD must be created or corrected, use:
 
-`create-or-update-prd`
+`define-prd`
 
 If validation is missing or insufficient, use:
 
-`derive-validation-scenarios`
+`define-success-scenarios`
 
 If task decomposition is missing or incorrect, use:
 
-`break-scope-into-tasks`
+`plan-tasks`
 
 If the handoff must be regenerated, use:
 
-`prepare-execution-handoff`
+`prepare-handoff`
 
 ---
 
@@ -186,10 +186,10 @@ Provide only the minimal next action.
 Examples:
 
 - proceed to the next governed step
-- return to `create-or-update-prd`
-- return to `derive-validation-scenarios`
-- return to `break-scope-into-tasks`
-- return to `prepare-execution-handoff`
+- return to `define-prd`
+- return to `define-success-scenarios`
+- return to `plan-tasks`
+- return to `prepare-handoff`
 
 Do not perform the correction inside this gate.
 
@@ -199,11 +199,11 @@ Do not perform the correction inside this gate.
 
 Route to the skill that owns the detected problem.
 
-- missing or unstable context → `detect-context-gap`
-- PRD misalignment or outdated scope definition → `create-or-update-prd`
-- validation misalignment or missing coverage → `derive-validation-scenarios`
-- task misalignment or invalid decomposition → `break-scope-into-tasks`
-- handoff misalignment or scope expansion in handoff → `prepare-execution-handoff`
+- missing or unstable context → `discover-missing-context`
+- PRD misalignment or outdated scope definition → `define-prd`
+- validation misalignment or missing coverage → `define-success-scenarios`
+- task misalignment or invalid decomposition → `plan-tasks`
+- handoff misalignment or scope expansion in handoff → `prepare-handoff`
 
 ---
 

@@ -100,22 +100,73 @@ The project does not treat speed, convenience, or verbosity as substitutes for d
 
 ---
 
+# OPERATING ARCHITECTURE
+
+The system is organized into these main layers:
+
+- `CLAUDE.md` for constitutional governance
+- `project/PROJECT_STATE.md` for live operational state
+- `system/workflows/` for macro workflow contracts
+- `system/policies/` for transversal rule files
+- `system/design/` for global design architecture, including constitutional design rules
+- `.claude/skills/` for bounded governed execution units
+- `system/agents/` for auxiliary specialization by domain
+- `project/` artifact directories for durable workflow outputs
+- `project/memory/` for durable decisions, patterns, and architecture notes
+
+The project is intentionally moving toward a more explicit architecture where responsibility is distributed rather than concentrated in one oversized central file.
+
+---
+
 # ROLE OF ARTIFACTS
 
 Artifacts are a core part of how this system creates durable progress.
 
-They exist to stabilize decisions, reduce ambiguity, and preserve continuity between stages of work.
+They stabilize decisions, reduce ambiguity, and preserve continuity between stages of work.
 
-In the current pipeline, the official workflow artifacts are:
+The core progression artifacts are:
 
 - PRD
+- Design Foundation
 - Validation
 - Task
 - Handoff
 
-These artifacts are not just outputs.
+The optional domain artifacts are:
 
-They are durable checkpoints that help the system move forward with clearer boundaries and less dependence on transient conversational context.
+- Research
+- Experience
+- Strategy
+
+Core progression artifacts support the minimum path from definition to governed execution.
+
+Optional domain artifacts deepen the work when the project materially benefits from research grounding, experience direction, or growth strategy.
+
+`Design Foundation` is the project-level design system artifact used when stabilized product direction must be translated into an implementation-capable design layer before downstream validation, task decomposition, and execution preparation.
+
+Artifacts are not just outputs.
+
+They are durable operational checkpoints.
+
+---
+
+# DESIGN ARCHITECTURE INTENT
+
+The design architecture is intentionally layered.
+
+It distinguishes between:
+
+- `project/experience/...` for upstream experience direction
+- `system/design/rules/...` for global constitutional design rules
+- `project/design/...` for project-level design foundation artifacts
+
+This separation exists so that the system does not confuse:
+
+- direction with system definition
+- global rules with project instantiation
+- frontend implementation with design governance
+
+The mandatory `Implementation Contract` lives inside a project-level design foundation rather than in the global rules layer.
 
 ---
 
@@ -125,7 +176,7 @@ This system is intended to grow without losing coherence.
 
 Its core should remain stable while new capabilities, domains, and specializations are added by fitting into existing contracts rather than redefining the foundation each time.
 
-That means the system should be able to expand into areas such as product work, UX/UI, marketing research, analytics, or other domains without needing to reinvent its core identity every time it grows.
+That means the system should be able to expand into areas such as product work, UX/UI, research, growth, analytics, or other domains without needing to reinvent its core identity every time it grows.
 
 Expansion is expected.
 
@@ -133,9 +184,28 @@ Core instability is not.
 
 ---
 
+# MACRO WORKFLOW INTENT
+
+The repository defines a macro workflow layer with documents such as:
+
+- `structured-research`
+- `product-definition`
+- `experience-direction`
+- `growth-strategy`
+- `governed-implementation`
+- `review-and-closure`
+
+These workflow files are meant to organize broader domains and stage clusters.
+
+They do not replace the official governed stage model defined in `CLAUDE.md`.
+
+They clarify how the system should operate across larger spans of work without turning every detail into central governance.
+
+---
+
 # PROJECT DEFAULTS FOR TECHNICAL BASELINES
 
-This project may define official technical defaults that downstream governed steps may inherit when a bounded execution step requires an already-authorized baseline.
+This project may define official technical defaults that downstream governed steps may inherit when a bounded execution step requires an already authorized baseline.
 
 These defaults do not override governance.
 
@@ -161,6 +231,27 @@ These defaults must not be treated as permission to skip workflow stages.
 
 They are inheritance defaults, not improvisation licenses.
 
+Repository-level defaults are not, by themselves, proof that the active execution line has a materially sufficient technical baseline.
+
+They may contribute to baseline readiness, but they must not be treated alone as enough to:
+
+- declare baseline readiness
+- skip `define-technical-baseline`
+- skip `bootstrap-implementation-baseline`
+- prepare feature handoff on top of a codebase that does not yet materially exist
+- authorize implementation unlock for an execution line that still depends on unresolved structural prerequisites
+
+A downstream governed step must still evaluate whether the active execution line depends on additional unresolved baseline decisions such as:
+
+- application bootstrap
+- runtime / hosting model
+- persistence / storage model
+- auth model
+- delivery boundary between frontend and backend
+- repository implementation baseline for the current execution line
+
+If such dependencies remain materially open, the step must not treat repository defaults as sufficient authorization.
+
 If a bounded step still requires a technical decision that is not covered by official project defaults or by a narrower authorized artifact, that dependency must remain open and must not be silently decided by the executing skill.
 
 ---
@@ -169,4 +260,4 @@ If a bounded step still requires a technical decision that is not covered by off
 
 This project is a governed, artifact-driven AI development system built to make engineering work with AI more reliable, structured, and durable.
 
-It exists to replace improvisational collaboration with clearer checkpoints, stronger continuity, and disciplined evolution over time.
+It exists to replace improvisational collaboration with clearer checkpoints, stronger continuity, distributed architectural responsibility, and disciplined evolution over time.
