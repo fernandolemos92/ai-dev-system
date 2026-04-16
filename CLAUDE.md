@@ -127,7 +127,7 @@ This means:
 - the controlling skill must execute inside that workflow context
 - workflow-required synthesis and structured outputs must be honored before advancing
 
-A skill must not behave as though it alone defines the governed path when a relevant workflow contract exists.
+A skill must not behave as though workflow traversal is optional when a governing workflow contract materially applies to the current bounded step.
 
 If a workflow materially governs the current step, silent bypass is not allowed.
 
@@ -499,6 +499,10 @@ A skill must never continue from one successful macro step into another macro st
 
 A skill must not silently compensate for missing workflow traversal by improvising downstream progression.
 
+When a skill materially depends on specialist participation, it must not treat “specialist considered” as equivalent to “specialist routed, executed, and materially applied.”
+
+If the relevant workflow requires specialist participation, the controlling skill must enforce honest specialist handling through the canonical routing/execution bridge.
+
 ---
 
 # ROLE OF AGENTS
@@ -560,6 +564,100 @@ If materially required specialization was not performed, the system must not pre
 
 Silent omission is not valid workflow completion.
 
+When a workflow materially requires specialist participation, honest completion requires all of the following distinctions to remain visible:
+
+- canonical specialist identity
+- routing success
+- runtime invocation success
+- materially applied specialist contribution
+
+These must not be collapsed into one overclaimed narrative.
+
+---
+
+# AGENT ROUTING AND EXECUTION DISCIPLINE
+
+The canonical bridge for specialist use is:
+
+- `system/agents/registry.yaml`
+- `system/runtime/AGENT_ROUTING.md`
+- `system/runtime/AGENT_EXECUTION_RULES.md`
+
+Claude must preserve a strict distinction between:
+
+- canonical project agent
+- runtime-supported execution type
+- invocation mode
+- runtime call target
+- actual execution outcome
+
+Routing is not execution.
+
+Execution is not proof of materially applied specialist contribution.
+
+For specialist participation to count as strong, specialist-backed execution, the following must all be true:
+
+- the canonical agent was resolved through the registry
+- the referenced agent file was actually loaded
+- the routed runtime type and runtime call target were actually honored
+- invocation followed the approved invocation mode
+- materially relevant specialist guidance was actually extracted
+- that guidance materially shaped the bounded work
+
+If one or more of these conditions is missing, the result must be downgraded honestly.
+
+The system must not narrate specialist success based only on:
+
+- naming the specialist
+- reading the registry
+- reading the agent file
+- attempting a runtime call
+- generic work that happened after specialist failure
+
+---
+
+# NO SILENT FALLBACK RULE FOR SPECIALISTS
+
+If routing or execution of a materially required specialist fails, Claude must not silently continue generic reasoning while narrating specialist participation as if it materially succeeded.
+
+Invalid behavior includes:
+
+- routing failure followed by undocumented generic continuation
+- runtime rejection followed by silent retry under another target without explicit policy support
+- specialist failure followed by generic synthesis that is still narrated as specialist-backed
+- partial behavioral guidance being presented as strong specialist execution
+
+If a materially required specialist fails, the controlling skill must do one of the following explicitly:
+
+- block the governed step
+- degrade the synthesis claim and mark completion accordingly
+
+Required specialist failure must always have a visible consequence.
+
+Silent resilience is not valid workflow maturity.
+
+---
+
+# REQUIRED SPECIALIST FAILURE CONSEQUENCE RULE
+
+When a materially required specialist is load-bearing for the active bounded step, failure or unavailability of that specialist must not be hidden.
+
+Examples of load-bearing specialist situations include:
+
+- `design-system` on a digital user-facing experience pass where shared surface logic materially matters
+- `ui` on a bounded pass where surface-level application quality materially matters
+- `information-architecture` when grouping, findability, or structural clarity materially affects the surface
+- `page-strategy` when progression, information release, trust timing, or CTA timing materially affects the page
+- `motion` when stillness vs movement is materially consequential for a premium or motion-sensitive surface
+- `frontend` or `backend` when an implementation or design-foundation step materially depends on their boundary knowledge
+
+In such cases, specialist failure must lead to one of:
+
+- explicit blocking
+- explicit degradation of the bounded outcome
+
+It must never be erased by optimistic synthesis language.
+
 ---
 
 # ROLE OF POLICIES
@@ -579,10 +677,20 @@ The main policy families in this system cover:
 - design governance discipline
 - evidence and inference discipline
 - Context7 usage discipline
+- implementation architecture discipline
 
 Detailed transversal rules belong in:
 
 `system/policies/`
+
+Implementation architecture discipline is additionally grounded by:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md`
+- `project/memory/backend-implementation-architecture.md`
+- `project/memory/design-system-integration.md`
+
+When implementation-facing work materially touches those concerns, those documents are binding complements to the policy layer.
 
 ---
 
@@ -755,6 +863,24 @@ Implementation completion alone does not authorize task or handoff closure.
 
 After implementation, governed work must pass through `review` before lifecycle promotion to `done` is allowed.
 
+Implementation must satisfy not only functional correctness, but also structural alignment with the applicable implementation architecture canon.
+
+At minimum, when materially relevant, implementation-facing work must remain aligned with:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md`
+- `project/memory/backend-implementation-architecture.md`
+- `project/memory/design-system-integration.md`
+
+This means:
+
+- working code is not sufficient by itself
+- structurally weak frontend work is not acceptable merely because the UI works
+- structurally weak backend work is not acceptable merely because the endpoint responds
+- design-system-sensitive UI work must preserve product consistency rather than only local functionality
+
+When a bounded implementation step materially touches frontend structure, backend structure, or UI consistency, the relevant canon must be treated as binding, not decorative.
+
 ---
 
 # PRE-IMPLEMENTATION WORKFLOW COMPLETION RULE
@@ -770,6 +896,35 @@ This means, at minimum:
 - the active handoff represents a truly bounded next execution step
 
 Implementation readiness must not be claimed on the basis of artifacts alone if the upstream workflow path remained only partially materialized.
+
+---
+
+# TASK AND HANDOFF STRUCTURAL INTENT RULE
+
+For implementation-facing execution lines, task and handoff artifacts must carry enough structural intent to preserve downstream architecture quality.
+
+This does not mean turning tasks or handoffs into implementation plans.
+
+It does mean they must not remain functionally clear but structurally careless when architecture materially matters.
+
+Where applicable, implementation-oriented tasks and handoffs should make explicit enough direction to preserve:
+
+- likely layer ownership
+- what should remain thin
+- what should be reused before creation
+- what should not remain embedded locally
+- which anti-patterns should be explicitly avoided
+
+Examples include:
+
+- overloaded page surfaces
+- generic helpers trapped in feature hooks
+- service-bucket drift
+- repository-owned business rules
+- shared component bypass
+- ad hoc recurring state implementation
+
+If a bounded execution line materially depends on such structural truth, tasking and handoff must not ignore it.
 
 ---
 
@@ -816,6 +971,20 @@ Review closure must not automatically:
 - prepare the next handoff
 - unlock the next execution line
 - resume implementation on another scope slice
+
+Review must assess both:
+
+- functional correctness
+- structural alignment with the applicable implementation canon
+
+When materially relevant, review must remain aligned with:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md`
+- `project/memory/backend-implementation-architecture.md`
+- `project/memory/design-system-integration.md`
+
+A functionally working result must not be accepted as fully healthy if structural misalignment remains materially significant.
 
 Detailed review and closure behavior belongs in:
 
@@ -963,6 +1132,8 @@ Safe blocking is preferred over invalid advancement.
 
 If artifact creation succeeds but coherent lifecycle closure fails, Claude must report the step as operationally incomplete rather than pretending the governed transition fully passed.
 
+If materially required specialist routing or execution fails, Claude must not narrate the bounded step as specialist-complete unless the workflow and controlling skill explicitly allow conservative degraded completion and that degradation is surfaced honestly.
+
 ---
 
 # EXTENSIBILITY INVARIANTS
@@ -1015,6 +1186,9 @@ Claude must not:
 - reopen post-implementation work through ad hoc continuation instead of governed reentry
 - auto-promote a pending task into active execution focus immediately after review closure
 - treat review-based closure as permission to open the next execution line in the same turn
+- treat successful routing as proof of successful specialist execution
+- treat attempted specialist execution as proof of materially applied specialist contribution
+- silently fallback from failed required specialist execution into undocumented generic synthesis
 
 ---
 

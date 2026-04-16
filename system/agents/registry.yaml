@@ -32,49 +32,49 @@ agents:
     runtime_type: general
     domain: core
     invocation_mode: adapter
-    description: Technical approach selection support for best modern/performant/maintainable path per project class, avoiding default stacks and preferring TypeScript and frameworked approaches for user-facing products.
+    description: Technical approach selection support for best modern, performant, and maintainable paths per project class, without silently defaulting stack decisions.
 
   branding:
     file: system/agents/design/branding-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: Branding direction support for visual tone, expression, and brand coherence.
+    description: Branding direction support for visual tone, identity expression, and brand coherence across user-facing surfaces.
 
   design-system:
     file: system/agents/design/design-system-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: Design system support for component consistency, tokens, patterns, and scalable UI decisions.
+    description: Design-system support for foundations, primitives, shared product components, recurring patterns, token discipline, and durable UI consistency.
 
   information-architecture:
     file: system/agents/design/information-architecture-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: Information architecture support for structure, hierarchy, and navigation clarity.
+    description: Information architecture support for grouping, hierarchy of meaning, navigation cognition, findability, progressive disclosure, and structural clarity.
 
   motion:
     file: system/agents/design/motion-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: Motion support for restrained, useful, and context-appropriate interaction feedback.
+    description: Motion direction support for motion role, necessity, language, state continuity, attention reinforcement, and stillness as strategy.
 
   page-strategy:
     file: system/agents/design/page-strategy-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: Page-level strategy support for surface composition, hierarchy, and strategic page structure.
+    description: Page and surface progression support for narrative pacing, attention choreography, information release, trust timing, and experience-led or conversion-led sequencing.
 
   ui:
     file: system/agents/design/ui-agent.md
     runtime_type: general
     domain: design
     invocation_mode: adapter
-    description: UI direction support for surface clarity, interaction quality, and visual usability.
+    description: UI direction support for surface composition, hierarchy expression, component application, state readability, and interface clarity on real user-facing surfaces.
 
   analytics:
     file: system/agents/growth/analytics-agent.md
@@ -116,25 +116,25 @@ agents:
     runtime_type: general
     domain: implementation
     invocation_mode: adapter
-    description: Backend implementation support for services, handlers, contracts, and execution structure.
+    description: Backend implementation support for transport boundaries, use-case ownership, service discipline, persistence seams, contracts, security, and maintainable execution structure.
 
   database:
     file: system/agents/implementation/database-agent.md
     runtime_type: general
     domain: implementation
     invocation_mode: adapter
-    description: Data modeling and persistence support for schemas, storage structure, and database decisions.
+    description: Data modeling and persistence support for schemas, storage structure, database boundaries, and persistence-oriented design decisions.
 
   frontend:
     file: system/agents/implementation/frontend-agent.md
     runtime_type: general
     domain: implementation
     invocation_mode: adapter
-    description: Frontend implementation support for UI structure, interaction behavior, accessibility, and maintainability.
+    description: Frontend implementation support for page and screen structure, shared UI vs feature UI boundaries, state ownership, accessibility, design-system-aligned composition, and maintainability.
 
   qa:
     file: system/agents/implementation/qa-agent.md
     runtime_type: general
     domain: implementation
     invocation_mode: adapter
-    description: Delivery-quality support for verification thinking, failure modes, and bounded review support.
+    description: Delivery-quality support for verification thinking, failure modes, regression awareness, and bounded review support.

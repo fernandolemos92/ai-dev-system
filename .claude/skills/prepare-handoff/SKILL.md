@@ -15,11 +15,38 @@ This skill exists to:
 - verify that any materially required design-foundation dependency for the selected execution line is already sufficient
 - transform that task into a short, clear, execution-friendly handoff
 - preserve only the context needed for the next bounded execution step
+- preserve the structural intent necessary for later implementation to remain aligned with the applicable canon
 - produce output aligned with the canonical handoff template
 
 This skill prepares controlled execution transfer.
 
 It does not generate a full implementation plan, an execution report, or implementation work itself.
+
+---
+
+## Normative Relationship
+
+This skill is bound by the implementation architecture policy and must prepare handoffs that remain compatible with the applicable implementation canon documents.
+
+The following documents are materially relevant when the selected execution line depends on them:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md` when the selected execution line materially shapes frontend structure
+- `project/memory/backend-implementation-architecture.md` when the selected execution line materially shapes backend structure
+- `project/memory/design-system-integration.md` when the selected execution line materially shapes UI consistency, shared UI semantics, recurring product states, or product patterns
+
+This skill must not turn handoff into implementation.
+
+However, it must prepare handoff in a way that does not silently weaken the canon that later implementation will be required to uphold.
+
+This means:
+
+- handoff must not be functionally clear but structurally careless when architecture matters for the selected task
+- handoff must not leave obvious layer ownership, reuse expectations, or anti-pattern avoidance completely implicit when those concerns are materially load-bearing
+- handoff must not ignore design-system-sensitive requirements when UI consistency materially governs the selected execution line
+- handoff must not compensate for weak tasking by inventing hidden execution structure
+
+This skill must preserve bounded execution transfer with enough structural truth to keep the next step honest.
 
 ---
 
@@ -157,6 +184,64 @@ If the selected execution line still depends on implementation-facing design con
 
 ---
 
+## Canon Applicability Check
+
+Before preparing the handoff, this skill must determine which implementation canon will materially govern the selected execution line.
+
+It must classify the selected handoff line as one or more of:
+
+- frontend-structural
+- backend-structural
+- UI consistency / design-system-sensitive
+- cross-cutting
+
+### Frontend canon relevance
+
+Frontend canon is materially relevant when the selected execution line will shape:
+
+- route/page structure
+- screen composition
+- feature component boundaries
+- shared UI reuse or creation
+- hooks and state ownership
+- utility placement
+- frontend adapter placement
+- frontend concentration risks
+
+### Backend canon relevance
+
+Backend canon is materially relevant when the selected execution line will shape:
+
+- routes, handlers, or controllers
+- use case ownership
+- service vs use case distinction
+- repository boundaries
+- validation boundaries
+- authentication / ownership behavior
+- integration boundaries
+- error contract behavior
+
+### Design-system canon relevance
+
+Design-system canon is materially relevant when the selected execution line will shape:
+
+- recurring UI states
+- shared product components
+- canonical patterns
+- token-sensitive surfaces
+- UI consistency-critical blocks
+- consistency-sensitive product behavior
+
+### Rule
+
+This skill must make an explicit canon applicability decision when those canons materially affect what the next bounded execution step must preserve.
+
+This does not mean turning handoff into implementation.
+
+It means the handoff must not be blind to the structural requirements that are already governing safe execution.
+
+---
+
 ## Controlled Context Transfer
 
 A handoff in this system is a controlled transfer of only the context needed for the next bounded execution step.
@@ -167,6 +252,7 @@ It must:
 - remain short and targeted
 - preserve scope clarity
 - reduce guessing without turning into a long execution package
+- preserve enough structural intent for later implementation to stay honest
 
 It must not:
 
@@ -176,6 +262,7 @@ It must not:
 - restate the full design-foundation artifact
 - dump large architecture summaries
 - include context that belongs in upstream artifacts rather than the handoff itself
+- become a disguised implementation plan
 
 The handoff must function as a precise bridge, not as a context dump.
 
@@ -193,6 +280,8 @@ The handoff should clearly capture:
 - the required references
 - the expected output
 - the completion condition
+- the canon that materially governs the execution line when relevant
+- the structural boundary that later implementation must preserve when relevant
 
 These elements must remain focused on the selected task.
 
@@ -227,6 +316,41 @@ This skill must not “solve” oversized scope by quietly widening the handoff.
 
 ---
 
+## Structural Boundary Discipline
+
+When canon relevance is material, the handoff must preserve the minimum structural truth needed for later implementation to remain aligned.
+
+This may include explicitly framing:
+
+- what layer should likely own the action
+- what should remain thin
+- what should be reused before creating new local structure
+- what should not remain embedded locally
+- what anti-pattern should be explicitly avoided during execution
+
+Examples of acceptable handoff-level structural framing:
+
+- "Keep the page layer thin; place feature coordination in a feature composition unit if the page would otherwise overload."
+- "Default action ownership to a use case rather than route logic."
+- "Reuse canonical shared state and feedback patterns rather than introducing local approximations."
+- "Do not place generic formatting or parsing logic inside a feature-local hook."
+- "Do not let repository code absorb business rule ownership."
+
+Examples of forbidden implementation-plan detail:
+
+- exact class/method decomposition
+- exact endpoint definitions
+- exact folder pathing for every file
+- exact schema implementation detail
+- exact package/library wiring
+- detailed code choreography
+
+### Rule
+
+The handoff must preserve bounded structural intent without becoming the real implementation plan.
+
+---
+
 ## Design Reference Discipline
 
 When a governed `design-foundation` is materially relevant to the selected execution line, this skill should treat it as a required bounded reference rather than as optional background.
@@ -245,6 +369,33 @@ It must not:
 - silently omit a materially governing design-foundation from the execution transfer
 
 The handoff should preserve reference integrity without becoming a second design document.
+
+---
+
+## Reuse Expectation Rule
+
+When the selected execution line clearly touches reusable structures, the handoff should explicitly preserve reuse expectations.
+
+This may include reuse expectations around:
+
+- shared UI primitives
+- shared product components
+- recurring product patterns
+- existing hooks or adapters
+- shared utility functions
+- use cases
+- repositories
+- providers / gateways
+
+The handoff must not force creation of new units where compatible existing units should be reused.
+
+It also must not demand reuse when that reuse would clearly distort the boundary.
+
+### Rule
+
+Reuse should be expected when it materially preserves consistency, structure, or boundedness.
+
+This expectation must be preserved in the handoff when it is load-bearing for honest implementation.
 
 ---
 
@@ -269,6 +420,7 @@ unless those decisions are already materially grounded by one or more of:
 - governed project defaults
 - stabilized upstream artifacts
 - existing canonical continuity of the same execution line
+- governed implementation canon already adopted for the same execution line
 
 If a technical choice is still unresolved, this skill may only:
 
@@ -335,8 +487,9 @@ However, for a bounded task whose execution quality could materially benefit fro
 Typical examples include:
 
 - `frontend` for UI-heavy bounded execution
-- relevant design specialists such as `ui`, `branding`, `information-architecture`, `page-strategy`, or `motion` when interaction or visual refinement materially affects the selected task
+- design-related specialist support when shared states, shared product patterns, consistency-sensitive UI, or product interaction quality materially affect the selected task
 - `backend` or `database` for bounded server/data concerns when those are already inside the selected task boundary
+- `architect` when structural tradeoffs or boundary shape are materially load-bearing
 
 This skill should either:
 
@@ -346,6 +499,23 @@ This skill should either:
 It must not invoke agents decoratively.
 
 It also must not ignore obviously relevant specialist support without any evaluation.
+
+---
+
+## Specialist Expectation Rule
+
+When specialist support is materially beneficial for the selected execution line, the handoff should preserve that expectation explicitly.
+
+Examples:
+
+- `frontend specialist recommended`
+- `backend specialist recommended`
+- `design-system-sensitive execution; design-related specialist recommended`
+- `architect support recommended due to cross-layer boundary risk`
+
+This does not force agent usage automatically.
+
+It preserves an execution expectation that later implementation must consciously uphold or consciously decline.
 
 ---
 
@@ -366,6 +536,29 @@ The result should be:
 - concise
 - execution-friendly
 - suitable for low-context operation
+
+---
+
+## Handoff Content Guidance
+
+When the handoff artifact is materialized, it should stay concise, but it should still carry enough information to preserve downstream structural honesty.
+
+Handoff content should usually make clear:
+
+- what bounded outcome must be delivered now
+- what stays outside the boundary when exclusion is important
+- what upstream references materially govern the step
+- what canon applies when canon relevance is load-bearing
+- what structural boundary matters for later execution
+- what should remain thin
+- what should be reused
+- what should not be embedded locally
+- what anti-pattern should be explicitly avoided when that concern materially governs the selected execution line
+- whether specialist support is expected or not
+
+This does not require a full implementation plan.
+
+It requires the minimum execution-facing structure needed to keep later implementation honest.
 
 ---
 
@@ -433,10 +626,11 @@ This skill must preserve strict closure order.
 A valid handoff closure must happen in this sequence:
 
 1. confirm task readiness and design-readiness sufficiency for the selected execution line
-2. create the handoff artifact in the canonical active handoff location
-3. confirm the handoff artifact is materially present and represents the selected task coherently
-4. update `PROJECT_STATE.md` only if the new operational moment can be represented coherently
-5. emit the completion message only after the artifact and resulting state describe the same operational moment
+2. confirm canon applicability when materially relevant
+3. create the handoff artifact in the canonical active handoff location
+4. confirm the handoff artifact is materially present and represents the selected task coherently
+5. update `PROJECT_STATE.md` only if the new operational moment can be represented coherently
+6. emit the completion message only after the artifact and resulting state describe the same operational moment
 
 This skill must not narrate handoff completion before the material handoff artifact exists.
 
@@ -486,6 +680,7 @@ For this step, a coherent post-handoff state should describe:
 - handoff as prepared
 - one active task as the current execution target
 - active design foundation truthfully preserved when one materially governs the selected execution line
+- the applicable execution canon truthfully preserved through the selected handoff framing
 - remaining tasks as pending when applicable
 - implementation as the next governed stage
 - no claim that implementation has already started
@@ -622,6 +817,7 @@ The output must be:
 - short enough to remain usable for low-context execution
 - clear enough to reduce guessing in the next bounded execution step
 - controlled enough to avoid becoming a hidden implementation plan or context dump
+- structurally honest enough to support later implementation against the applicable canon
 
 After the handoff artifact is produced, this skill must stop.
 
@@ -689,6 +885,13 @@ If the selected task is otherwise handoff-ready but execution packaging still de
 - return control to `define-design-foundation`
 - do not create a handoff artifact that implies design readiness is already settled
 
+If the selected task is otherwise handoff-ready but the handoff would still be structurally careless against the applicable canon:
+
+- stop handoff preparation
+- identify what structural boundary is still too weak
+- return control to `plan-tasks` or the appropriate earlier step
+- do not create a handoff artifact that would force later implementation to improvise critical structure
+
 If handoff artifact creation succeeds but coherent lifecycle closure fails:
 
 - stop
@@ -710,7 +913,9 @@ A correct `prepare-handoff` must answer:
 
 - is the selected task ready for handoff?
 - is any materially required design-foundation dependency already sufficient?
+- what canon materially governs the selected execution line?
 - what is the next bounded execution step?
+- what structural boundary must later implementation preserve?
 - how should that step be framed as a short, clear, canonical handoff?
 
 It must not answer:
@@ -721,4 +926,4 @@ It must not answer:
 - what has already been executed
 - how to instantiate the design foundation itself
 
-Its job is to prepare a canonical handoff artifact from a bounded task and already-sufficient upstream basis, close the handoff step coherently when possible, and then stop.
+Its job is to prepare a canonical handoff artifact from a bounded task and already-sufficient upstream basis, preserve enough structural truth for later governed execution, close the handoff step coherently when possible, and then stop.

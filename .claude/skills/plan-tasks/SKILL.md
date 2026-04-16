@@ -15,11 +15,38 @@ This skill exists to:
 - verify that no materially unresolved design dependency still makes honest task boundaries impossible for the active execution line
 - transform validated scope into clear bounded task units
 - keep task artifacts small, understandable, and downstream-friendly
+- preserve task boundaries that will support structurally honest implementation later
 - produce output aligned with the canonical task template
 
 This skill defines task units.
 
 It does not generate handoff, instantiate design, implementation planning, or later-stage execution detail.
+
+---
+
+## Normative Relationship
+
+This skill is bound by the implementation architecture policy and must preserve downstream compatibility with the applicable implementation canon documents.
+
+The following documents are materially relevant when task decomposition shapes future implementation boundaries:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md` when task boundaries will shape frontend structure
+- `project/memory/backend-implementation-architecture.md` when task boundaries will shape backend structure
+- `project/memory/design-system-integration.md` when task boundaries will shape UI consistency, shared UI semantics, recurring product states, or product patterns
+
+This skill must not turn tasks into handoffs or implementation plans.
+
+However, it must shape tasks in a way that does not silently undermine the applicable canon.
+
+This means:
+
+- tasking must not be functionally clear but structurally vague when structure is materially important
+- tasking must not rely on future implementation to “figure out” obvious layer boundaries that are already important enough to preserve now
+- tasking must not ignore product consistency when the change is clearly UI-sensitive
+- tasking must not harden implementation drift into the task layer
+
+This skill must preserve task-level structural intent without collapsing into implementation detail.
 
 ---
 
@@ -158,6 +185,64 @@ If decomposition still depends on a concrete implementation-facing design layer,
 
 ---
 
+## Canon Applicability Check
+
+Before generating tasks, this skill must determine which implementation canon will materially shape future execution boundaries.
+
+It must classify the active decomposition line as one or more of:
+
+- frontend-structural
+- backend-structural
+- UI consistency / design-system-sensitive
+- cross-cutting
+
+### Frontend canon relevance
+
+Frontend canon is materially relevant when task boundaries will later shape:
+
+- route/page structure
+- screen composition
+- feature component boundaries
+- shared UI reuse or creation
+- hooks and state ownership
+- utility placement
+- frontend adapter placement
+- frontend file concentration risks
+
+### Backend canon relevance
+
+Backend canon is materially relevant when task boundaries will later shape:
+
+- routes, handlers, or controllers
+- use case ownership
+- service vs use case distinction
+- repository boundaries
+- validation boundaries
+- authentication / ownership behavior
+- integration boundaries
+- error contract behavior
+
+### Design-system canon relevance
+
+Design-system canon is materially relevant when task boundaries will later shape:
+
+- recurring UI states
+- shared product components
+- canonical patterns
+- token-sensitive surfaces
+- UI consistency-critical blocks
+- consistency-sensitive product behavior
+
+### Rule
+
+This skill must make an explicit canon applicability decision when those canons materially affect how work should be sliced.
+
+This does not mean turning tasks into implementation plans.
+
+It means the task set must not be blind to the structural reality the canon is already governing.
+
+---
+
 ## Bounded Task Unit Definition
 
 A good task in this system is one bounded unit of work.
@@ -169,6 +254,7 @@ Each task should have:
 - a clear done condition
 - enough focus to remain understandable without internal re-planning
 - enough separation to avoid absorbing the whole feature or workflow
+- enough structural intent to support honest later handoff and implementation
 
 A task must not be:
 
@@ -177,6 +263,7 @@ A task must not be:
 - a subsystem-sized container
 - a vague placeholder for future thinking
 - a bundle of unrelated concerns unless the coupling is unavoidable
+- functionally clear but structurally careless when architecture matters for the execution line
 
 Tasks should be small enough to support controlled downstream execution later, but they must not become mini implementation plans.
 
@@ -229,6 +316,7 @@ Decomposition should:
 
 - preserve traceability to the active PRD and validation artifact
 - preserve traceability to the active design-foundation basis when that basis materially shapes task boundaries
+- preserve compatibility with the applicable implementation canon when canon relevance is material
 - create the smallest sufficient set of meaningful task units
 - avoid inventing new requirements or new scope
 - avoid embedding execution detail that belongs to a later handoff
@@ -273,6 +361,40 @@ If a candidate task would require phrases like:
 - "all remaining behavior"
 
 then it is likely too broad and must be narrowed before creation.
+
+---
+
+## Structural Intent Rule
+
+Tasks must remain implementation-neutral at the detailed level, but they must still preserve the structural truth required for honest downstream execution.
+
+When canon relevance is material, each task should make explicit enough structural intent to answer questions such as:
+
+- what layer should be the likely owner of the action?
+- what should remain thin?
+- what should probably be reused rather than recreated?
+- what should not remain embedded locally?
+- what structural anti-pattern should be explicitly avoided?
+
+Examples of acceptable structural intent:
+
+- "Keep page-level responsibility thin; place feature coordination in feature-level composition."
+- "Default action ownership to a use case rather than route logic."
+- "Reuse canonical shared state patterns rather than introducing local approximations."
+- "Avoid placing shared formatting or parsing logic inside feature-local hooks."
+
+Examples of forbidden implementation-shaped detail:
+
+- exact endpoint design
+- exact folder pathing
+- exact framework component tree
+- exact database schema shape
+- exact package decisions
+- exact class/method implementation detail
+
+### Rule
+
+Task artifacts should preserve structural intent without becoming handoff or implementation plans.
 
 ---
 
@@ -351,6 +473,7 @@ A task should be explainable in terms of:
 - which part of the active PRD it supports
 - which validation scenario or validation axis it materially contributes to
 - which design-foundation rule or surface contract materially shapes it, when such a basis exists for the current execution line
+- which implementation canon materially shapes its future execution boundary, when canon relevance is load-bearing
 
 This skill must avoid loose or decorative traceability.
 
@@ -376,6 +499,7 @@ The chosen `Active Task` should usually be the one that:
 - best unlocks later downstream work
 - is currently most foundational without being artificially over-broad
 - is coherent as the first bounded execution focus
+- does not force unsafe structural assumptions too early
 
 This choice must not be arbitrary.
 
@@ -404,6 +528,24 @@ The result should be:
 - template-compatible
 - easy to review
 - suitable for low-context operation
+
+---
+
+## Task Content Guidance
+
+When task artifacts are materialized, they should stay concise, but they should still carry enough information to preserve downstream structural honesty.
+
+Task content should usually make clear:
+
+- what bounded outcome is expected
+- what the task does not include when exclusion is important
+- what upstream basis it traces to
+- what structural boundary matters for later execution when that boundary is materially load-bearing
+- what anti-pattern should not be normalized in later handoff or implementation, when relevant
+
+This does not require adding a full implementation plan to the task.
+
+It requires preserving the minimum structural truth needed to keep later work honest.
 
 ---
 
@@ -468,11 +610,12 @@ This skill must preserve strict closure order.
 A valid task-stage closure must happen in this sequence:
 
 1. confirm PRD, validation, and design sufficiency for honest decomposition
-2. create the task artifacts in the canonical active task location
-3. confirm the task artifacts are materially present and coherently reflect the active PRD and validation basis
-4. update upstream references only when that update is minimal and canonically appropriate
-5. update `PROJECT_STATE.md` only if the new operational moment can be represented coherently
-6. emit the completion message only after the artifacts and resulting state describe the same operational moment
+2. confirm canon applicability when materially relevant
+3. create the task artifacts in the canonical active task location
+4. confirm the task artifacts are materially present and coherently reflect the active PRD and validation basis
+5. update upstream references only when that update is minimal and canonically appropriate
+6. update `PROJECT_STATE.md` only if the new operational moment can be represented coherently
+7. emit the completion message only after the artifacts and resulting state describe the same operational moment
 
 This skill must not narrate task-stage completion before the material task artifacts exist.
 
@@ -617,6 +760,7 @@ The output must be:
 - clear enough to support later handoff safely
 - bounded enough to avoid becoming a hidden implementation plan
 - concise enough to remain reliable for low-context execution
+- structurally honest enough to support later implementation against the applicable canon
 
 After the task set is produced, this skill must stop.
 
@@ -655,6 +799,12 @@ If decomposition reveals that task boundaries would only be possible through gue
 - surface the ambiguity clearly
 - return to the earlier stage that must clarify scope or validation
 
+If decomposition reveals that the active scope would later force canon-breaking implementation boundaries unless task shaping is improved:
+
+- stop
+- narrow the decomposition or reshape the task set
+- do not materialize structurally careless tasks as execution-ready
+
 If task artifact creation succeeds but coherent lifecycle closure fails:
 
 - stop
@@ -673,6 +823,7 @@ A correct `plan-tasks` must answer:
 - is the scope ready for bounded task decomposition?
 - is any materially required design layer already sufficient for honest task boundaries?
 - what are the smallest meaningful task units?
+- what structural intent must be preserved so later implementation can remain honest?
 - how should they be recorded as canonical tasks?
 
 It must not answer:
@@ -683,4 +834,4 @@ It must not answer:
 - how to rediscover context from zero
 - how to instantiate the design foundation itself
 
-Its job is to decompose validated scope into a small bounded set of canonical task artifacts, close the task decomposition step coherently when possible, and then stop.
+Its job is to decompose validated scope into a small bounded set of canonical task artifacts, preserve enough structural intent for later governed execution, close the task decomposition step coherently when possible, and then stop.

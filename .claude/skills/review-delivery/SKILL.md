@@ -18,6 +18,7 @@ It evaluates whether the delivered result is sufficiently aligned with:
 - the intended scope of the current workflow step
 - the expected done condition for closure
 - the minimum implementation quality baseline expected by the system
+- the implementation architecture canon applicable to the current change
 - the governance and lifecycle discipline required for honest closure
 
 This skill does not implement changes.
@@ -28,9 +29,33 @@ It evaluates the implementation outcome and decides whether the delivery can be:
 - accepted with follow-ups
 - rejected as incomplete
 
+This skill must not treat “the feature works” as sufficient by itself when structural or consistency alignment materially fails.
+
 ---
 
-# When To Use
+## Normative Relationship
+
+This skill is bound by the implementation architecture policy and the applicable implementation canon documents.
+
+The following documents are normative during review when applicable:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md` when frontend structure was touched
+- `project/memory/backend-implementation-architecture.md` when backend structure was touched
+- `project/memory/design-system-integration.md` when product UI consistency, shared UI semantics, recurring states, patterns, or visual contracts were touched
+
+This means:
+
+- closure must evaluate both functional correctness and structural alignment
+- tasks, handoffs, implementation self-description, or specialist commentary do not override the canon
+- under-specified execution history does not suspend the canon
+- structurally meaningful misalignment must be surfaced even when implementation appears to work
+
+This skill must not treat architectural quality as optional polish.
+
+---
+
+## When To Use
 
 Use this skill when:
 
@@ -56,7 +81,7 @@ This skill is the formal governed review step for delivery closure.
 
 ---
 
-# When Not To Use
+## When Not To Use
 
 Do NOT use this skill when:
 
@@ -76,7 +101,7 @@ It is the formal governed review of implementation outcome.
 
 ---
 
-# Required Inputs
+## Required Inputs
 
 This skill should read:
 
@@ -84,12 +109,16 @@ This skill should read:
 - the active task from `project/tasks/active/`
 - the active handoff from `project/handoff/active/`
 - the related PRD from `project/prd/active/`
+- `project/memory/implementation-architecture-policy.md`
 
 Optional inputs:
 
 - active validation artifact
 - changed implementation files
 - execution notes
+- `project/memory/frontend-implementation-architecture.md`
+- `project/memory/backend-implementation-architecture.md`
+- `project/memory/design-system-integration.md`
 - relevant auxiliary review outputs
 - relevant optional domain artifacts when they materially govern the current execution line
 
@@ -111,6 +140,8 @@ Minimum checks:
 - Active PRD exists when referenced
 - no active artifact points to a done or archived location
 - the active handoff still matches the current task boundary
+- the implementation architecture policy exists
+- any canon required by the reviewed change is available
 
 If a mismatch is detected:
 
@@ -132,11 +163,66 @@ If that interpretation is not clearly safe, stop and require coherent state alig
 
 The objective of this skill is to answer one bounded question:
 
-**Is the current delivery outcome ready for governed closure?**
+**Is the current delivery outcome ready for governed closure, both functionally and structurally, inside the active execution boundary?**
 
 That answer must be based on the currently active execution boundary, not on unrelated future improvements.
 
 The review must focus on whether the delivery satisfies the current bounded task and handoff, not whether the whole product is perfect.
+
+---
+
+# Canon Applicability Check
+
+Before evaluating the delivery, this skill must determine which implementation canon applies to the reviewed outcome.
+
+It must classify the reviewed change as one or more of:
+
+- frontend structural work
+- backend structural work
+- UI consistency / design-system-sensitive work
+- cross-cutting work
+
+## Frontend canon applies when the reviewed delivery touched:
+
+- route/page structure
+- screen composition
+- feature component boundaries
+- shared UI consumption or creation
+- hooks and state ownership
+- utility placement
+- frontend adapters
+- frontend file structure
+- frontend anti-pattern boundaries
+
+## Backend canon applies when the reviewed delivery touched:
+
+- routes, handlers, or controllers
+- use cases or application services
+- repositories
+- validation boundaries
+- authentication flow
+- ownership-sensitive behavior
+- integrations
+- error contracts
+- backend structural anti-pattern boundaries
+
+## Design system canon applies when the reviewed delivery touched:
+
+- product UI consistency
+- shared UI semantics
+- recurring product states
+- canonical patterns
+- primitives
+- token discipline
+- product-level UI reuse
+- consistency-sensitive visual or interaction behavior
+
+## Rule
+
+This skill must make an explicit canon applicability decision before classifying closure.
+
+It must not review implementation as if “review is only functional QA.”
+It must review against the applicable architectural canon.
 
 ---
 
@@ -227,7 +313,58 @@ If the implementation claimed quality attributes, this skill must still judge th
 
 ---
 
-## 5. Governance and Lifecycle Integrity
+## 5. Structural Alignment With Applicable Canon
+
+Check whether the delivery remained aligned with the implementation architecture canon that applies to this execution line.
+
+### Frontend structural review when frontend canon applies
+
+Questions to evaluate:
+
+- Is the page or route entry surface thin enough?
+- Is the page mostly orchestration rather than concentration?
+- Did a screen / feature composition layer absorb complexity where needed?
+- Are feature components clearly separated?
+- Did hooks remain focused on behavior and state orchestration?
+- Did generic helpers leak into feature hooks?
+- Was state ownership clear?
+- Was shared UI reused where applicable?
+- Did the delivery avoid overloaded page or component concentration?
+
+### Backend structural review when backend canon applies
+
+Questions to evaluate:
+
+- Is the route/controller/handler thin enough?
+- Is there a clear use case or action owner?
+- Was a service used only where clearly justified?
+- Did the implementation default to use case ownership for action-oriented behavior?
+- Did repositories remain focused on persistence rather than business decisions?
+- Are validation boundaries visible?
+- Are authentication and ownership decisions visible and coherent?
+- Is error behavior stable enough for continuation?
+
+### Design-system structural review when design-system canon applies
+
+Questions to evaluate:
+
+- Did the delivery preserve token discipline where relevant?
+- Were primitives reused appropriately?
+- Were shared product components reused appropriately?
+- Were recurring states or flows treated through canonical patterns rather than local improvisation?
+- Did the implementation preserve product consistency?
+- Did it avoid toolkit-as-design-system thinking?
+- Did it avoid local reinvention of recurring product blocks?
+
+### Rule
+
+This dimension is mandatory whenever the reviewed change touches the relevant canon.
+
+A functionally correct change may still fail honest closure if structural alignment is materially weak.
+
+---
+
+## 6. Governance and Lifecycle Integrity
 
 Check whether the delivery outcome remains honest with respect to the governed execution line.
 
@@ -252,7 +389,7 @@ If governance and lifecycle integrity are materially compromised, this skill mus
 
 ---
 
-## 6. Closure Readiness
+## 7. Closure Readiness
 
 Check whether the delivery is truly ready to leave the active lifecycle.
 
@@ -286,6 +423,8 @@ Examples of claims that require real support before being stated confidently inc
 - "quality is clean"
 - "responsibilities are well separated"
 - "no regression was identified"
+- "design-system alignment is strong"
+- "structural boundaries are healthy"
 
 If the evidence is partial or indirect, this skill must speak conservatively.
 
@@ -322,6 +461,7 @@ Examples include:
 - missing experience-direction for a strongly user-facing and trust-sensitive execution line when that omission materially degraded safe execution framing
 - missing strategy work when messaging, funnel logic, or positioning materially governed the delivered surface
 - missing research grounding when the active task clearly depended on it and the current delivery reflects that gap
+- missing architecture canon application when the active implementation line clearly depended on it
 
 This skill does not reopen upstream workflow merely because an optional domain exists.
 
@@ -344,6 +484,7 @@ Use when:
 - no blocking gap prevents closure
 - no meaningful boundary overflow invalidates honest bounded completion
 - no meaningful governance or lifecycle integrity problem makes closure misleading
+- no meaningful structural misalignment remains against the applicable canon
 - the delivery is ready for governed lifecycle completion
 
 Implication:
@@ -363,9 +504,10 @@ Use when:
 Typical examples include:
 
 - small quality cleanup that should be represented explicitly later
-- a bounded follow-up made visible by the current delivery
+- bounded structural debt that is visible and should not be normalized
 - minor excess work that does not break honest closure but must not remain implicit
 - non-blocking governance concerns that do not invalidate closure of the current bounded step but must be surfaced explicitly
+- non-blocking design-system drift or structural debt that should become explicit follow-up rather than hidden acceptance
 
 Implication:
 
@@ -385,6 +527,7 @@ Use when:
 - meaningful scope drift makes honest bounded closure unsafe
 - quality or structural issues materially damage safe continuation
 - governance or lifecycle integrity is materially broken
+- the applicable canon was materially violated in a way that prevents honest closure
 
 Implication:
 
@@ -392,6 +535,26 @@ Implication:
 - handoff must remain active
 - the system must return to implementation or another prior governed step
 - no done promotion is allowed
+
+---
+
+# Structural Review Outcome Guidance
+
+When structural alignment is especially load-bearing in the decision, this skill should use the following internal judgment model while still producing one of the three formal review outcomes above:
+
+- `aligned`
+- `aligned with debt`
+- `rework required`
+- `structurally blocked`
+
+### Mapping guidance
+
+- `aligned` usually supports `Accepted`
+- `aligned with debt` usually supports `Accepted With Follow-Ups`
+- `rework required` usually supports `Rejected / Incomplete`
+- `structurally blocked` must support `Rejected / Incomplete`
+
+This internal structural classification should help the review remain precise rather than binary or vague.
 
 ---
 
@@ -409,6 +572,21 @@ Do not rewrite the whole implementation as a success story.
 
 ---
 
+## Canon Applied
+
+State which canon was applied during review:
+
+- `frontend canon`
+- `backend canon`
+- `design-system canon`
+- `cross-cutting frontend + design-system canon`
+- `cross-cutting frontend + backend canon`
+- other accurate bounded combination as applicable
+
+This must reflect the actual structural classification of the reviewed change.
+
+---
+
 ## Review Findings
 
 Structured findings across:
@@ -417,6 +595,7 @@ Structured findings across:
 - Functional Outcome
 - Regression or Instability Risk
 - Implementation Quality
+- Structural Alignment With Applicable Canon
 - Governance and Lifecycle Integrity
 - Closure Readiness
 
@@ -427,6 +606,19 @@ Where appropriate, findings must explicitly distinguish:
 - confirmed strengths
 - blocking concerns
 - uncertain areas
+
+---
+
+## Structural Assessment
+
+State one of:
+
+- `aligned`
+- `aligned with debt`
+- `rework required`
+- `structurally blocked`
+
+This must reflect the architectural result of the review, not just the functional result.
 
 ---
 
@@ -446,7 +638,7 @@ Brief explanation of why this classification was chosen.
 
 Avoid long narrative.
 
-The reasoning must explicitly reflect the most important deciding factor, especially if scope drift, lifecycle inconsistency, incompleteness, or quality risk drove the result.
+The reasoning must explicitly reflect the most important deciding factor, especially if scope drift, lifecycle inconsistency, incompleteness, quality risk, or structural misalignment drove the result.
 
 ---
 
@@ -494,6 +686,7 @@ It must check whether the implementation is:
 - structured clearly enough to maintain
 - bounded enough to trust within the current scope
 - disciplined enough to avoid unnecessary future rework
+- sufficiently aligned with the applicable canon for honest closure
 
 Clean Code and SOLID-oriented judgment should be applied as practical review lenses, not as decorative doctrine.
 
@@ -609,6 +802,10 @@ If the delivery appears architecturally unsafe or structurally inconsistent:
 
 - recommend architecture review before closure
 
+If the delivery appears functionally usable but structurally misaligned:
+
+- recommend explicit rework or bounded follow-up rather than silently accepting drift
+
 If the current task appears complete but new work is clearly needed:
 
 - recommend explicit follow-up task creation rather than reopening the already completed task dishonestly
@@ -628,19 +825,26 @@ Example output:
 Delivery Summary  
 Playback controls were implemented and connected to the current UI flow.
 
+Canon Applied  
+Frontend canon
+
 Review Findings  
 Scope Alignment: The active task objective was delivered, but a later-scope synchronization behavior also appears partially implemented.  
 Functional Outcome: The intended bounded controls appear present and usable for the current step.  
 Regression or Instability Risk: No blocking regression is directly evident from the reviewed scope, but evidence is limited.  
 Implementation Quality: The implementation is readable enough for continuation, though a follow-up would improve controller responsibility separation.  
+Structural Alignment With Applicable Canon: The page remains somewhat overloaded, but the core feature boundary is still understandable.  
 Governance and Lifecycle Integrity: Active artifacts still align to the reviewed execution boundary, but downstream follow-up must remain explicit rather than folded into closure.  
 Closure Readiness: The current task can close honestly, but the later-scope overflow must be represented explicitly as follow-up awareness, not hidden.
+
+Structural Assessment  
+Aligned with debt
 
 Outcome Classification  
 Accepted With Follow-Ups
 
 Reasoning  
-The bounded delivery is materially complete, but the review identified non-blocking spillover beyond the current slice. Closure can still be honest only if that overflow is made explicit and future work remains governed separately.
+The bounded delivery is materially complete, but the review identified non-blocking structural debt and minor spillover beyond the current slice. Closure can still be honest only if that debt and overflow are made explicit and future work remains governed separately.
 
 Recommended Action  
 Close the current task and handoff coherently if lifecycle state supports it, then represent follow-up work explicitly through new bounded tasking or later governed review.
@@ -658,6 +862,8 @@ This skill must never:
 - treat auxiliary review as a substitute for governed delivery review
 - repeat implementation self-assessment as if it were verified evidence
 - auto-open the next task or next execution line after review closure
+- ignore the applicable canon because the feature appears usable
+- normalize design drift, structural drift, or boundary drift as acceptable by default
 
 Its role is to decide whether the implemented delivery is honestly ready for closure.
 
@@ -671,6 +877,7 @@ Always prioritize:
 
 - honest closure
 - bounded judgment
+- structural alignment with the applicable canon
 - lifecycle consistency
 - explicit follow-up work
 - reliable state transition

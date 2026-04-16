@@ -16,7 +16,8 @@ Its role is to:
 - read the active execution boundary
 - implement only the bounded scope that was handed off
 - preserve implementation quality and maintainability
-- use specialized agents when beneficial
+- enforce structural alignment with the implementation architecture canon
+- use specialized agents when materially beneficial
 - stop after implementation and hand off to governed review
 
 This skill does not close task lifecycle by itself.
@@ -27,7 +28,29 @@ It executes the approved bounded implementation scope only.
 
 ---
 
-# When To Use
+## Normative Relationship
+
+This skill is bound by the implementation architecture policy and the applicable implementation canon documents.
+
+The following documents are normative when implementation begins:
+
+- `project/memory/implementation-architecture-policy.md`
+- `project/memory/frontend-implementation-architecture.md` when frontend structure is touched
+- `project/memory/backend-implementation-architecture.md` when backend structure is touched
+- `project/memory/design-system-integration.md` when product UI consistency, shared UI semantics, recurring states, patterns, or visual contracts are touched
+
+This means:
+
+- functionally correct implementation is not sufficient by itself
+- implementation must remain structurally aligned with the applicable canon
+- tasks, handoffs, or specialist suggestions must not override the canon
+- under-specified implementation boundaries do not suspend architectural requirements
+
+This skill must not treat architectural quality as optional polish.
+
+---
+
+## When To Use
 
 Use this skill when:
 
@@ -53,11 +76,11 @@ This skill is the canonical implementation stage skill.
 
 ---
 
-# When Not To Use
+## When Not To Use
 
 Do NOT use this skill when:
 
-- the system is still in context, PRD, validation, or task decomposition
+- the system is still in context, PRD, validation, task decomposition, or handoff preparation
 - no active task exists
 - no active handoff exists
 - execution is not unlocked
@@ -69,7 +92,7 @@ This skill is for bounded implementation only.
 
 ---
 
-# Required Inputs
+## Required Inputs
 
 This skill should read:
 
@@ -77,10 +100,14 @@ This skill should read:
 - the active task from `project/tasks/active/`
 - the active handoff from `project/handoff/active/`
 - the related PRD from `project/prd/active/`
+- `project/memory/implementation-architecture-policy.md`
 
 Optional inputs:
 
 - active validation artifact
+- `project/memory/frontend-implementation-architecture.md`
+- `project/memory/backend-implementation-architecture.md`
+- `project/memory/design-system-integration.md`
 - architecture guidance from `project/memory/ARCHITECTURE.md`
 - reusable patterns from `project/memory/PATTERNS.md`
 - relevant auxiliary review outputs
@@ -120,9 +147,15 @@ This is a **MUST** verification, not an optional check.
 
 ### 4. Technical Baseline Check
 
-- verify that a governed technical baseline exists (from `technical-baseline` specialist or project defaults)
+- verify that a governed technical baseline exists (from technical baseline artifacts, governed project defaults, or materially present repository continuity)
 - if technical baseline is still missing: **STOP and surface the dependency**
 - if baseline is missing, do not improvise stack or structure to keep implementation moving
+
+### 5. Canon Availability Check
+
+- verify that the implementation architecture policy exists
+- identify which implementation canon documents are required by the active scope
+- if a required canon document is missing: **STOP and surface the dependency**
 
 ## Divergence Classification
 
@@ -186,11 +219,66 @@ A blocked implementation attempt remains blocked until readiness is explicitly a
 
 ---
 
+# Canon Applicability Check
+
+Before implementation begins, this skill must determine which implementation canon applies to the current bounded step.
+
+It must classify the active scope as one or more of:
+
+- frontend structural work
+- backend structural work
+- UI consistency / design-system-sensitive work
+- cross-cutting work
+
+## Frontend canon applies when the change touches:
+
+- route/page structure
+- screen composition
+- feature component boundaries
+- shared UI consumption or creation
+- hooks and state ownership
+- utility placement
+- frontend adapters
+- frontend file structure
+- frontend anti-pattern boundaries
+
+## Backend canon applies when the change touches:
+
+- routes, handlers, or controllers
+- use cases or application services
+- repositories
+- validation boundaries
+- authentication flow
+- ownership-sensitive behavior
+- integrations
+- error contracts
+- backend structural anti-pattern boundaries
+
+## Design system canon applies when the change touches:
+
+- product UI consistency
+- shared UI semantics
+- recurring product states
+- canonical patterns
+- primitives
+- token discipline
+- product-level UI reuse
+- consistency-sensitive visual or interaction behavior
+
+## Rule
+
+This skill must make an explicit applicability decision before implementation starts.
+
+It must not execute as if “implementation is just code writing.”
+It must execute against the applicable architectural canon.
+
+---
+
 # Implementation Objective
 
 The objective of this skill is to answer one bounded question:
 
-**What is the smallest honest implementation that fulfills the active handoff scope for the current task?**
+**What is the smallest honest implementation that fulfills the active handoff scope for the current task while remaining aligned with the applicable implementation canon?**
 
 This skill must implement the approved bounded step.
 
@@ -215,6 +303,7 @@ It must:
 - avoid reopening planning unless truly necessary
 - avoid hidden scope expansion
 - keep the implementation tied to the current bounded objective
+- preserve structural alignment with the applicable canon
 
 If the work needed is clearly larger than the current task boundary:
 
@@ -296,6 +385,7 @@ unless those decisions are already materially grounded by one or more of:
 - governed project defaults
 - stabilized upstream artifacts
 - existing repository continuity for the same execution line
+- explicitly governed implementation architecture canon documents
 
 If a technical decision is still unresolved and materially blocks safe implementation:
 
@@ -352,6 +442,64 @@ Examples of disallowed behavior unless clearly necessary:
 - treating absence of code as permission to create a new structure
 
 If bounded execution requires structural knowledge, inspect only the smallest relevant area.
+
+---
+
+# Structural Pre-Implementation Check
+
+Before writing code, this skill must perform a structural pre-check against the applicable canon.
+
+This is a mandatory implementation readiness step.
+
+## The structural pre-check must answer:
+
+### 1. Which layer owns the change?
+Examples:
+
+- frontend page vs screen composition vs feature component vs shared UI vs hook vs utility
+- backend route vs use case vs repository vs provider/gateway vs support layer
+
+### 2. What must remain thin?
+Examples:
+
+- page files
+- route handlers
+- controllers
+- feature entry surfaces
+- transport boundaries
+
+### 3. What must be reused before creation?
+Examples:
+
+- shared UI primitives
+- shared product components
+- canonical product patterns
+- existing hooks
+- existing repositories
+- existing adapters
+- existing utility functions
+- existing use cases
+
+### 4. What must not remain embedded locally?
+Examples:
+
+- generic helpers inside feature hooks
+- recurring product states implemented ad hoc
+- action ownership in route code
+- repository-owned business rules
+- page-owned modal/logic/utility concentration
+
+### 5. What anti-pattern must be explicitly avoided?
+Examples:
+
+- overloaded page
+- utility dumping in hook
+- services bucket drift
+- repository-driven business logic
+- shared component bypass
+- design-system bypass
+
+If these questions cannot be answered clearly enough, implementation is not ready and this skill must stop.
 
 ---
 
@@ -415,6 +563,80 @@ If two solutions are valid, prefer the one that is:
 
 ---
 
+# Architecture-Conscious Quality Rules
+
+When the active scope touches frontend, backend, or design-system-sensitive UI, this skill must apply the relevant canon directly.
+
+## Frontend-specific quality rules
+
+When frontend canon applies, this skill must preserve:
+
+- thin page / route entry surfaces
+- screen composition clarity
+- focused feature components
+- correct boundary between shared UI and feature-local UI
+- clear state ownership
+- correct placement of generic helpers in shared utilities rather than feature hooks
+- reuse before new component creation
+- avoidance of overloaded page files
+
+If a page or equivalent entry surface becomes structurally overloaded, extraction is not optional polish.
+It is part of correct implementation.
+
+## Backend-specific quality rules
+
+When backend canon applies, this skill must preserve:
+
+- thin transport entrypoints
+- use case as the default preferred owner of action-oriented behavior
+- service usage only with clear supporting justification
+- repositories focused on persistence rather than business decisions
+- visible validation boundaries
+- visible authentication and ownership handling
+- stable error mapping behavior
+
+If action-oriented backend behavior is being implemented, the default preferred owner should be a use case unless a clearly justified application service or supporting service boundary applies.
+
+## Design-system-specific quality rules
+
+When design-system canon applies, this skill must preserve:
+
+- token discipline
+- primitive reuse where applicable
+- shared product component reuse where applicable
+- canonical product pattern reuse for recurring states and flows
+- product consistency across feature implementation
+- avoidance of toolkit-as-design-system thinking
+- avoidance of ad hoc recurring UI state implementation
+
+If UI work touches recurring states, shared product patterns, canonical primitives, or product-level consistency, this skill must not treat design-system alignment as optional.
+
+---
+
+# Allowed Pragmatism Rule
+
+This skill must respect the allowed pragmatism defined by the implementation architecture policy and the relevant canon.
+
+This means:
+
+- not every change requires new layers
+- not every change requires promotion to shared structures
+- not every change requires decomposition into more files
+- not every change requires specialist support
+
+Small, local, low-risk implementation may remain local only when all of the following are true:
+
+- responsibility remains clear
+- reuse is not yet justified
+- consistency is preserved
+- no meaningful architectural drift is introduced
+- the applicable canon is not violated
+
+Pragmatism is allowed.
+Silent structural degradation is not.
+
+---
+
 # File Discipline
 
 This skill must preserve file discipline during implementation.
@@ -427,7 +649,7 @@ Rules:
 - avoid unnecessary file movement or renaming
 - keep implementation files within the recommended readability boundary when possible
 - respect the project preference for implementation files around `300 lines` maximum when feasible
-- if a file would become bloated, split responsibilities only when that split is directly justified by the active scope
+- if a file would become bloated, split responsibilities when that split is directly justified by the active scope or required by the applicable canon
 
 If the current change would force bloated files or unclear structure, prefer modularization that is directly justified by the active scope.
 
@@ -441,14 +663,14 @@ This skill remains the controller of the implementation stage.
 
 Specialized agents are auxiliary helpers.
 
-Before implementing, this skill should make a conscious specialist decision.
+Before implementing, this skill must make a conscious specialist decision.
 
-It should either:
+It must either:
 
 - attach the most relevant specialist because doing so would materially improve the bounded implementation step, or
 - explicitly proceed without specialist because the change is small, clear, and low-risk
 
-This evaluation should be based on the actual bounded task.
+This evaluation must be based on the actual bounded task and the canon applicability decision.
 
 It must not be skipped by habit.
 
@@ -471,6 +693,7 @@ This skill should prefer calling the most relevant specialized agent when:
 - specialized judgment would materially improve the implementation
 - the risk of generic execution is meaningful
 - the current bounded step would benefit from clearer domain-specific reasoning, structure, caution, or direction
+- the applicable canon would be better upheld with specialist support
 
 Examples:
 
@@ -478,8 +701,8 @@ Examples:
 - backend-heavy work → `backend`
 - schema, query, migration, or persistence work → `database`
 - sensitive security implications or trust-boundary concerns → `security`
-- structural tradeoffs, boundary shape, or component split questions → `architect`
-- unclear UI/UX direction, visual style, or interaction tone → relevant design specialists such as `ui`, `branding`, `information-architecture`, `page-strategy`, or `motion`
+- structural tradeoffs, boundary shape, component split questions, or cross-layer architecture tension → `architect`
+- UI consistency, shared product patterns, or design-system-sensitive work → relevant design specialist or design-direction support if available
 - external reference comparison, benchmarking, or pattern investigation → `research`
 - uncertainty about durable memory destination, pattern recording, or architecture-vs-state boundary → `memory`
 
@@ -513,6 +736,33 @@ Agents support execution.
 
 ---
 
+# Reuse-Before-Create Rule
+
+Before creating a new component, helper, pattern, service, repository, or structural unit, this skill must check whether an equivalent or compatible unit already exists.
+
+This applies especially to:
+
+- shared UI primitives
+- shared product components
+- recurring UI state patterns
+- frontend utility functions
+- feature hooks
+- backend use cases
+- repositories
+- providers / gateways
+- validation structures
+
+A new unit should be created only when:
+
+- no suitable existing unit exists
+- reuse would materially distort the boundary
+- the new unit is justified by the bounded scope
+- the new unit does not create avoidable architectural drift
+
+This skill must not create duplicate local structures merely because that is faster in the moment.
+
+---
+
 # Minimal Honest Implementation Rule
 
 This skill must actively prefer the smallest honest implementation that satisfies the current active handoff.
@@ -529,6 +779,9 @@ when those goals would expand implementation beyond the current approved boundar
 
 If a more minimal implementation fully satisfies the active handoff, it must be preferred.
 
+The smallest honest implementation is not merely the smallest amount of code.
+It is the smallest implementation that satisfies the handoff without violating the applicable canon.
+
 ---
 
 # Implementation Execution Rules
@@ -536,12 +789,14 @@ If a more minimal implementation fully satisfies the active handoff, it must be 
 During implementation, this skill must:
 
 1. confirm the active execution boundary
-2. confirm whether specialist support is beneficial
-3. identify the smallest honest implementation path
-4. implement the bounded change
-5. keep modifications as narrow as reasonably possible
-6. avoid unrelated cleanup unless truly necessary for correctness
-7. stop after implementation and return control to governed review
+2. confirm canon applicability
+3. perform the structural pre-implementation check
+4. confirm whether specialist support is beneficial
+5. identify the smallest honest implementation path
+6. implement the bounded change
+7. keep modifications as narrow as reasonably possible
+8. avoid unrelated cleanup unless truly necessary for correctness
+9. stop after implementation and return control to governed review
 
 This skill must not pretend that “code was written” equals “the step is complete and accepted”.
 
@@ -568,6 +823,36 @@ Do not claim broader completion than the actual bounded change.
 List only the files that were actually created or modified.
 
 Do not imply repository-wide completion.
+
+---
+
+## Canon Applied
+
+State which implementation canon was applied:
+
+- `frontend canon`
+- `backend canon`
+- `design-system canon`
+- `cross-cutting frontend + design-system canon`
+- `cross-cutting frontend + backend canon`
+- other accurate bounded combination as applicable
+
+This must reflect the actual structural classification of the change.
+
+---
+
+## Structural Approach
+
+State briefly and factually:
+
+- what layer owned the change
+- what was intentionally kept thin
+- what was reused
+- what was extracted or intentionally kept local
+- what anti-pattern was explicitly avoided
+
+Do not turn this into a long retrospective.
+Keep it implementation-bounded and factual.
 
 ---
 
@@ -603,6 +888,7 @@ State briefly and factually how the implementation preserved:
 - bounded scope
 - maintainability
 - file discipline
+- structural alignment with the applicable canon
 
 Do not self-award quality in broad terms that are not supported by the actual result.
 
@@ -679,6 +965,10 @@ If the implementation reveals architectural instability that prevents safe bound
 
 - recommend architecture review before continuing
 
+If the implementation reveals that architectural canon application is unclear or missing:
+
+- recommend returning to the appropriate prior governed step before continuing
+
 If the implementation appears complete but follow-up work is still needed:
 
 - let governed review decide whether the outcome is accepted with follow-ups or rejected / incomplete
@@ -699,7 +989,7 @@ Feature implementation may only proceed once the governed baseline is both:
 - authorized
 - materially present as a compatible codebase
 
---- 
+---
 
 # Safety Rules
 
@@ -713,6 +1003,9 @@ This skill must never:
 - hide incompleteness behind broad implementation claims
 - self-authorize implementation by changing state to satisfy entry conditions
 - bootstrap a new application or new project baseline when that structural move is not already governed upstream and explicitly inside the active handoff boundary
+- ignore the applicable implementation canon because the feature “already works”
+- bypass design-system requirements on UI-sensitive work
+- use convenience as justification for structural drift
 
 Its role is to execute the approved bounded implementation scope honestly and stop.
 
@@ -725,6 +1018,7 @@ This skill protects the integrity of the implementation stage.
 Always prioritize:
 
 - bounded execution
+- structural alignment with the applicable canon
 - readable and maintainable code
 - minimal necessary change
 - honest scope discipline
