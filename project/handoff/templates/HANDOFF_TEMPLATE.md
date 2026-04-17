@@ -86,6 +86,85 @@ none
 
 ---
 
+---
+
+## Execution Orchestration
+
+Use this section when implementation orchestration is materially relevant for the bounded execution step.
+
+### Required Implementation Specialists
+
+- [required specialist]
+- [required specialist]
+
+If none:
+
+none
+
+### Supporting Specialists
+
+- [supporting specialist]
+- [supporting specialist]
+
+If none:
+
+none
+
+### Context7 Requirement
+
+- [required | not required]
+
+### Context7 Targets
+
+- [library / framework / runtime surface]
+- [library / framework / runtime surface]
+
+If none:
+
+none
+
+### Execution Evidence Requirements
+
+- [required execution evidence]
+- [required execution evidence]
+
+Examples:
+- registry resolution recorded
+- runtime call target recorded
+- invocation attempted before code work
+- Context7 consulted before code work when required
+- execution ledger initialized before implementation
+
+If none:
+
+none
+
+### Allowed Direct Implementation Surfaces
+
+- [small low-risk surface allowed for direct execution]
+- [small low-risk surface allowed for direct execution]
+
+If none:
+
+none
+
+### Forbidden Shortcuts
+
+- [forbidden shortcut]
+- [forbidden shortcut]
+
+Examples:
+- do not skip specialist resolution
+- do not skip Context7 evaluation when required
+- do not begin code work before orchestration preamble
+- do not treat bootstrap continuity as permission to bypass specialist-aware execution
+
+If none:
+
+none
+
+---
+
 ## Expected Output
 
 What should exist or be true when this handoff is executed correctly.

@@ -213,6 +213,66 @@ Examples include, but are not limited to:
 
 If bounded implementation materially depends on such a baseline and that baseline is not already authorized by governance, project defaults, durable decisions, or existing repository continuity for the same execution line, execution must not be unlocked.
 
+### 3A. State-declared baseline gate
+This skill must explicitly honor the baseline flags declared in `project/PROJECT_STATE.md`.
+
+Execution unlock must be rejected when:
+- `Technical Baseline Status = open`
+- `Implementation Baseline Status = missing`
+- `Implementation Baseline Status = bootstrap-required`
+
+These values are not passive descriptors.
+They are blocking readiness signals.
+
+This skill must not reinterpret governed defaults, partial repository continuity, or model convenience as sufficient grounds to override these blocking state values.
+
+If any of the above values are present, this skill must:
+- reject unlock
+- keep `Execution Unlocked = no`
+- keep the project in a coherent pre-implementation phase
+- not promote `Current Phase` to `implementation`
+- explain the exact blocking dependency
+- identify the correct prior bounded step required to resolve the baseline dependency
+- stop
+
+### Execution orchestration readiness gate
+
+This skill must not authorize implementation only on the basis of structural readiness.
+
+In addition to phase, active task, active handoff, baseline status, blockers, and bounded scope, this skill must also verify that the active handoff is execution-orchestration-ready.
+
+A handoff is not execution-orchestration-ready when one or more of the following is true:
+
+- required implementation specialists are still implicit
+- supporting specialists are still implicit when materially relevant
+- Context7 requirement has not been explicitly evaluated
+- Context7 is required but target surfaces are not preserved
+- execution evidence requirements are missing
+- allowed direct implementation surfaces are unclear where direct execution is being allowed
+- forbidden shortcuts are missing when specialist-aware execution is materially required
+
+If execution-orchestration readiness is not materially present in the active handoff, this skill must:
+
+- reject unlock
+- keep `Execution Unlocked = no`
+- not promote `Current Phase` to `implementation`
+- explain that structural readiness alone is insufficient
+- identify the missing orchestration dependency in the handoff clearly
+- point to `prepare-handoff` refinement as the next bounded move
+- stop
+
+### Context7 declaration rule
+
+This skill must treat Context7 evaluation as part of execution-orchestration readiness whenever the active handoff touches library-, framework-, routing-, animation-, forms-, auth-, SDK-, infrastructure-, or similar implementation surfaces where official usage patterns materially affect execution quality.
+
+This skill must not authorize implementation when Context7 is materially relevant but the active handoff leaves one of the following unresolved:
+
+- whether Context7 is required
+- which target surfaces Context7 must cover
+- whether later implementation must consult Context7 before code work begins
+
+Context7 may be declared as not required, but that decision must still be explicit and materially coherent with the selected execution line.
+
 ### 4. Blocker readiness
 
 Claude must verify whether any current blocker explicitly prevents implementation.
@@ -323,6 +383,21 @@ Approval does not mean:
 - acceptance is implied
 - closure is implied
 - downstream review is unnecessary
+
+A valid implementation authorization requires both:
+
+- structural readiness
+- execution-orchestration readiness
+
+Structural readiness alone is not sufficient.
+
+A correct approval decision must be able to state, truthfully and explicitly, that:
+
+- the active handoff is bounded and canon-compatible
+- the baseline is formally sufficient
+- the execution mode is specialist-aware when materially required
+- Context7 has been explicitly evaluated when materially relevant
+- later implementation can begin without silently defaulting to generalist-first execution
 
 ---
 
@@ -551,6 +626,14 @@ If the handoff is too broad, too vague, or not execution-safe:
 - stop
 - explain why unlock is unsafe
 - return control to `prepare-handoff` or the correct earlier bounded step
+
+If the active handoff is structurally valid but not execution-orchestration-ready:
+
+- do not authorize implementation
+- do not treat the issue as a baseline problem unless baseline is also unresolved
+- state that the handoff still lacks execution-orchestration readiness
+- return control to `prepare-handoff`
+- require refinement of the active handoff rather than bypassing the missing execution contract during implementation
 
 If bounded implementation depends on missing technical authority:
 

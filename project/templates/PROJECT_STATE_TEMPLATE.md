@@ -96,6 +96,10 @@ NOTES FOR MAINTAINING THE LIVE STATE
 - Record one coherent operational moment only.
 - Update the file when a governed step closes coherently or when the live operational situation materially changes.
 - Do not treat partial, contradictory, or premature state updates as valid closure.
+- `Technical Baseline Status` and `Implementation Baseline Status` are governed execution gates, not passive descriptors.
+- Do not authorize `execution-unlock` when `Technical Baseline Status = open`.
+- Do not authorize `execution-unlock` or `implementation` when `Implementation Baseline Status = missing` or `bootstrap-required`.
+- Do not mark implementation as active while baseline blockers still exist in these fields.
 - Use `Active Auxiliary Gates` only when a gate is actually active.
 - Use `Pending Tasks` to distinguish queued task artifacts from the single current active task.
 - `Pending Tasks` are not automatically active merely because they exist.

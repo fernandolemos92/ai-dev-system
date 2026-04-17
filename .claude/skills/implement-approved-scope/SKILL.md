@@ -119,6 +119,43 @@ Avoid broad repository scanning unless needed for the active implementation step
 
 ---
 
+# Execution Orchestration Preamble
+
+Before any repository inspection, codebase inspection, structural inference, implementation-path selection, or code work begins, this skill must complete an execution orchestration preamble.
+
+This preamble is mandatory.
+
+It must happen before this skill uses repository continuity, bootstrap continuity, existing files, or apparent implementation progress as input for execution decisions.
+
+The orchestration preamble must:
+
+1. read `project/PROJECT_STATE.md`
+2. read the active task from `project/tasks/active/`
+3. read the active handoff from `project/handoff/active/`
+4. read the execution-orchestration section of the active handoff when present
+5. resolve the implementation specialists declared by the handoff through the registry
+6. explicitly evaluate Context7 according to the active handoff declaration
+7. attempt material specialist invocation when one or more specialists are marked as required
+8. initialize and preserve an execution ledger for this implementation step
+9. only then allow further implementation readiness checks, repository inspection, or code work
+
+The execution ledger should preserve, at minimum, the following fields when materially relevant:
+
+- Canonical Specialist
+- Registry Resolution
+- Runtime Call Target
+- Invocation Attempted
+- Invocation Outcome
+- Context7 Required
+- Context7 Used
+- Result Strength
+
+This skill must not treat the absence of this preamble as a minor omission.
+
+If the orchestration preamble cannot be completed coherently, implementation must not begin.
+
+---
+
 # Pre-Step Consistency Check
 
 Before implementation begins, the system must verify that `PROJECT_STATE.md` matches the filesystem.
@@ -156,6 +193,32 @@ This is a **MUST** verification, not an optional check.
 - verify that the implementation architecture policy exists
 - identify which implementation canon documents are required by the active scope
 - if a required canon document is missing: **STOP and surface the dependency**
+
+### 6. Execution Orchestration Readiness Check
+
+Before implementation begins, this skill must verify that execution-orchestration readiness is materially present and has been actively honored.
+
+Minimum checks:
+
+- the active handoff includes an execution-orchestration section when materially relevant
+- required implementation specialists are explicitly declared rather than implicit
+- supporting specialists are explicitly declared when materially relevant
+- Context7 requirement is explicitly declared
+- Context7 target surfaces are preserved when Context7 is required
+- execution evidence requirements are present in the handoff
+- allowed direct implementation surfaces are clear when direct execution is being allowed
+- forbidden shortcuts are present when specialist-aware execution is materially required
+- the execution orchestration preamble has already been completed before code work begins
+- the execution ledger has been initialized before repository inspection is used to guide implementation
+- every required specialist has been materially resolved and materially invoked, or has an explicit governed unavailability outcome
+- Context7 has been evaluated and consulted before code work begins whenever the handoff declares it as required
+
+If any of these conditions fail:
+
+- STOP
+- report that execution-orchestration readiness is not yet satisfied
+- do not use repository inspection, bootstrap continuity, or local reasoning as fallback permission to continue
+- return control to the correct prior governed step
 
 ## Divergence Classification
 
@@ -200,6 +263,26 @@ If the pre-step consistency check shows that implementation is not yet formally 
 This skill may only execute when formal implementation readiness is already materially reflected in the current state.
 
 This skill must not self-authorize execution.
+
+---
+
+# No Generalist-First Execution Rule
+
+This skill must not begin implementation through generalist-first reasoning when specialist-aware execution is materially required by the active handoff.
+
+In particular, this skill must not:
+
+- reinterpret bootstrap continuity as permission to skip execution orchestration
+- reinterpret repository continuity as permission to skip specialist resolution or invocation
+- inspect existing files first and only later decide whether specialists were actually needed
+- treat apparent implementation simplicity as justification for bypassing required specialist involvement
+- collapse required specialist work into local controller reasoning without explicit governed justification
+- use missing specialist invocation as a reason to proceed directly
+- use missing Context7 consultation as a reason to proceed directly when Context7 was declared as required
+
+If specialist-aware execution is required for the active handoff, this skill must complete the orchestration preamble first and must stop if that preamble cannot be satisfied.
+
+Implementation may not begin from code inspection alone.
 
 ---
 
@@ -394,6 +477,24 @@ If a technical decision is still unresolved and materially blocks safe implement
 - recommend returning to the appropriate prior step
 
 This skill must not improvise stack or structure just to keep implementation moving.
+
+### State baseline enforcement check
+Before implementation begins, this skill must read and honor the explicit baseline flags in `project/PROJECT_STATE.md`.
+
+Implementation must not begin when:
+- `Technical Baseline Status = open`
+- `Implementation Baseline Status = missing`
+- `Implementation Baseline Status = bootstrap-required`
+
+A valid implementation entry requires:
+- `Technical Baseline Status = governed` or `not-needed`
+- `Implementation Baseline Status = present` or `not-needed`
+
+If these conditions are not true:
+- STOP
+- report that baseline readiness is not yet formally established
+- do not reinterpret defaults, partial repository continuity, or implementation eagerness as permission to continue
+- return control to the correct prior governed step
 
 When an official project default is explicitly defined in `project/PROJECT_CONTEXT.md`, this skill may inherit that default without re-deciding it.
 
@@ -788,15 +889,22 @@ It is the smallest implementation that satisfies the handoff without violating t
 
 During implementation, this skill must:
 
-1. confirm the active execution boundary
-2. confirm canon applicability
-3. perform the structural pre-implementation check
-4. confirm whether specialist support is beneficial
-5. identify the smallest honest implementation path
-6. implement the bounded change
-7. keep modifications as narrow as reasonably possible
-8. avoid unrelated cleanup unless truly necessary for correctness
-9. stop after implementation and return control to governed review
+1. complete the execution orchestration preamble
+2. confirm the active execution boundary
+3. confirm canon applicability
+4. perform the structural pre-implementation check
+5. confirm whether specialist support is beneficial when the handoff allows bounded direct execution
+6. identify the smallest honest implementation path
+7. implement the bounded change
+8. keep modifications as narrow as reasonably possible
+9. avoid unrelated cleanup unless truly necessary for correctness
+10. stop after implementation and return control to governed review
+
+Repository inspection, codebase inspection, structural assessment, implementation path selection, and actual code work may begin only after the execution orchestration preamble has completed successfully.
+
+This ordering is mandatory.
+
+The skill must not inspect code first and retroactively justify specialist usage later.
 
 This skill must not pretend that “code was written” equals “the step is complete and accepted”.
 

@@ -519,6 +519,104 @@ It preserves an execution expectation that later implementation must consciously
 
 ---
 
+## Execution Orchestration Planning
+
+When the selected task is being prepared for a future implementation step, this skill must explicitly prepare the handoff as an execution-orchestration artifact, not only as a scope-transfer artifact.
+
+This means the handoff must preserve, when materially relevant:
+
+- which implementation specialists are required before or during execution
+- which specialists are only supporting
+- whether Context7 must be consulted before code work begins
+- which library/framework/runtime surfaces Context7 must cover when required
+- what evidence later implementation must produce to show that specialist-aware execution actually happened
+- which limited surfaces may still be implemented directly without specialist attachment
+- which shortcuts are explicitly forbidden for the selected execution line
+
+The handoff must not leave specialist needs or Context7 needs implicit when they materially shape safe execution.
+
+This does not turn handoff into implementation.
+
+It preserves the minimum execution-orchestration truth that later implementation authorization and execution must be able to validate.
+
+### Required specialist declaration rule
+
+When a selected execution line materially depends on domain-specific implementation quality, the handoff must explicitly classify implementation specialists as one or both of:
+
+- required
+- supporting
+
+Examples of materially relevant implementation specialists include:
+
+- `frontend` for UI-heavy, interaction-heavy, routing-heavy, component-heavy, animation-heavy, or design-system-sensitive execution
+- `backend` for handler/use-case/integration/auth/business-rule execution
+- `database` for schema/query/persistence/indexing/data-shape execution
+- `architect` for cross-layer or boundary-sensitive execution
+
+If no specialist is materially required, the handoff must say so explicitly and preserve the reason briefly.
+
+The handoff must not default silently to generalist-first execution when specialist quality is materially load-bearing.
+
+### Context7 evaluation rule
+
+This skill must explicitly evaluate whether Context7 is materially required for the selected execution line.
+
+Context7 evaluation becomes materially required when the selected task touches one or more of the following:
+
+- framework setup or framework extension
+- routing
+- UI component libraries
+- animation libraries
+- form libraries
+- auth libraries
+- data-fetching libraries
+- state-management libraries
+- SDK or platform integrations
+- persistence/infrastructure libraries
+- any library or framework surface where official usage patterns materially affect safe implementation quality
+
+A correct handoff must state one of the following:
+
+- Context7 required
+- Context7 not required
+
+If Context7 is required, the handoff must also preserve the target surfaces to be consulted before code work begins.
+
+This skill must not leave Context7 as an unspoken convenience.
+
+### Execution evidence preservation rule
+
+When specialist-aware execution is materially required, the handoff must preserve the minimum evidence expectations that later execution must satisfy.
+
+This may include:
+
+- registry resolution of required specialists
+- runtime call target used for each required specialist
+- whether invocation was attempted
+- whether invocation materially succeeded, partially succeeded, or was unavailable
+- whether Context7 was consulted when required
+- whether code work began only after the orchestration preamble completed
+
+The handoff does not need to produce the evidence now.
+
+It must preserve what later execution will be expected to prove.
+
+### Direct execution boundary rule
+
+The handoff may preserve a narrow allowance for direct execution without specialist attachment only when that direct work is genuinely low-risk and does not materially depend on domain-specific implementation judgment.
+
+If direct execution is allowed, the handoff should preserve that allowance briefly.
+
+If specialist-aware execution is required, the handoff must also preserve forbidden shortcuts such as:
+
+- skipping specialist resolution
+- skipping explicit Context7 evaluation when required
+- starting code work before orchestration checks complete
+- treating bootstrap continuity as permission to bypass specialist-aware execution
+- collapsing required specialist work into generalist inference without explicit justification
+
+---
+
 ## Template Adherence
 
 This skill must produce output aligned with the canonical handoff template located at:
@@ -559,6 +657,19 @@ Handoff content should usually make clear:
 This does not require a full implementation plan.
 
 It requires the minimum execution-facing structure needed to keep later implementation honest.
+
+When future implementation orchestration materially matters for the selected execution line, handoff content should also make clear:
+
+- required implementation specialists
+- supporting specialists
+- Context7 requirement and targets
+- execution evidence expectations
+- allowed direct execution surfaces
+- forbidden shortcuts
+
+This information must remain concise and execution-facing.
+
+It must not expand into a full implementation plan.
 
 ---
 
@@ -818,6 +929,20 @@ The output must be:
 - clear enough to reduce guessing in the next bounded execution step
 - controlled enough to avoid becoming a hidden implementation plan or context dump
 - structurally honest enough to support later implementation against the applicable canon
+
+When execution orchestration is materially relevant for the selected task, the produced handoff artifact must also include a concise execution-orchestration section covering:
+
+- Required Implementation Specialists
+- Supporting Specialists
+- Context7 Requirement
+- Context7 Targets
+- Execution Evidence Requirements
+- Allowed Direct Implementation Surfaces
+- Forbidden Shortcuts
+
+This section is part of bounded execution transfer.
+
+It must remain concise and must not become a hidden implementation plan.
 
 After the handoff artifact is produced, this skill must stop.
 
