@@ -1,0 +1,152 @@
+﻿version: 1
+primary_runtime: opencode
+
+runtime_targets:
+  opencode:
+    native_agent_dir: .opencode/agents
+    invocation_prefix: "@"
+    default_mode: subagent
+
+agents:
+  orchestrator:
+    file: system/control/ORCHESTRATOR.md
+    domain: control
+    runtime_type: general
+    invocation_mode: adapter
+    adapter_note: Control orchestrator is executed as local procedure, not a native subagent.
+    description: Runtime conductor that resolves scenario, phase, playbook, runbook, gates, specialists, and next movement.
+
+  project-manager:
+    file: system/agents/project-manager.md
+    domain: planning
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: project-manager
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Sequencing, task shaping, execution boundaries, dependency ordering, and continuity support.
+
+  prioritizer:
+    file: system/agents/prioritizer.md
+    domain: planning
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: prioritizer
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Scope slicing, priority logic, tradeoff framing, and next-best-task selection.
+
+  architectux:
+    file: system/agents/architectux.md
+    domain: product-architecture
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: architectux
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Product structure, UX architecture, system shape, and decision-grade product/technical alignment.
+
+  research:
+    file: system/agents/research.md
+    domain: discovery
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: research
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Evidence-aware external research, benchmark analysis, and uncertainty reduction.
+
+  ux-research:
+    file: system/agents/ux-research.md
+    domain: discovery
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: ux-research
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: User behavior, journey, friction, motivation, and usability evidence support.
+
+  growth:
+    file: system/agents/growth.md
+    domain: growth
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: growth
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Positioning, acquisition, conversion, market framing, and adoption leverage.
+
+  frontend:
+    file: system/agents/frontend.md
+    domain: implementation
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: frontend
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Frontend architecture, UI implementation, component boundaries, accessibility, performance, and design-system alignment.
+
+  ui:
+    file: system/agents/ui.md
+    domain: design
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: ui
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Screen-level UI craft, hierarchy, interaction states, responsive behavior, accessibility signals, and visual drift review.
+
+  design-system:
+    file: system/agents/design-system.md
+    domain: design
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: design-system
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Design-system extraction, DESIGN.md, tokens, component standards, semantic visual language, and UI consistency.
+
+  motion:
+    file: system/agents/motion.md
+    domain: design
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: motion
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Interaction motion, animation purpose, timing, easing, reduced-motion behavior, and motion performance.
+
+  backend:
+    file: system/agents/backend.md
+    domain: implementation
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: backend
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Backend behavior, API contracts, service boundaries, validation, auth, and maintainable server-side execution.
+
+  database:
+    file: system/agents/database.md
+    domain: implementation
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: database
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Data modeling, persistence boundaries, schema decisions, query safety, migrations, and storage tradeoffs.
+
+  security:
+    file: system/agents/security.md
+    domain: risk
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: security
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Trust boundaries, exposure surfaces, authentication, authorization, secrets, and safer implementation decisions.
+
+  evidence-qa:
+    file: system/agents/evidence-qa.md
+    domain: review
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: evidence-qa
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Evidence collection, acceptance verification, regression checks, and task-level QA.
+
+  reality-checker:
+    file: system/agents/reality-checker.md
+    domain: review
+    runtime_type: opencode
+    invocation_mode: native-or-adapted
+    opencode_agent: reality-checker
+    adapter_note: Native OpenCode agent unavailable; fall back by reading and materially applying the specialist file.
+    description: Anti-fake-progress review, continuity skepticism, unsupported-claim detection, and recovery routing.

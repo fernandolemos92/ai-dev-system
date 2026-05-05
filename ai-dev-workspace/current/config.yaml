@@ -1,0 +1,28 @@
+﻿schema_version: 1
+system: ai-dev-system
+roots:
+  path_basis: operational-root
+  operational: .
+  system: ai-dev-system
+workspace:
+  mode: current
+  private: true
+  root: ai-dev-workspace/current
+target_project:
+  name:
+  root:
+runtime:
+  primary: opencode
+  preferred_shell: git-bash
+  shell_executable: "C:/Program Files/Git/bin/bash.exe"
+  shell_fallback: powershell
+  command_style: bash-portable
+workflow:
+  scenario:
+  phase:
+artifacts:
+  root: ai-dev-workspace/current/artifacts
+execution:
+  root: ai-dev-workspace/current/execution
+exports:
+  docs_root:
